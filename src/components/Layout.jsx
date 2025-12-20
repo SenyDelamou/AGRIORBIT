@@ -28,18 +28,30 @@ function Layout({ children }) {
             </Link>
 
             <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
+              <div className="mobile-menu-header">
+                <Link to="/plateforme" className="brand" onClick={() => setMenuOpen(false)}>
+                  <span className="brand-mark">AO</span>
+                  <div>Agri Orbit</div>
+                </Link>
+                <button className="menu-close" onClick={() => setMenuOpen(false)}>
+                  <XMarkIcon className="icon" />
+                </button>
+              </div>
+
               <div className="nav-group">
-                {navLinks.map((link) => (
+                {navLinks.map((link, index) => (
                   <NavLink
                     key={link.to}
                     to={link.to}
                     onClick={() => setMenuOpen(false)}
                     className={({ isActive }) => (isActive ? 'active' : undefined)}
+                    style={{ '--index': index }}
                   >
                     {link.label}
                   </NavLink>
                 ))}
               </div>
+
               <div className="nav-auth">
                 <NavLink
                   to="/connexion"
@@ -57,9 +69,9 @@ function Layout({ children }) {
             <button
               className="menu-toggle"
               aria-label="Ouvrir le menu"
-              onClick={() => setMenuOpen((open) => !open)}
+              onClick={() => setMenuOpen(true)}
             >
-              {menuOpen ? <XMarkIcon className="icon" /> : <Bars3Icon className="icon" />}
+              <Bars3Icon className="icon" />
             </button>
           </div>
         </header>
