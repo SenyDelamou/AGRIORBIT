@@ -626,6 +626,16 @@
     gap: 1rem;
     width: 100%;
   }
+
+  .why-panel {
+    padding: 2rem 1.5rem;
+  }
+
+  .why-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
 }
 
 /* Home Founder Section */
