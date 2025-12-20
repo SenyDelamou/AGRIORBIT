@@ -36,11 +36,63 @@
   --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
   --blur-strong: 16px;
 
-  /* Spacing */
+  /* Shared Values */
   --section-gap: clamp(4rem, 8vw, 6rem);
   --radius-lg: 24px;
   --radius-md: 16px;
   --radius-sm: 8px;
+
+  /* Theme-specific shadows and overlays */
+  --badge-bg: rgba(56, 189, 248, 0.1);
+  --badge-border: rgba(56, 189, 248, 0.2);
+  --chip-bg: rgba(185, 255, 102, 0.08);
+  --chip-border: rgba(185, 255, 102, 0.15);
+  --button-shadow: rgba(185, 255, 102, 0.2);
+  --button-hover-shadow: rgba(185, 255, 102, 0.4);
+  --heading-gradient: linear-gradient(to right, #ffffff, #a5b4fc);
+  --secondary-button-border: rgba(255, 255, 255, 0.2);
+  --secondary-button-hover-bg: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  /* Light Palette */
+  --bg-deep-space: #F8FAFC;
+  --bg-panel: #FFFFFF;
+  --bg-overlay: rgba(248, 250, 252, 0.82);
+
+  /* Gradients */
+  --bg-gradient-main: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12), transparent 60%),
+    radial-gradient(circle at 85% 30%, rgba(34, 197, 94, 0.06), transparent 50%),
+    linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
+
+  /* Key text and accents */
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+
+  /* Glassmorphism for Light Mode */
+  --glass-surface: rgba(255, 255, 255, 0.75);
+  --glass-surface-light: rgba(56, 189, 248, 0.06);
+  --glass-border: rgba(56, 189, 248, 0.18);
+  --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+
+  /* Adjusted Accents */
+  --accent-neon-green: #15803d;
+  /* Forest Green for light mode */
+  --accent-data-blue: #0284c7;
+
+  /* Theme-specific shadows and overlays */
+  --badge-bg: rgba(2, 132, 199, 0.08);
+  --badge-border: rgba(2, 132, 199, 0.15);
+  --chip-bg: rgba(21, 128, 61, 0.08);
+  --chip-border: rgba(21, 128, 61, 0.15);
+  --button-shadow: rgba(21, 128, 61, 0.1);
+  --button-hover-shadow: rgba(21, 128, 61, 0.2);
+  --heading-gradient: linear-gradient(to right, #0F172A, #334155);
+  --secondary-button-border: rgba(15, 23, 42, 0.15);
+  --secondary-button-hover-bg: rgba(15, 23, 42, 0.03);
 }
 
 *,
@@ -149,12 +201,12 @@ main {
   gap: 0.5rem;
   border-radius: 999px;
   padding: 0.4rem 1rem;
-  background: rgba(56, 189, 248, 0.1);
+  background: var(--badge-bg);
   color: var(--accent-data-blue);
   font-weight: 600;
   font-size: 0.85rem;
   letter-spacing: 0.05em;
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  border: 1px solid var(--badge-border);
 }
 
 .chip {
@@ -163,14 +215,13 @@ main {
   gap: 0.4rem;
   padding: 0.3rem 0.8rem;
   border-radius: 6px;
-  background: rgba(185, 255, 102, 0.08);
-  /* Neon lime tint */
+  background: var(--chip-bg);
   color: var(--accent-neon-green);
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border: 1px solid rgba(185, 255, 102, 0.15);
+  border: 1px solid var(--chip-border);
 }
 
 .button {
@@ -180,32 +231,31 @@ main {
   gap: 0.6rem;
   padding: 0.9rem 1.8rem;
   border-radius: 8px;
-  /* Tech look */
   background: var(--accent-neon-green);
-  color: #050B14;
+  color: var(--bg-deep-space);
   font-weight: 700;
   border: none;
   font-size: 1rem;
   transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgba(185, 255, 102, 0.2);
+  box-shadow: 0 0 20px var(--button-shadow);
 }
 
 .button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(185, 255, 102, 0.4);
-  background: #c3ff7d;
+  box-shadow: 0 0 30px var(--button-hover-shadow);
+  opacity: 0.9;
 }
 
 .button.secondary {
   background: transparent;
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--secondary-button-border);
   box-shadow: none;
 }
 
 .button.secondary:hover {
   border-color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--secondary-button-hover-bg);
 }
 
 .tag {
@@ -227,7 +277,7 @@ main {
   font-size: clamp(2.2rem, 5vw, 3.2rem);
   line-height: 1.1;
   margin-bottom: 1rem;
-  background: linear-gradient(to right, #ffffff, #a5b4fc);
+  background: var(--heading-gradient);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

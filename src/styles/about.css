@@ -30,14 +30,15 @@
 }
 
 .stat-card:hover {
-  background: var(--glass-highlight);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: var(--glass-surface-light);
+  border-color: var(--accent-data-blue);
   transform: translateY(-3px);
 }
 
 .stat-card strong {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1.8rem;
+  color: var(--accent-neon-green);
 }
 
 .values-panel {
@@ -63,7 +64,7 @@
 
 .value-card:hover {
   border-color: var(--accent-data-blue);
-  background: rgba(56, 189, 248, 0.05);
+  background: var(--glass-surface-light);
 }
 
 .value-card p {
@@ -98,12 +99,13 @@
 }
 
 .tech-list li:hover {
-  background: var(--glass-highlight);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: var(--glass-surface-light);
+  border-color: var(--accent-data-blue);
 }
 
 .tech-list li strong {
   font-family: 'Space Grotesk', sans-serif;
+  color: var(--accent-data-blue);
 }
 
 .tech-list li span {
@@ -125,7 +127,7 @@
 .partners-strip span {
   padding: 0.65rem 1.4rem;
   border-radius: 999px;
-  background: var(--glass-surface);
+  background: var(--glass-surface-light);
   border: 1px solid var(--glass-border);
   font-weight: 600;
   color: var(--text-secondary);
@@ -133,8 +135,9 @@
 }
 
 .partners-strip span:hover {
-  background: var(--glass-highlight);
+  background: var(--glass-surface);
   color: var(--text-primary);
+  border-color: var(--accent-data-blue);
 }
 
 @media (max-width: 640px) {

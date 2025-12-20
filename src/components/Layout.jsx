@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import { useTheme } from '../context/ThemeContext.jsx';
 import '../styles/layout.css';
 
 const navLinks = [
@@ -10,6 +11,24 @@ const navLinks = [
   { to: '/solutions', label: 'Solutions' },
   { to: '/a-propos', label: 'Mission' }
 ];
+
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+  return (
+    <button
+      className="theme-toggle-btn"
+      onClick={toggleTheme}
+      aria-label="Changer de thème"
+      title={theme === 'dark' ? 'Passer au mode clair' : 'Passer au mode sombre'}
+    >
+      {theme === 'dark' ? (
+        <SunIcon className="icon" />
+      ) : (
+        <MoonIcon className="icon" />
+      )}
+    </button>
+  );
+}
 
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -33,9 +52,12 @@ function Layout({ children }) {
                   <span className="brand-mark">AO</span>
                   <div>Agri Orbit</div>
                 </Link>
-                <button className="menu-close" onClick={() => setMenuOpen(false)}>
-                  <XMarkIcon className="icon" />
-                </button>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <ThemeToggle />
+                  <button className="menu-close" onClick={() => setMenuOpen(false)}>
+                    <XMarkIcon className="icon" />
+                  </button>
+                </div>
               </div>
 
               <div className="nav-group">
@@ -53,6 +75,7 @@ function Layout({ children }) {
               </div>
 
               <div className="nav-auth">
+                <ThemeToggle />
                 <NavLink
                   to="/connexion"
                   onClick={() => setMenuOpen(false)}
@@ -66,13 +89,18 @@ function Layout({ children }) {
               </div>
             </nav>
 
-            <button
-              className="menu-toggle"
-              aria-label="Ouvrir le menu"
-              onClick={() => setMenuOpen(true)}
-            >
-              <Bars3Icon className="icon" />
-            </button>
+            <div className="mobile-toggle-wrapper" style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
+              <div className="mobile-only-theme">
+                <ThemeToggle />
+              </div>
+              <button
+                className="menu-toggle"
+                aria-label="Ouvrir le menu"
+                onClick={() => setMenuOpen(true)}
+              >
+                <Bars3Icon className="icon" />
+              </button>
+            </div>
           </div>
         </header>
       )}
