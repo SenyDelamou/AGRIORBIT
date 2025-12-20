@@ -5,13 +5,21 @@
   overflow-x: hidden;
 }
 
-/* Hero Follow-up Section */
 .hero-followup {
   position: relative;
   z-index: 10;
   margin-top: -5rem;
   /* More overlap */
-  margin-bottom: -2rem;
+  margin-bottom: 2rem;
+}
+
+.hero-followup-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  align-items: stretch;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .capability-grid {
@@ -43,25 +51,59 @@
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-  padding: 1.25rem 2.5rem;
+  padding: 0.75rem 2.5rem;
   background: var(--glass-surface);
   backdrop-filter: blur(var(--blur-strong));
   border: 1px solid var(--glass-border);
   border-radius: 999px;
   box-shadow: var(--glass-shadow);
+  flex: 1;
 }
 
 .hero-snapshot {
   display: flex;
   align-items: center;
   gap: 2rem;
-  padding: 1.25rem 2.5rem;
+  padding: 1rem 3rem;
   background: var(--glass-surface);
   backdrop-filter: blur(var(--blur-strong));
   border: 1px solid var(--glass-border);
-  border-left: 4px solid var(--accent-neon-green);
-  border-radius: var(--radius-lg);
+  border-radius: 999px;
   box-shadow: var(--glass-shadow);
+  flex: 1.5;
+}
+
+/* Light Mode Overrides for "Pill" Style */
+[data-theme='light'] .hero-chips,
+[data-theme='light'] .hero-snapshot {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.05);
+  backdrop-filter: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme='light'] .hero-chips .chip {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #166534;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 0.4rem 1rem;
+}
+
+[data-theme='light'] .hero-snapshot strong {
+  font-size: 2.8rem;
+  color: #166534;
+  text-shadow: none;
+  letter-spacing: -0.02em;
+}
+
+[data-theme='light'] .hero-snapshot p {
+  color: #334155;
+  font-size: 1.15rem;
+  font-weight: 500;
 }
 
 .hero-snapshot::after {

@@ -57,6 +57,9 @@ const futureInsights = [
   }
 ];
 
+const analysisMapImage = 'C:/Users/DataVista/.gemini/antigravity/brain/d4117359-a170-4d96-adc3-6e745a092a8d/satellite_field_analysis_1766239891409.png';
+const userBanner = 'C:/Users/DataVista/.gemini/antigravity/brain/d4117359-a170-4d96-adc3-6e745a092a8d/uploaded_image_1766239849610.png';
+
 const mockAnalysisResult = {
   crop: 'Sorgho (Sorghum bicolor)',
   stage: 'Floraison / Remplissage des grains',
@@ -164,6 +167,9 @@ function FieldExplorer() {
         <section className="section explorer-results animate-fade-in">
           <div className="container result-dashboard">
             <div className="result-main glass-panel">
+              <div className="result-brand-bar">
+                <img src={userBanner} alt="Agri Orbit Analytics" className="brand-image" />
+              </div>
               <header className="result-header">
                 <span className="badge">Rapport d'analyse validé</span>
                 <h2>Identification : {mockAnalysisResult.crop}</h2>
@@ -204,11 +210,13 @@ function FieldExplorer() {
 
             <div className="result-sidebar grid">
               <div className="spectral-preview glass-panel">
-                <h4>Lecture NDVI (Vigueur)</h4>
-                <div className="mock-map">
-                  <div className="heat-zone low"></div>
-                  <div className="heat-zone med"></div>
-                  <div className="heat-zone high"></div>
+                <h4>Lecture Multi-spectrale (NDVI)</h4>
+                <div className="analysis-map-container">
+                  <img src={analysisMapImage} alt="Carte d'analyse satellite" className="analysis-map-img" />
+                  <div className="map-labels">
+                    <span className="label-item">Vigueur Elevée</span>
+                    <span className="label-item">Zone Critique</span>
+                  </div>
                 </div>
                 <p>Détection d'hétérogénéité marquée sur la bordure Est.</p>
               </div>

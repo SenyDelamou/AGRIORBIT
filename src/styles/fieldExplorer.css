@@ -628,3 +628,82 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Asset Integration Styles */
+.result-brand-bar {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: center;
+}
+
+.brand-image {
+  max-width: 250px;
+  height: auto;
+  opacity: 0.9;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.analysis-map-container {
+  position: relative;
+  margin: 1.5rem 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+}
+
+.analysis-map-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.analysis-map-container:hover .analysis-map-img {
+  transform: scale(1.05);
+}
+
+.map-labels {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.label-item {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.label-item:nth-child(1) { color: #4ade80; } /* Green for vigor */
+.label-item:nth-child(2) { color: #f87171; } /* Red for critical */
+
+[data-theme='light'] .result-brand-bar {
+  border-color: #e2e8f0;
+}
+
+[data-theme='light'] .brand-image {
+  filter: brightness(0.2) contrast(1.2); /* Make it dark for light theme if it's white-on-blue */
+}
+
+[data-theme='light'] .map-labels {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.9), transparent);
+}
+
+[data-theme='light'] .label-item {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
