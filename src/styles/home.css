@@ -14,19 +14,28 @@
   margin-bottom: -2rem;
 }
 
-.hero-followup-grid {
+.capability-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
 }
 
-/* Glass Cards Override */
-/* Glass Cards Override - Consolidate with global */
-.surface-card {
+.capability-card {
+  padding: 2.5rem;
   background: var(--glass-surface);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.capability-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-data-blue);
+  background: rgba(56, 189, 248, 0.05);
 }
 
 .hero-chips {
@@ -34,26 +43,25 @@
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-  padding: 1.5rem 2.5rem;
-  background: rgba(10, 22, 37, 0.85);
-  /* Darker glass */
-  backdrop-filter: blur(12px);
+  padding: 1.25rem 2.5rem;
+  background: var(--glass-surface);
+  backdrop-filter: blur(var(--blur-strong));
   border: 1px solid var(--glass-border);
   border-radius: 999px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--glass-shadow);
 }
 
 .hero-snapshot {
   display: flex;
   align-items: center;
   gap: 2rem;
-  padding: 1.5rem 2.5rem;
-  background: rgba(10, 22, 37, 0.85);
-  backdrop-filter: blur(12px);
+  padding: 1.25rem 2.5rem;
+  background: var(--glass-surface);
+  backdrop-filter: blur(var(--blur-strong));
   border: 1px solid var(--glass-border);
   border-left: 4px solid var(--accent-neon-green);
   border-radius: var(--radius-lg);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--glass-shadow);
 }
 
 .hero-snapshot::after {
@@ -110,10 +118,12 @@
 .workflow-panel {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
-  gap: 3rem;
-  padding: 3rem;
-  background: linear-gradient(to right, rgba(10, 22, 37, 0.8), rgba(10, 22, 37, 0.4));
+  gap: 4rem;
+  padding: 4rem;
+  background: linear-gradient(to right, rgba(16, 30, 48, 0.8), rgba(10, 22, 37, 0.4));
   border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
 }
 
 .workflow-intro h2 {
@@ -260,9 +270,13 @@
 .testimonial-panel {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
-  gap: 3rem;
-  padding: 3rem;
+  gap: 4rem;
+  padding: 4rem;
   align-items: center;
+  background: var(--glass-surface);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-lg);
 }
 
 .testimonial-content {
@@ -315,6 +329,97 @@
 .metric-tile strong {
   font-size: 1.8rem;
   color: var(--accent-data-blue);
+}
+
+/* Testimonial Form Section */
+.testimonial-form-section {
+  padding-top: 0;
+  margin-top: -2rem;
+}
+
+.testimonial-form-section .glass-panel {
+  padding: clamp(2rem, 5vw, 4rem);
+}
+
+.testimonial-form {
+  display: grid;
+  gap: 2rem;
+  max-width: 800px;
+}
+
+.testimonial-form .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.testimonial-form .form-group {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.testimonial-form label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.testimonial-form input,
+.testimonial-form textarea {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.testimonial-form input:focus,
+.testimonial-form textarea:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--accent-data-blue);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+}
+
+.testimonial-form .button {
+  justify-self: start;
+}
+
+/* Success State */
+.form-success {
+  text-align: center;
+  display: grid;
+  place-items: center;
+  gap: 1.5rem;
+  padding: 4rem !important;
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--accent-neon-green);
+  color: #050B14;
+  font-size: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 0 30px rgba(185, 255, 102, 0.3);
+}
+
+.form-success h2 {
+  font-size: 2.2rem;
+  color: var(--text-primary);
+}
+
+.form-success p {
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin: 0;
+  font-size: 1.1rem;
 }
 
 /* Demo Section */

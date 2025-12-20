@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Hero from '../components/Hero.jsx';
 import { homeImages } from '../data/heroImages.js';
 import '../styles/home.css';
@@ -100,6 +101,101 @@ const whyChoose = [
     )
   }
 ];
+
+function TestimonialForm() {
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    role: '',
+    quote: '',
+    metric: ''
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.info('Témoignage soumis :', formData);
+    setSubmitted(true);
+  };
+
+  if (submitted) {
+    return (
+      <section className="section testimonial-form-section">
+        <div className="container glass-panel form-success">
+          <div className="success-icon">✓</div>
+          <h2>Merci pour votre confiance !</h2>
+          <p>Votre témoignage a été transmis à nos équipes agronomiques. Il sera examiné avant d'être publié sur la plateforme.</p>
+          <button type="button" className="button" onClick={() => setSubmitted(false)}>Rédiger un autre avis</button>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="section testimonial-form-section">
+      <div className="container glass-panel">
+        <header className="section-header">
+          <span className="tag">Partagez votre expérience</span>
+          <h2>Devenez un ambassadeur Agri Orbit</h2>
+          <p>Votre retour terrain est précieux. Partagez l'impact de nos analyses satellite sur votre exploitation.</p>
+        </header>
+
+        <form className="testimonial-form" onSubmit={handleSubmit}>
+          <div className="form-grid">
+            <div className="form-group">
+              <label htmlFor="t-name">Prénom & Nom</label>
+              <input
+                id="t-name"
+                type="text"
+                required
+                placeholder="Ex: Jean Dupont"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="t-role">Rôle / Organisation</label>
+              <input
+                id="t-role"
+                type="text"
+                required
+                placeholder="Ex: Exploitant Maïs, Coopérative X"
+                value={formData.role}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="t-quote">Votre témoignage</label>
+            <textarea
+              id="t-quote"
+              required
+              rows="4"
+              placeholder="Décrivez comment Agri Orbit a changé votre quotidien..."
+              value={formData.quote}
+              onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
+            ></textarea>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="t-metric">Métrique d'impact (Optionnel)</label>
+            <input
+              id="t-metric"
+              type="text"
+              placeholder="Ex: +15% de rendement, -20% d'intrants..."
+              value={formData.metric}
+              onChange={(e) => setFormData({ ...formData, metric: e.target.value })}
+            />
+          </div>
+
+          <button type="submit" className="button">
+            Publier mon témoignage
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+}
 
 function Home() {
   return (
@@ -221,6 +317,8 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <TestimonialForm />
 
       <section className="section why-us">
         <div className="container why-panel glass-panel">

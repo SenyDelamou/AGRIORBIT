@@ -13,17 +13,26 @@
 
 .pillars {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
 .pillar-card {
-  padding: 1.8rem;
-  display: grid;
-  gap: 0.7rem;
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(17, 33, 63, 0.08);
-  box-shadow: 0 12px 24px rgba(17, 33, 63, 0.08);
+  padding: 2.5rem;
+  background: var(--glass-surface);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.pillar-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-data-blue);
+  background: rgba(56, 189, 248, 0.05);
 }
 
 .pillar-card h3 {
@@ -46,12 +55,19 @@
 }
 
 .program-card {
-  padding: 1.6rem 1.8rem;
+  padding: 1.8rem 2rem;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(17, 33, 63, 0.08);
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 14px 24px rgba(17, 33, 63, 0.1);
-  color: var(--text-secondary);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-surface);
+  box-shadow: var(--glass-shadow);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.program-card:hover {
+  background: var(--glass-highlight);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateX(5px);
 }
 
 .program-card h3 {
@@ -60,13 +76,14 @@
 
 .support-panel {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
   padding: clamp(2.8rem, 6vw, 3.4rem);
   align-items: center;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(235, 242, 255, 0.94));
-  border: 1px solid rgba(17, 33, 63, 0.08);
-  box-shadow: 0 16px 32px rgba(17, 33, 63, 0.1);
+  background: linear-gradient(145deg, rgba(16, 30, 48, 0.8), rgba(10, 22, 37, 0.4));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-lg);
 }
 
 .support-panel p {

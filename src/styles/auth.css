@@ -42,7 +42,7 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: rgba(17, 33, 63, 0.1);
+  background: var(--glass-border);
 }
 
 .form-row {
@@ -65,23 +65,24 @@
 .form-group textarea {
   padding: 0.9rem 1rem;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(17, 33, 63, 0.12);
-  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
   font-size: 1rem;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .form-group input::placeholder {
-  color: rgba(17, 33, 63, 0.35);
+  color: var(--text-muted);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: rgba(86, 103, 255, 0.35);
-  box-shadow: 0 0 0 4px rgba(86, 103, 255, 0.16);
+  border-color: var(--accent-data-blue);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
 }
 
 .form-group.checkbox {
