@@ -9,7 +9,8 @@ const navLinks = [
   { to: '/explorateur', label: 'Explorateur' },
   { to: '/analyses', label: 'Analyses' },
   { to: '/solutions', label: 'Solutions' },
-  { to: '/a-propos', label: 'Mission' }
+  { to: '/a-propos', label: 'Mission' },
+  { to: '/contact', label: 'Contact' }
 ];
 
 function ThemeToggle() {
@@ -124,7 +125,7 @@ function Layout({ children }) {
               </div>
               <div>
                 <span className="footer-heading">Aide</span>
-                <a href="mailto:contact@agriorbit.ai">Contact</a>
+                <Link to="/contact">Contact</Link>
                 <Link to="#">Documentation</Link>
                 <Link to="#">État du système</Link>
               </div>

@@ -9,6 +9,7 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import Loading from './pages/Loading.jsx';
+import Contact from './pages/Contact.jsx';
 import { Navigate } from 'react-router-dom';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/analyses" element={<AnalyticsSuite />} />
         <Route path="/solutions" element={<SolutionsHub />} />
         <Route path="/a-propos" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/connexion" element={<Login />} />
         <Route path="/inscription" element={<Register />} />
         <Route path="/mot-de-passe-oublie" element={<ForgotPassword />} />

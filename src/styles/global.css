@@ -22,11 +22,13 @@
   --accent-data-blue: #38BDF8;
   --accent-alert: #EF4444;
 
-  /* Text Colors */
+  /* Text Colors - High Contrast for Readability */
   --text-primary: #F0FDF4;
   /* Pale Mint/White */
-  --text-secondary: rgba(240, 253, 244, 0.7);
-  --text-muted: rgba(240, 253, 244, 0.45);
+  --text-secondary: rgba(240, 253, 244, 0.9);
+  /* Increased from 0.7 */
+  --text-muted: rgba(240, 253, 244, 0.65);
+  /* Increased from 0.45 */
 
   /* Glassmorphism Variables */
   --glass-surface: rgba(16, 30, 48, 0.45);
@@ -57,42 +59,46 @@
 [data-theme='light'] {
   color-scheme: light;
 
-  /* Light Palette */
+  /* Light Palette - More refined foundation */
   --bg-deep-space: #F8FAFC;
   --bg-panel: #FFFFFF;
-  --bg-overlay: rgba(248, 250, 252, 0.82);
+  --bg-overlay: rgba(255, 255, 255, 0.9);
 
   /* Gradients */
-  --bg-gradient-main: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12), transparent 60%),
-    radial-gradient(circle at 85% 30%, rgba(34, 197, 94, 0.06), transparent 50%),
+  --bg-gradient-main: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08), transparent 60%),
+    radial-gradient(circle at 85% 30%, rgba(34, 197, 94, 0.04), transparent 50%),
     linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
 
-  /* Key text and accents */
+  /* Premium Typography - Harmonized Slates with better accessibility */
   --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #94A3B8;
+  /* Deeper for better contrast */
+  --text-secondary: #334155;
+  /* Slate 700 */
+  --text-muted: #475569;
+  /* Slate 600 */
 
-  /* Glassmorphism for Light Mode */
-  --glass-surface: rgba(255, 255, 255, 0.75);
-  --glass-surface-light: rgba(56, 189, 248, 0.06);
-  --glass-border: rgba(56, 189, 248, 0.18);
-  --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  /* Adjusted Accents for Professional Look */
+  --accent-neon-green: #166534;
+  /* Darker Forest Green (Green 800) */
+  --accent-data-blue: #0369a1;
+  /* Deep Ocean (Blue 700) */
 
-  /* Adjusted Accents */
-  --accent-neon-green: #15803d;
-  /* Forest Green for light mode */
-  --accent-data-blue: #0284c7;
+  /* Glassmorphism for Light Mode - Softer Borders */
+  --glass-surface: rgba(255, 255, 255, 0.8);
+  --glass-surface-light: rgba(56, 189, 248, 0.04);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
 
   /* Theme-specific shadows and overlays */
-  --badge-bg: rgba(2, 132, 199, 0.08);
-  --badge-border: rgba(2, 132, 199, 0.15);
-  --chip-bg: rgba(21, 128, 61, 0.08);
-  --chip-border: rgba(21, 128, 61, 0.15);
-  --button-shadow: rgba(21, 128, 61, 0.1);
-  --button-hover-shadow: rgba(21, 128, 61, 0.2);
-  --heading-gradient: linear-gradient(to right, #0F172A, #334155);
-  --secondary-button-border: rgba(15, 23, 42, 0.15);
-  --secondary-button-hover-bg: rgba(15, 23, 42, 0.03);
+  --badge-bg: rgba(3, 105, 161, 0.08);
+  --badge-border: rgba(3, 105, 161, 0.15);
+  --chip-bg: rgba(22, 101, 52, 0.08);
+  --chip-border: rgba(22, 101, 52, 0.15);
+  --button-shadow: rgba(22, 101, 52, 0.1);
+  --button-hover-shadow: rgba(22, 101, 52, 0.15);
+  --heading-gradient: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+  --secondary-button-border: rgba(30, 41, 59, 0.15);
+  --secondary-button-hover-bg: rgba(30, 41, 59, 0.02);
 }
 
 *,
