@@ -46,7 +46,7 @@ function FieldExplorer() {
       <Hero
         eyebrow="Explorateur de parcelles"
         title="Importez vos zones, laissez les satellites orchestrer la veille"
-        subtitle="Importez coordonnées ou fichiers GeoJSON, planifiez les revisites et consultez vos couches multi-spectrales prêtes à analyser."
+        subtitle="Importez vos coordonnées ou fichiers GeoJSON, planifiez les revisites et laissez nos satellites orchestrer la veille multi-spectrale de vos cultures."
         ctaLabel="Créer une zone"
         ctaHref="#zone-form"
         images={explorerImages}
