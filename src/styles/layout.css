@@ -116,6 +116,47 @@
   }
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.theme-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--glass-surface-light);
+  border-color: var(--accent-data-blue);
+  transform: rotate(12deg) scale(1.05);
+  box-shadow: 0 0 15px var(--glass-shadow);
+}
+
+.theme-toggle-btn .icon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+}
+
+@media (max-width: 960px) {
+  .nav-actions {
+    gap: 0.8rem;
+  }
+}
+
 .ghost-link {
   font-weight: 600;
 }

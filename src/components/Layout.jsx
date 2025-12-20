@@ -52,12 +52,9 @@ function Layout({ children }) {
                   <span className="brand-mark">AO</span>
                   <div>Agri Orbit</div>
                 </Link>
-                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                  <ThemeToggle />
-                  <button className="menu-close" onClick={() => setMenuOpen(false)}>
-                    <XMarkIcon className="icon" />
-                  </button>
-                </div>
+                <button className="menu-close" onClick={() => setMenuOpen(false)}>
+                  <XMarkIcon className="icon" />
+                </button>
               </div>
 
               <div className="nav-group">
@@ -75,7 +72,6 @@ function Layout({ children }) {
               </div>
 
               <div className="nav-auth">
-                <ThemeToggle />
                 <NavLink
                   to="/connexion"
                   onClick={() => setMenuOpen(false)}
@@ -89,10 +85,8 @@ function Layout({ children }) {
               </div>
             </nav>
 
-            <div className="mobile-toggle-wrapper" style={{ display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
-              <div className="mobile-only-theme">
-                <ThemeToggle />
-              </div>
+            <div className="nav-actions">
+              <ThemeToggle />
               <button
                 className="menu-toggle"
                 aria-label="Ouvrir le menu"
