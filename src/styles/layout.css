@@ -63,22 +63,22 @@
 }
 
 .brand-logo-wrapper {
-  width: 38px;
-  height: 54px;
-  background: white;
-  padding: 6px;
-  border-radius: 999px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(0, 0, 0, 0.05);
   transition: all 0.5s ease;
+  margin-right: -0.5rem;
+  /* Shifting it 'behind' the text slightly */
+  position: relative;
+  z-index: 0;
+  opacity: 0.9;
 }
 
 .nav-shell.scrolled .brand-logo-wrapper {
-  width: 32px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
 }
 
 .brand-logo {
@@ -91,6 +91,9 @@
   display: flex;
   flex-direction: column;
   line-height: 1.1;
+  position: relative;
+  z-index: 1;
+  /* Pushing text in front of logo */
 }
 
 .brand-name {

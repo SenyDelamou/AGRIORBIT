@@ -71,7 +71,7 @@ function Layout({ children }) {
               </div>
               <div className="brand-info">
                 <span className="brand-name">Agri Orbit</span>
-                <span className="brand-subtitle">INTELLIGENCE TERRITORIALE DATA</span>
+                <span className="brand-subtitle">DATA & AGRONOMIE AU SERVICE DU TERRAIN</span>
               </div>
             </Link>
 
@@ -147,7 +147,7 @@ function Layout({ children }) {
           <div className="container footer-inner">
             <div className="footer-brand">
               <img src={logo} alt="Agri Orbit" className="footer-logo" />
-              <p>Intelligence spatiale pour une agriculture de précision durable.</p>
+              <p>Data & agronomie au service du terrain.</p>
             </div>
             <div className="footer-links">
               <div>
