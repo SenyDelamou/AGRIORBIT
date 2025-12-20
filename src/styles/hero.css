@@ -1,0 +1,110 @@
+.hero-shell {
+  position: relative;
+  padding: clamp(8rem, 20vw, 12rem) 0;
+  text-align: center;
+  overflow: hidden;
+  /* Fallback background if images fail or empty */
+  background: #050B14;
+}
+
+/* Container for Slideshow */
+.hero-backgrounds {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Individual Slide */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  z-index: 1;
+}
+
+.hero-slide.active {
+  opacity: 1;
+}
+
+/* Gradient Overlay - Must be above slides but below content */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(5, 11, 20, 0.4), rgba(5, 11, 20, 0.85) 80%);
+  z-index: 2;
+}
+
+/* Add cosmetic "grid" or "interference" overlay on top of images */
+.hero-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(185, 255, 102, 0.1), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.1), transparent 30%);
+  z-index: 3;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  gap: 2rem;
+  justify-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-data-blue);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+}
+
+.hero-inner h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 7vw, 5rem);
+  letter-spacing: -0.03em;
+  margin: 0;
+  background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* standard property */
+  line-height: 1.1;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.hero-inner p {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 680px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+  .hero-shell {
+    padding: clamp(6rem, 18vw, 8rem) 0;
+  }
+}

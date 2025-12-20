@@ -1,0 +1,244 @@
+:root {
+  color-scheme: dark;
+  font-size: 16px;
+  /* Fonts kept as is - ensure they are loaded in index.html */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+
+  /* Midnight Agri Palette */
+  --bg-deep-space: #050B14;
+  --bg-panel: #0A1625;
+  --bg-overlay: rgba(10, 22, 37, 0.7);
+
+  /* Gradients */
+  --bg-gradient-main: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent 60%),
+    radial-gradient(circle at 85% 30%, rgba(185, 255, 102, 0.08), transparent 50%),
+    linear-gradient(180deg, #050B14 0%, #020409 100%);
+
+  /* Neon Accents */
+  --accent-neon-green: #B9FF66;
+  /* Lime Punch */
+  --accent-satellite-green: #4ADE80;
+  --accent-data-blue: #38BDF8;
+  --accent-alert: #EF4444;
+
+  /* Text Colors */
+  --text-primary: #F0FDF4;
+  /* Pale Mint/White */
+  --text-secondary: rgba(240, 253, 244, 0.7);
+  --text-muted: rgba(240, 253, 244, 0.45);
+
+  /* Glassmorphism Variables */
+  --glass-surface: rgba(16, 30, 48, 0.45);
+  --glass-surface-light: rgba(56, 189, 248, 0.08);
+  --glass-border: rgba(56, 189, 248, 0.15);
+  --glass-highlight: rgba(255, 255, 255, 0.03);
+  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  --blur-strong: 16px;
+
+  /* Spacing */
+  --section-gap: clamp(4rem, 8vw, 6rem);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 8px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--bg-deep-space);
+  background-image: var(--bg-gradient-main);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle Grid Background Effect */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 80%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  margin: 0;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--accent-data-blue);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a:hover {
+  color: var(--accent-neon-green);
+  text-shadow: 0 0 12px rgba(185, 255, 102, 0.4);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+main {
+  min-height: calc(100vh - 100px);
+  /* Adjusted for new footer/nav */
+  padding-bottom: var(--section-gap);
+}
+
+.container {
+  width: min(1200px, 92vw);
+  margin: 0 auto;
+}
+
+.section {
+  padding: var(--section-gap) 0;
+}
+
+/* Reusable Glass Card */
+.glass-panel,
+.surface-card {
+  background: var(--glass-surface);
+  backdrop-filter: blur(var(--blur-strong));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.surface-card:hover {
+  border-color: rgba(185, 255, 102, 0.3);
+  box-shadow: 0 12px 40px rgba(185, 255, 102, 0.05);
+  transform: translateY(-2px);
+}
+
+/* UI Elements */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--accent-data-blue);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  background: rgba(185, 255, 102, 0.08);
+  /* Neon lime tint */
+  color: var(--accent-neon-green);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(185, 255, 102, 0.15);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.8rem;
+  border-radius: 8px;
+  /* Tech look */
+  background: var(--accent-neon-green);
+  color: #050B14;
+  font-weight: 700;
+  border: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(185, 255, 102, 0.2);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(185, 255, 102, 0.4);
+  background: #c3ff7d;
+}
+
+.button.secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: none;
+}
+
+.button.secondary:hover {
+  border-color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-data-blue);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.section-header {
+  margin-bottom: 3rem;
+  max-width: 700px;
+}
+
+.section-header h2 {
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, #ffffff, #a5b4fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-header p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.grid {
+  display: grid;
+  gap: 2rem;
+}

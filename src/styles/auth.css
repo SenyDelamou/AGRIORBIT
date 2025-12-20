@@ -1,0 +1,150 @@
+.auth-page {
+  padding: clamp(4rem, 10vw, 6rem) 0;
+}
+
+.auth-shell {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: clamp(2.6rem, 6vw, 3.4rem);
+  display: grid;
+  gap: 2.2rem;
+}
+
+.auth-header {
+  display: grid;
+  gap: 1rem;
+}
+
+.auth-header h1 {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+}
+
+.auth-header p {
+  color: var(--text-secondary);
+  max-width: 520px;
+}
+
+.auth-form {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(17, 33, 63, 0.1);
+}
+
+.form-row {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.form-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(17, 33, 63, 0.12);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: rgba(17, 33, 63, 0.35);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: rgba(86, 103, 255, 0.35);
+  box-shadow: 0 0 0 4px rgba(86, 103, 255, 0.16);
+}
+
+.form-group.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.form-group.checkbox input {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  accent-color: var(--accent-emerald);
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.label-row a {
+  font-size: 0.92rem;
+  color: var(--accent-secondary);
+}
+
+.auth-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.95rem;
+}
+
+.social-login {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.social-hint {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.auth-footer a {
+  color: var(--accent-secondary);
+  font-weight: 600;
+}
+
+@media (max-width: 560px) {
+  .auth-shell {
+    padding: 2.4rem;
+  }
+
+  .auth-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .label-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
