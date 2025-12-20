@@ -3,8 +3,8 @@
   padding: clamp(8rem, 20vw, 12rem) 0;
   text-align: center;
   overflow: hidden;
-  /* Fallback background if images fail or empty */
-  background: #050B14;
+  /* Use theme variable for fallback */
+  background: var(--bg-deep-space);
 }
 
 /* Container for Slideshow */
@@ -29,15 +29,19 @@
   opacity: 1;
 }
 
-/* Gradient Overlay - Must be above slides but below content */
+/* Gradient Overlay - Adaptive for themes */
 .hero-overlay {
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 50% 50%, rgba(5, 11, 20, 0.4), rgba(5, 11, 20, 0.85) 80%);
   z-index: 2;
+  transition: background 0.4s ease;
 }
 
-/* Add cosmetic "grid" or "interference" overlay on top of images */
+[data-theme='light'] .hero-overlay {
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.75) 85%);
+}
+
 .hero-overlay::after {
   content: '';
   position: absolute;
@@ -48,9 +52,13 @@
   z-index: 3;
 }
 
+[data-theme='light'] .hero-overlay::after {
+  opacity: 0.5;
+}
+
 .hero-inner {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,6 +82,13 @@
   text-transform: uppercase;
   color: var(--accent-data-blue);
   box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+[data-theme='light'] .hero-eyebrow {
+  background: rgba(7, 89, 133, 0.08);
+  border-color: rgba(7, 89, 133, 0.2);
+  color: #0369a1;
 }
 
 .hero-inner h1 {
@@ -85,15 +100,17 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  /* standard property */
   line-height: 1.1;
   text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
 }
 
+[data-theme='light'] .hero-inner h1 {
+  text-shadow: none;
+}
+
 .hero-inner p {
   font-size: 1.25rem;
-  color: rgba(240, 253, 244, 0.9);
-  /* Force high-contrast light text */
+  color: var(--text-secondary);
   line-height: 1.6;
   max-width: 680px;
 }

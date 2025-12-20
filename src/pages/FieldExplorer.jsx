@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Hero from '../components/Hero.jsx';
 import { explorerImages } from '../data/heroImages.js';
 import '../styles/fieldExplorer.css';
@@ -34,11 +36,65 @@ const spectralLayers = [
   }
 ];
 
+const futureInsights = [
+  {
+    title: 'Précision Yield',
+    status: 'Bêta',
+    description: 'Estimation prédictive du rendement final à partir de l’accumulation de biomasse et du stress hydrique.',
+    icon: '📊'
+  },
+  {
+    title: 'Risk Weather Index',
+    status: 'Prévu',
+    description: 'Simulation d’impact des aléas climatiques extrêmes sur le cycle phénologique de la culture.',
+    icon: '⚡'
+  },
+  {
+    title: 'AI Pest Detection',
+    status: 'En R&D',
+    description: 'Identification automatique des signatures spectrales liées aux attaques de ravageurs.',
+    icon: '🛰️'
+  }
+];
+
+const mockAnalysisResult = {
+  crop: 'Sorgho (Sorghum bicolor)',
+  stage: 'Floraison / Remplissage des grains',
+  yield: '4.8 tonnes / ha (Estimation)',
+  healthStatus: 'Critique - Stress Hydrique Détecté',
+  healthScore: 64,
+  recommendations: [
+    {
+      issue: 'Stress Hydrique',
+      solution: 'Déclencher un tour d’irrigation d’appoint (intervalles de 4 jours).',
+      impact: 'Sécurise +0.5t/ha'
+    },
+    {
+      issue: 'Vigueur Hétérogène',
+      solution: 'Apport folaire azoté azote ciblé sur le quart Nord-Est.',
+      impact: 'Uniformise la maturité'
+    }
+  ]
+};
+
 function FieldExplorer() {
+  const [analysisState, setAnalysisState] = useState('idle'); // 'idle', 'scanning', 'results'
+  const [formVisible, setFormVisible] = useState(true);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.info('Synchronisation de la zone en cours...');
-    // Logique de synchronisation ici
+    setAnalysisState('scanning');
+    setFormVisible(false);
+
+    // Simulate satellite scanning process
+    setTimeout(() => {
+      setAnalysisState('results');
+    }, 4500);
+  };
+
+  const resetAnalysis = () => {
+    setAnalysisState('idle');
+    setFormVisible(true);
   };
 
   return (
@@ -47,42 +103,125 @@ function FieldExplorer() {
         eyebrow="Explorateur de parcelles"
         title="Importez vos zones, laissez les satellites orchestrer la veille"
         subtitle="Importez vos coordonnées ou fichiers GeoJSON, planifiez les revisites et laissez nos satellites orchestrer la veille multi-spectrale de vos cultures."
-        ctaLabel="Créer une zone"
-        ctaHref="#zone-form"
+        ctaLabel={analysisState === 'results' ? "Nouvelle Analyse" : "Créer une zone"}
+        ctaHref={analysisState === 'results' ? "#" : "#zone-form"}
+        ctaOnClick={analysisState === 'results' ? resetAnalysis : undefined}
         images={explorerImages}
       />
 
-      <section className="section explorer-intro">
-        <div className="container explorer-intro-card glass-panel" id="zone-form">
-          <div className="intro-text">
-            <h2>Synchronisez une nouvelle parcelle</h2>
-            <p>Renseignez vos informations de contours pour alimenter automatiquement l’analyse satellite et le suivi agronomique.</p>
+      {analysisState === 'idle' && (
+        <section className="section explorer-intro" id="zone-form">
+          <div className="container explorer-intro-card glass-panel">
+            <div className="intro-text">
+              <h2>Analyse Satellite Instantanée</h2>
+              <p>Entrez les coordonnées de votre champ pour lancer une lecture multi-spectrale profonde par nos constellations partenaires.</p>
+            </div>
+            <form className="zone-form" aria-label="Lancer l'analyse satellite" onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="zone-name">Nom de la parcelle</label>
+                <input id="zone-name" name="zone-name" type="text" placeholder="Ex : Zone Nord - Maïs" required />
+              </div>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label htmlFor="lat">Latitude (DD)</label>
+                  <input id="lat" name="lat" type="text" placeholder="14.6937" inputMode="decimal" required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lng">Longitude (DD)</label>
+                  <input id="lng" name="lng" type="text" placeholder="-17.4441" inputMode="decimal" required />
+                </div>
+              </div>
+              <button type="submit" className="button">
+                Lancer le Scan Profond
+              </button>
+            </form>
           </div>
-          <form className="zone-form" aria-label="Importer une zone agricole" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="zone-name">Nom de la zone</label>
-              <input id="zone-name" name="zone-name" type="text" placeholder="Ex : Parcelle maïs 2025" />
+        </section>
+      )}
+
+      {analysisState === 'scanning' && (
+        <section className="section explorer-scanning">
+          <div className="container scanning-container glass-panel">
+            <div className="satellite-animation">
+              <div className="scanner-line"></div>
+              <div className="pulse-ring"></div>
+              <div className="satellite-icon">🛰️</div>
             </div>
-            <div className="form-grid">
-              <div className="form-group">
-                <label htmlFor="lat">Latitude</label>
-                <input id="lat" name="lat" type="text" placeholder="14.6937" inputMode="decimal" />
+            <div className="scanning-status">
+              <h2>Orchestration Satellite en cours...</h2>
+              <ul className="scanning-steps">
+                <li>Vérification de la couverture Sentinel-2...</li>
+                <li>Extraction des données multi-spectrales...</li>
+                <li>Calcul des indices de vigueur (NDVI)...</li>
+                <li>Analyse morphologique de la culture...</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {analysisState === 'results' && (
+        <section className="section explorer-results animate-fade-in">
+          <div className="container result-dashboard">
+            <div className="result-main glass-panel">
+              <header className="result-header">
+                <span className="badge">Rapport d'analyse validé</span>
+                <h2>Identification : {mockAnalysisResult.crop}</h2>
+                <div className="result-meta">
+                  <span>Stade : <strong>{mockAnalysisResult.stage}</strong></span>
+                  <span>Rendement estimé : <strong>{mockAnalysisResult.yield}</strong></span>
+                </div>
+              </header>
+
+              <div className="health-gauge">
+                <div className="gauge-header">
+                  <h3>Indice de Santé Culture</h3>
+                  <span className="score">{mockAnalysisResult.healthScore}%</span>
+                </div>
+                <div className="gauge-bar">
+                  <div className="gauge-fill" style={{ width: `${mockAnalysisResult.healthScore}%`, background: mockAnalysisResult.healthScore < 70 ? 'var(--accent-alert)' : 'var(--accent-satellite-green)' }}></div>
+                </div>
+                <p className="health-status-desc">{mockAnalysisResult.healthStatus}</p>
               </div>
-              <div className="form-group">
-                <label htmlFor="lng">Longitude</label>
-                <input id="lng" name="lng" type="text" placeholder="-17.4441" inputMode="decimal" />
+
+              <div className="solutions-grid">
+                <h3>Actions & Solutions Recommandées</h3>
+                {mockAnalysisResult.recommendations.map((rec, i) => (
+                  <div key={i} className="solution-item surface-card">
+                    <div className="solution-header">
+                      <strong>{rec.issue}</strong>
+                      <span className="impact-tag">{rec.impact}</span>
+                    </div>
+                    <p>{rec.solution}</p>
+                  </div>
+                ))}
+              </div>
+
+              <button onClick={resetAnalysis} className="button secondary reset-btn">
+                Nouvelle analyse de parcelle
+              </button>
+            </div>
+
+            <div className="result-sidebar grid">
+              <div className="spectral-preview glass-panel">
+                <h4>Lecture NDVI (Vigueur)</h4>
+                <div className="mock-map">
+                  <div className="heat-zone low"></div>
+                  <div className="heat-zone med"></div>
+                  <div className="heat-zone high"></div>
+                </div>
+                <p>Détection d'hétérogénéité marquée sur la bordure Est.</p>
+              </div>
+
+              <div className="future-prompt glass-panel">
+                <h4>Prédiction Future Orbit</h4>
+                <p>Nos algorithmes prévoient une maturité physiologique dans <strong>14 jours</strong>.</p>
+                <Link to="/solutions" className="text-link">Voir tous les services d'aide →</Link>
               </div>
             </div>
-            <div className="form-group">
-              <label htmlFor="file">Importer un contour (GeoJSON/KML)</label>
-              <input id="file" name="file" type="file" accept=".geojson,.kml,.json" />
-            </div>
-            <button type="submit" className="button">
-              Synchroniser la zone
-            </button>
-          </form>
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       <section className="section explorer-content">
         <div className="container grid explorer-grid">
@@ -132,6 +271,28 @@ function FieldExplorer() {
                 <span role="cell" aria-label={`Indice NDVI ${zone.ndvi}`}>
                   {zone.ndvi}
                 </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section explorer-simulation">
+        <div className="container">
+          <header className="section-header">
+            <span className="tag">Simulations Future Orbit</span>
+            <h2>Évolutions & Intelligence Prédictive</h2>
+            <p>Découvrez les modules d’analyse avancée actuellement en phase de test et de validation agronomique.</p>
+          </header>
+          <div className="grid simulation-grid">
+            {futureInsights.map((insight) => (
+              <div key={insight.title} className="simulation-card glass-panel">
+                <div className="card-header">
+                  <span className="insight-icon">{insight.icon}</span>
+                  <span className="chip">{insight.status}</span>
+                </div>
+                <h3>{insight.title}</h3>
+                <p>{insight.description}</p>
               </div>
             ))}
           </div>

@@ -9,9 +9,11 @@ function Hero({
   ctaLabel,
   ctaTo,
   ctaHref = '#',
+  ctaOnClick,
   secondaryLabel,
   secondaryTo,
   secondaryHref = '#',
+  secondaryOnClick,
   images = []
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -29,11 +31,16 @@ function Hero({
   const renderPrimary = () => {
     if (!ctaLabel) return null;
     return ctaTo ? (
-      <Link className="button" to={ctaTo}>
+      <Link className="button" to={ctaTo} onClick={ctaOnClick}>
         {ctaLabel}
       </Link>
     ) : (
-      <a className="button" href={ctaHref}>
+      <a className="button" href={ctaHref} onClick={(e) => {
+        if (ctaOnClick) {
+          e.preventDefault();
+          ctaOnClick();
+        }
+      }}>
         {ctaLabel}
       </a>
     );
@@ -42,11 +49,16 @@ function Hero({
   const renderSecondary = () => {
     if (!secondaryLabel) return null;
     return secondaryTo ? (
-      <Link className="button secondary" to={secondaryTo}>
+      <Link className="button secondary" to={secondaryTo} onClick={secondaryOnClick}>
         {secondaryLabel}
       </Link>
     ) : (
-      <a className="button secondary" href={secondaryHref}>
+      <a className="button secondary" href={secondaryHref} onClick={(e) => {
+        if (secondaryOnClick) {
+          e.preventDefault();
+          secondaryOnClick();
+        }
+      }}>
         {secondaryLabel}
       </a>
     );
