@@ -104,6 +104,7 @@ const whyChoose = [
 ];
 
 function TestimonialForm() {
+  const [showForm, setShowForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -126,6 +127,23 @@ function TestimonialForm() {
           <h2>Merci pour votre confiance !</h2>
           <p>Votre témoignage a été transmis à nos équipes agronomiques. Il sera examiné avant d'être publié sur la plateforme.</p>
           <button type="button" className="button" onClick={() => setSubmitted(false)}>Rédiger un autre avis</button>
+        </div>
+      </section>
+    );
+  }
+
+  if (!showForm) {
+    return (
+      <section className="section testimonial-form-section">
+        <div className="container" style={{ textAlign: 'center', padding: '4rem 0' }}>
+          <header className="section-header" style={{ margin: '0 auto 2rem' }}>
+            <span className="tag">Votre avis nous intéresse</span>
+            <h2>Vous utilisez Agri Orbit ?</h2>
+            <p>Partagez votre expérience et aidez d'autres exploitants à franchir le pas de l'agriculture de précision.</p>
+          </header>
+          <button className="button" onClick={() => setShowForm(true)}>
+            Rédiger un témoignage
+          </button>
         </div>
       </section>
     );
