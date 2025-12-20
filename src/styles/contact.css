@@ -204,4 +204,10 @@
         border-left: none;
         border-top: 4px solid var(--accent-neon-green);
     }
+
+    .contact-form-wrapper h3 {
+        font-size: 1.4rem;
+    }
 }
+
+```

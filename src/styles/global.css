@@ -296,7 +296,7 @@ main {
 }
 
 .section-header h2 {
-  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-size: clamp(1.6rem, 5vw, 3.2rem);
   line-height: 1.1;
   margin-bottom: 1rem;
   background: var(--heading-gradient);

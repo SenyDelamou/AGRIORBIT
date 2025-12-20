@@ -1,34 +1,45 @@
 import { useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Bars3Icon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline';
+import {
+  Bars3Icon,
+  XMarkIcon,
+  SunIcon,
+  MoonIcon,
+  HomeIcon,
+  GlobeAltIcon,
+  ChartBarIcon,
+  DocumentTextIcon,
+  InformationCircleIcon,
+  PhoneIcon,
+  ArrowRightOnRectangleIcon
+} from '@heroicons/react/24/outline';
 import { useTheme } from '../context/ThemeContext.jsx';
 import logo from '../assets/logo.png';
 import '../styles/layout.css';
 
 const navLinks = [
-  { to: '/plateforme', label: 'Accueil' },
-  { to: '/explorateur', label: 'Explorateur' },
-  { to: '/analyses', label: 'Analyses' },
-  { to: '/solutions', label: 'Solutions' },
-  { to: '/a-propos', label: 'Mission' },
-  { to: '/contact', label: 'Contact' }
+  { to: '/plateforme', label: 'Accueil', Icon: HomeIcon },
+  { to: '/explorateur', label: 'Explorateur', Icon: GlobeAltIcon },
+  { to: '/analyses', label: 'Analyses', Icon: ChartBarIcon },
+  { to: '/solutions', label: 'Solutions', Icon: DocumentTextIcon },
+  { to: '/a-propos', label: 'Mission', Icon: InformationCircleIcon },
+  { to: '/contact', label: 'Contact', Icon: PhoneIcon }
 ];
 
 function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   return (
-    <button
-      className="theme-toggle-btn"
-      onClick={toggleTheme}
-      aria-label="Changer de thème"
-      title={theme === 'dark' ? 'Passer au mode clair' : 'Passer au mode sombre'}
-    >
-      {theme === 'dark' ? (
-        <SunIcon className="icon" />
-      ) : (
-        <MoonIcon className="icon" />
-      )}
-    </button>
+    <div className="theme-switch-wrapper">
+      <SunIcon className={`switch-icon sun ${theme === 'light' ? 'active' : ''}`} />
+      <button
+        className={`theme-switch ${theme}`}
+        onClick={toggleTheme}
+        aria-label="Changer de thème"
+      >
+        <div className="switch-handle" />
+      </button>
+      <MoonIcon className={`switch-icon moon ${theme === 'dark' ? 'active' : ''}`} />
+    </div>
   );
 }
 
@@ -43,14 +54,24 @@ function Layout({ children }) {
       {!hideChrome && (
         <header className="nav-shell">
           <div className="container nav-inner">
+            {/* Zone 1: Brand (Left) */}
             <Link to="/plateforme" className="brand">
-              <img src={logo} alt="Agri Orbit" className="brand-logo" />
+              <div className="brand-logo-wrapper">
+                <img src={logo} alt="Agri Orbit" className="brand-logo" />
+              </div>
+              <div className="brand-info">
+                <span className="brand-name">Agri Orbit</span>
+                <span className="brand-subtitle">INTELLIGENCE TERRITORIALE DATA</span>
+              </div>
             </Link>
 
+            {/* Zone 2: Navigation (Center) */}
             <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
               <div className="mobile-menu-header">
                 <Link to="/plateforme" className="brand" onClick={() => setMenuOpen(false)}>
-                  <img src={logo} alt="Agri Orbit" className="brand-logo" />
+                  <div className="brand-logo-wrapper">
+                    <img src={logo} alt="Agri Orbit" className="brand-logo" />
+                  </div>
                 </Link>
                 <button className="menu-close" onClick={() => setMenuOpen(false)}>
                   <XMarkIcon className="icon" />
@@ -63,38 +84,48 @@ function Layout({ children }) {
                     key={link.to}
                     to={link.to}
                     onClick={() => setMenuOpen(false)}
-                    className={({ isActive }) => (isActive ? 'active' : undefined)}
+                    className={({ isActive }) => (isActive ? 'nav-pill active' : 'nav-pill')}
                     style={{ '--index': index }}
                   >
-                    {link.label}
+                    <link.Icon className="nav-icon" />
+                    <span>{link.label}</span>
                   </NavLink>
                 ))}
               </div>
 
-              <div className="nav-auth">
+              {/* Mobile-only actions inside the menu */}
+              <div className="mobile-actions">
                 <NavLink
                   to="/connexion"
                   onClick={() => setMenuOpen(false)}
-                  className="ghost-link"
+                  className="login-pill"
                 >
-                  Connexion
+                  <ArrowRightOnRectangleIcon className="nav-icon" />
+                  <span>Connexion</span>
                 </NavLink>
-                <Link className="cta-link" to="/inscription" onClick={() => setMenuOpen(false)}>
-                  Commencer
-                </Link>
+                <ThemeToggle />
               </div>
             </nav>
 
-            <div className="nav-actions">
-              <ThemeToggle />
-              <button
-                className="menu-toggle"
-                aria-label="Ouvrir le menu"
-                onClick={() => setMenuOpen(true)}
+            {/* Zone 3: Actions (Right) */}
+            <div className="desktop-actions">
+              <NavLink
+                to="/connexion"
+                className="login-pill"
               >
-                <Bars3Icon className="icon" />
-              </button>
+                <ArrowRightOnRectangleIcon className="nav-icon" />
+                <span>Connexion</span>
+              </NavLink>
+              <ThemeToggle />
             </div>
+
+            <button
+              className="menu-toggle"
+              aria-label="Ouvrir le menu"
+              onClick={() => setMenuOpen(true)}
+            >
+              <Bars3Icon className="icon" />
+            </button>
           </div>
         </header>
       )}

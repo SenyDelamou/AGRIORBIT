@@ -41,6 +41,12 @@
   color: var(--accent-neon-green);
 }
 
+@media (max-width: 640px) {
+  .stat-card strong {
+    font-size: 1.4rem;
+  }
+}
+
 .values-panel {
   display: grid;
   gap: clamp(2rem, 5vw, 3rem);
