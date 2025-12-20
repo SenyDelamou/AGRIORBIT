@@ -86,9 +86,10 @@
 }
 
 [data-theme='light'] .hero-eyebrow {
-  background: rgba(7, 89, 133, 0.08);
-  border-color: rgba(7, 89, 133, 0.2);
-  color: #0369a1;
+  background: rgba(185, 255, 102, 0.15);
+  border-color: rgba(185, 255, 102, 0.3);
+  color: #14532D;
+  /* Deep forest green */
 }
 
 .hero-inner h1 {
@@ -105,7 +106,11 @@
 }
 
 [data-theme='light'] .hero-inner h1 {
-  text-shadow: none;
+  background: linear-gradient(to bottom, #ffffff, #f1f5f9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
 }
 
 .hero-inner p {
@@ -113,6 +118,13 @@
   color: var(--text-secondary);
   line-height: 1.6;
   max-width: 680px;
+}
+
+[data-theme='light'] .hero-inner p {
+  color: #f1f5f9;
+  /* Force light text for hero subtitle on image */
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .hero-actions {

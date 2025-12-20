@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import {
   Bars3Icon,
@@ -45,14 +45,24 @@ function ThemeToggle() {
 
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const authPaths = ['/connexion', '/inscription', '/mot-de-passe-oublie'];
   const hideChrome = authPaths.includes(location.pathname) || location.pathname === '/';
 
   return (
     <div className="app-shell">
       {!hideChrome && (
-        <header className="nav-shell">
+        <header className={`nav-shell ${scrolled ? 'scrolled' : ''}`}>
           <div className="container nav-inner">
             {/* Zone 1: Brand (Left) */}
             <Link to="/plateforme" className="brand">
