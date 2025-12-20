@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.png';
 import '../styles/loading.css';
 
 function Loading() {
@@ -13,8 +14,8 @@ function Loading() {
   return (
     <div className="loading-page">
       <div className="loading-card glass-panel">
+        <img src={logo} alt="Agri Orbit" className="loading-logo" />
         <span className="badge">Chargement du projet</span>
-        <h1>Agri Orbit Analytics se prépare</h1>
         <p>
           Une initiative portée par <strong>Dr Castro Hounmenou</strong>, Université de Labé. Nous initialisons les modules d'observation et les couches d'analyse.
         </p>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Bars3Icon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 import { useTheme } from '../context/ThemeContext.jsx';
+import logo from '../assets/logo.png';
 import '../styles/layout.css';
 
 const navLinks = [
@@ -43,15 +44,13 @@ function Layout({ children }) {
         <header className="nav-shell">
           <div className="container nav-inner">
             <Link to="/plateforme" className="brand">
-              <span className="brand-mark">AO</span>
-              <div>Agri Orbit</div>
+              <img src={logo} alt="Agri Orbit" className="brand-logo" />
             </Link>
 
             <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
               <div className="mobile-menu-header">
                 <Link to="/plateforme" className="brand" onClick={() => setMenuOpen(false)}>
-                  <span className="brand-mark">AO</span>
-                  <div>Agri Orbit</div>
+                  <img src={logo} alt="Agri Orbit" className="brand-logo" />
                 </Link>
                 <button className="menu-close" onClick={() => setMenuOpen(false)}>
                   <XMarkIcon className="icon" />
@@ -106,8 +105,7 @@ function Layout({ children }) {
         <footer className="footer-shell">
           <div className="container footer-inner">
             <div className="footer-brand">
-              <span className="brand-mark">AO</span>
-              <strong>Agri Orbit Analytics</strong>
+              <img src={logo} alt="Agri Orbit" className="footer-logo" />
               <p>Intelligence spatiale pour une agriculture de précision durable.</p>
             </div>
             <div className="footer-links">
