@@ -627,3 +627,115 @@
     width: 100%;
   }
 }
+
+/* Home Founder Section */
+.home-founder-panel {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 4rem;
+  padding: 4rem;
+  align-items: center;
+  border: 1px solid rgba(185, 255, 102, 0.2);
+  background: radial-gradient(circle at 0% 0%, rgba(185, 255, 102, 0.05), transparent 50%);
+}
+
+.home-founder-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.founder-portrait {
+  width: 100%;
+  max-width: 320px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-2xl);
+  filter: contrast(1.05);
+}
+
+.founder-badge {
+  position: absolute;
+  bottom: -1rem;
+  background: var(--accent-neon-green);
+  color: #050B14;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 10px 20px rgba(185, 255, 102, 0.3);
+}
+
+.home-founder-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.home-founder-content h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  line-height: 1.2;
+}
+
+.home-founder-content p {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-style: italic;
+  color: var(--text-primary);
+  position: relative;
+  padding-left: 2rem;
+}
+
+.home-founder-content p::before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -1rem;
+  font-size: 4rem;
+  color: var(--accent-neon-green);
+  opacity: 0.3;
+  font-family: serif;
+}
+
+.founder-signature {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  border-top: 1px solid var(--glass-border);
+  padding-top: 1.5rem;
+}
+
+.founder-signature strong {
+  font-size: 1.3rem;
+  color: var(--accent-neon-green);
+}
+
+.founder-signature span {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 768px) {
+  .home-founder-panel {
+    grid-template-columns: 1fr;
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+
+  .home-founder-content p {
+    padding-left: 0;
+    font-size: 1.1rem;
+  }
+
+  .home-founder-content p::before {
+    display: none;
+  }
+
+  .founder-portrait {
+    max-width: 240px;
+  }
+}

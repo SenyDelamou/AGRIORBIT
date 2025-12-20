@@ -56,6 +56,34 @@ function About() {
         </div>
       </section>
 
+      <section className="section about-founder">
+        <div className="container founder-panel glass-panel">
+          <div className="founder-image-container">
+            <img
+              src="C:/Users/DataVista/.gemini/antigravity/brain/ceb343b4-394e-4456-bed6-006ffab9cda5/uploaded_image_1766243221501.png"
+              alt="Dr. Castro - Visionnaire et Fondateur de Agri Orbit"
+              className="founder-img"
+            />
+            <span className="founder-label">Fondateur & Visionnaire</span>
+          </div>
+          <div className="founder-content">
+            <span className="badge">L'Origine du Projet</span>
+            <h2>La Vision du Dr. Castro</h2>
+            <p>
+              C'est sous l'impulsion du <strong>Dr. Castro</strong> que l'aventure Agri Orbit a débuté. Passionné par l'intersection entre les technologies spatiales et le développement agronomique souverain, il a conçu cette plateforme pour briser les barrières d'accès à l'agriculture de précision.
+            </p>
+            <p>
+              Son idée était simple mais révolutionnaire : transformer des téraoctets de données spectrales brutes en conseils concrets, directement utilisables par les exploitants sur le terrain pour sécuriser leurs récoltes et optimiser leurs ressources.
+            </p>
+            <div className="founder-quote">
+              <blockquote>
+                "La technologie n'a de sens que si elle sert la terre et ceux qui la travaillent."
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="section about-values" id="valeurs">
         <div className="container values-panel glass-panel">
           <header className="section-header">

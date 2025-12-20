@@ -83,6 +83,31 @@
     border-radius: var(--radius-lg);
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.dr-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.dr-profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-neon-green);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dr-profile-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    align-items: flex-start;
 }
 
 .dr-profile::before {
@@ -97,13 +122,21 @@
 
 .profile-badge {
     display: inline-block;
-    padding: 0.4rem 1rem;
+    padding: 0.3rem 0.8rem;
     background: var(--glass-surface-light);
     border: 1px solid var(--glass-border);
     border-radius: 999px;
     color: var(--accent-neon-green);
     font-weight: 700;
-    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.profile-role {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-left: 0.5rem;
 }
 
 .dr-profile p {

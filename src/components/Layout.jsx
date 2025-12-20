@@ -22,7 +22,7 @@ const navLinks = [
   { to: '/explorateur', label: 'Explorateur', Icon: GlobeAltIcon },
   { to: '/analyses', label: 'Analyses', Icon: ChartBarIcon },
   { to: '/solutions', label: 'Solutions', Icon: DocumentTextIcon },
-  { to: '/a-propos', label: 'Mission', Icon: InformationCircleIcon },
+  { to: '/a-propos', label: 'À propos', Icon: InformationCircleIcon },
   { to: '/contact', label: 'Contact', Icon: PhoneIcon }
 ];
 
@@ -158,7 +158,7 @@ function Layout({ children }) {
               </div>
               <div>
                 <span className="footer-heading">Société</span>
-                <Link to="/a-propos">Notre Mission</Link>
+                <Link to="/a-propos">À propos</Link>
                 <Link to="#">Carrières</Link>
                 <Link to="#">Blog</Link>
               </div>

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import '../styles/hero.css';
 
 function Hero({
@@ -16,18 +15,6 @@ function Hero({
   secondaryOnClick,
   images = []
 }) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  useEffect(() => {
-    if (!images || images.length <= 1) return;
-
-    const intervalId = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 5000); // Change every 5 seconds
-
-    return () => clearInterval(intervalId);
-  }, [images]);
-
   const renderPrimary = () => {
     if (!ctaLabel) return null;
     return ctaTo ? (
@@ -66,17 +53,19 @@ function Hero({
 
   return (
     <section className="hero-shell">
-      {/* Background Slideshow */}
+      {/* Background Slideshow - Continuous Infinite Loop */}
       {images.length > 0 && (
         <div className="hero-backgrounds">
-          <div className="hero-overlay" /> {/* Gradient overlay always on top */}
-          {images.map((img, index) => (
-            <div
-              key={img}
-              className={`hero-slide ${index === currentImageIndex ? 'active' : ''}`}
-              style={{ backgroundImage: `url(${img})` }}
-            />
-          ))}
+          <div className="hero-overlay" />
+          <div className="hero-carousel-track">
+            {[...images, ...images].map((img, index) => (
+              <div
+                key={`${img}-${index}`}
+                className="hero-carousel-slide"
+                style={{ backgroundImage: `url(${img})` }}
+              />
+            ))}
+          </div>
         </div>
       )}
 

@@ -65,7 +65,17 @@ function Contact() {
                         </div>
 
                         <div className="dr-profile glass-panel">
-                            <div className="profile-badge">Dr. Castro Hounmenou</div>
+                            <div className="dr-profile-header">
+                                <img
+                                    src="C:/Users/DataVista/.gemini/antigravity/brain/ceb343b4-394e-4456-bed6-006ffab9cda5/uploaded_image_1766243221501.png"
+                                    alt="Dr. Castro Hounmenou"
+                                    className="dr-profile-img"
+                                />
+                                <div className="dr-profile-meta">
+                                    <div className="profile-badge">Dr. Castro Hounmenou</div>
+                                    <span className="profile-role">Fondateur & Visionnaire</span>
+                                </div>
+                            </div>
                             <p>Passionné par l'innovation agricole en Afrique, il pilote le développement d'Agri Orbit pour transformer les données satellitaires en solutions concrètes pour les producteurs.</p>
                         </div>
                     </div>

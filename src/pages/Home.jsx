@@ -272,6 +272,30 @@ function Home() {
         </div>
       </section>
 
+      <section className="section home-founder">
+        <div className="container glass-panel home-founder-panel">
+          <div className="home-founder-image">
+            <img
+              src="C:/Users/DataVista/.gemini/antigravity/brain/ceb343b4-394e-4456-bed6-006ffab9cda5/uploaded_image_1766243221501.png"
+              alt="Dr. Castro Hounmenou"
+              className="founder-portrait"
+            />
+            <div className="founder-badge">Le Visionnaire</div>
+          </div>
+          <div className="home-founder-content">
+            <span className="tag">L'Origine du Projet</span>
+            <h2>Une idée née de la science et de la passion</h2>
+            <p>
+              "Agri Orbit n’est pas qu’une plateforme technologique, c’est une promesse faite à l’agriculture de demain. Mon idée était de mettre la puissance de l'observation spatiale au service direct des producteurs pour sécuriser notre souveraineté alimentaire."
+            </p>
+            <div className="founder-signature">
+              <strong>Dr. Castro Hounmenou</strong>
+              <span>Fondateur & Directeur de Projet</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="section insights">
         <div className="container insights-panel glass-panel">
           <div>
