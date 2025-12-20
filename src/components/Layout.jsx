@@ -144,7 +144,7 @@ function Layout({ children }) {
 
       {!hideChrome && (
         <footer className="footer-shell">
-          <div className="container footer-cta glass-panel">
+          <div className="container footer-cta">
             <div className="cta-content">
               <h3>Prêt à optimiser vos terres ?</h3>
               <p>Rejoignez les innovateurs qui transforment l'agriculture avec la data.</p>
