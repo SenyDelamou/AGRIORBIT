@@ -144,10 +144,23 @@ function Layout({ children }) {
 
       {!hideChrome && (
         <footer className="footer-shell">
+          <div className="container footer-cta glass-panel">
+            <div className="cta-content">
+              <h3>Prêt à optimiser vos terres ?</h3>
+              <p>Rejoignez les innovateurs qui transforment l'agriculture avec la data.</p>
+            </div>
+            <Link to="/contact" className="button">Démarrer maintenant</Link>
+          </div>
+
           <div className="container footer-inner">
             <div className="footer-brand">
               <img src={logo} alt="Agri Orbit" className="footer-logo" />
-              <p>Data & agronomie au service du terrain.</p>
+              <p>Data & agronomie au service du terrain pour une agriculture de précision durable.</p>
+              <div className="social-links">
+                <a href="#" aria-label="LinkedIn"><i className="social-icon">in</i></a>
+                <a href="#" aria-label="Twitter"><i className="social-icon">X</i></a>
+                <a href="#" aria-label="YouTube"><i className="social-icon">YT</i></a>
+              </div>
             </div>
             <div className="footer-links">
               <div>
@@ -172,9 +185,10 @@ function Layout({ children }) {
           </div>
           <div className="container footer-meta">
             <span>© {new Date().getFullYear()} Agri Orbit Analytics. Tous droits réservés.</span>
-            <div style={{ display: 'flex', gap: '1.5rem' }}>
+            <div className="footer-meta-links">
               <Link to="#">Mentions Légales</Link>
               <Link to="#">Confidentialité</Link>
+              <Link to="#">Sécurité</Link>
             </div>
           </div>
         </footer>
