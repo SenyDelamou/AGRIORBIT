@@ -1,5 +1,6 @@
 import Hero from '../components/Hero.jsx';
 import { aboutImages } from '../data/heroImages.js';
+import castro from '../assets/castro.png';
 import '../styles/about.css';
 
 const values = [
@@ -60,7 +61,7 @@ function About() {
         <div className="container founder-panel glass-panel">
           <div className="founder-image-container">
             <img
-              src="C:/Users/DataVista/.gemini/antigravity/brain/ceb343b4-394e-4456-bed6-006ffab9cda5/uploaded_image_1766243221501.png"
+              src={castro}
               alt="Dr. Castro - Visionnaire et Fondateur de Agri Orbit"
               className="founder-img"
             />

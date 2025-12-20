@@ -1,6 +1,7 @@
 import Hero from '../components/Hero.jsx';
 import { aboutImages } from '../data/heroImages.js';
 import { EnvelopeIcon, PhoneIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import castro from '../assets/castro.png';
 import '../styles/contact.css';
 
 function Contact() {
@@ -67,7 +68,7 @@ function Contact() {
                         <div className="dr-profile glass-panel">
                             <div className="dr-profile-header">
                                 <img
-                                    src="C:/Users/DataVista/.gemini/antigravity/brain/ceb343b4-394e-4456-bed6-006ffab9cda5/uploaded_image_1766243221501.png"
+                                    src={castro}
                                     alt="Dr. Castro Hounmenou"
                                     className="dr-profile-img"
                                 />

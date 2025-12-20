@@ -1,5 +1,6 @@
 import Hero from '../components/Hero.jsx';
 import { solutionsImages } from '../data/heroImages.js';
+import castro from '../assets/castro.png';
 import '../styles/solutions.css';
 
 const solutionPillars = [
@@ -77,10 +78,17 @@ function SolutionsHub() {
 
       <section className="section support">
         <div className="container support-panel glass-panel">
-          <div>
-            <span className="badge">Support agronome</span>
-            <h2>Vos décisions sont accompagnées</h2>
-            <p>Un réseau d’agronomes consultables à la demande pour valider vos plans d’actions et suivre l’efficacité des interventions.</p>
+          <div className="support-header">
+            <img
+              src={castro}
+              alt="Dr. Castro"
+              className="support-founder-img"
+            />
+            <div>
+              <span className="badge">Support expert</span>
+              <h2>Vos décisions sont accompagnées par le Dr. Castro</h2>
+              <p>Bénéficiez de l'expertise directe du fondateur et de son réseau d’agronomes pour valider vos plans d’actions.</p>
+            </div>
           </div>
           <div className="support-actions">
             <button type="button" className="button">

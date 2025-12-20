@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Hero from '../components/Hero.jsx';
 import { homeImages } from '../data/heroImages.js';
+import castro from '../assets/castro.png';
 import '../styles/home.css';
 
 const capabilityCards = [
@@ -276,7 +277,7 @@ function Home() {
         <div className="container glass-panel home-founder-panel">
           <div className="home-founder-image">
             <img
-              src="C:/Users/DataVista/.gemini/antigravity/brain/ceb343b4-394e-4456-bed6-006ffab9cda5/uploaded_image_1766243221501.png"
+              src={castro}
               alt="Dr. Castro Hounmenou"
               className="founder-portrait"
             />

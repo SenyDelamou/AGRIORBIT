@@ -1,5 +1,6 @@
 import Hero from '../components/Hero.jsx';
 import { analyticsImages } from '../data/heroImages.js';
+import castro from '../assets/castro.png';
 import '../styles/analytics.css';
 
 const analyticsModules = [
@@ -105,6 +106,29 @@ function AnalyticsSuite() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section analytics-expert">
+        <div className="container expert-insight-panel glass-panel">
+          <div className="expert-content">
+            <span className="badge">Validation Scientifique</span>
+            <h2>L'expertise derrière les algorithmes</h2>
+            <p>
+              "Chaque modèle de détection et chaque indice de végétation intégré à notre suite analytique a été rigoureusement validé. Nous ne nous contentons pas de fournir des images, nous livrons une intelligence agronomique de précision."
+            </p>
+            <div className="expert-signature">
+              <strong>Dr. Castro Hounmenou</strong>
+              <span>Visionnaire Agri Orbit</span>
+            </div>
+          </div>
+          <div className="expert-image">
+            <img
+              src={castro}
+              alt="Dr. Castro - Expertise"
+              className="expert-portrait"
+            />
           </div>
         </div>
       </section>
