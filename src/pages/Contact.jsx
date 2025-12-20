@@ -9,14 +9,14 @@ function Contact() {
         {
             icon: <EnvelopeIcon className="icon" />,
             label: 'Email Professionnel',
-            value: 'castro.hounmenou@univ-labe.edu.gn',
-            link: 'mailto:castro.hounmenou@univ-labe.edu.gn'
+            value: 'samakedelamou858@gmail.com',
+            link: 'mailto:samakedelamou858@gmail.com'
         },
         {
             icon: <PhoneIcon className="icon" />,
             label: 'Téléphone / WhatsApp',
-            value: '+224 000 00 00 00',
-            link: 'tel:+224000000000'
+            value: '+229 95 30 66 12',
+            link: 'tel:+22995306612'
         },
         {
             icon: <MapPinIcon className="icon" />,

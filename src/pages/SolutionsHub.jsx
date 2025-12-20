@@ -91,9 +91,9 @@ function SolutionsHub() {
             </div>
           </div>
           <div className="support-actions">
-            <button type="button" className="button">
-              Parler à un expert
-            </button>
+            <a href="https://wa.me/22995306612" className="button" target="_blank" rel="noopener noreferrer">
+              Parler au Dr. Castro
+            </a>
             <button type="button" className="button secondary">
               Télécharger une fiche technique
             </button>

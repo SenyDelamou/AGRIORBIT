@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/hero.css';
 
@@ -15,6 +16,15 @@ function Hero({
   secondaryOnClick,
   images = []
 }) {
+  const [currentIdx, setCurrentIdx] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentIdx((prev) => (prev + 1) % images.length);
+    }, 6000); // 6 seconds per slide
+    return () => clearInterval(interval);
+  }, [images.length]);
   const renderPrimary = () => {
     if (!ctaLabel) return null;
     return ctaTo ? (
@@ -53,19 +63,17 @@ function Hero({
 
   return (
     <section className="hero-shell">
-      {/* Background Slideshow - Continuous Infinite Loop */}
+      {/* Premium Cross-fade Background */}
       {images.length > 0 && (
         <div className="hero-backgrounds">
           <div className="hero-overlay" />
-          <div className="hero-carousel-track">
-            {[...images, ...images].map((img, index) => (
-              <div
-                key={`${img}-${index}`}
-                className="hero-carousel-slide"
-                style={{ backgroundImage: `url(${img})` }}
-              />
-            ))}
-          </div>
+          {images.map((img, index) => (
+            <div
+              key={`${img}-${index}`}
+              className={`hero-slide ${index === currentIdx ? 'active' : ''}`}
+              style={{ backgroundImage: `url(${img})` }}
+            />
+          ))}
         </div>
       )}
 

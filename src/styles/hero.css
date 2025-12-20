@@ -7,38 +7,38 @@
   background: var(--bg-deep-space);
 }
 
-/* Container for Slideshow */
+/* Premium Cross-fade Slideshow */
 .hero-backgrounds {
   position: absolute;
   inset: 0;
   z-index: 0;
+  background: var(--bg-deep-space);
 }
 
-/* Infinite Carousel Track */
-.hero-carousel-track {
+.hero-slide {
   position: absolute;
   inset: 0;
-  display: flex;
-  width: max-content;
-  height: 100%;
-  animation: hero-scroll 60s linear infinite;
-  will-change: transform;
-}
-
-.hero-carousel-slide {
-  flex: 0 0 100vw;
-  height: 100%;
   background-size: cover;
   background-position: center;
+  opacity: 0;
+  transition: opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1.1);
+  /* Start slightly zoomed for inward animation */
 }
 
-@keyframes hero-scroll {
-  from {
-    transform: translateX(0);
+.hero-slide.active {
+  opacity: 1;
+  animation: ken-burns 12s linear forwards;
+  z-index: 1;
+}
+
+@keyframes ken-burns {
+  0% {
+    transform: scale(1.1) translate(0, 0);
   }
 
-  to {
-    transform: translateX(-50%);
+  100% {
+    transform: scale(1.0) translate(0, 0);
   }
 }
 
