@@ -89,7 +89,8 @@
 
 .hero-inner p {
   font-size: 1.25rem;
-  color: var(--text-secondary);
+  color: rgba(240, 253, 244, 0.9);
+  /* Force high-contrast light text */
   line-height: 1.6;
   max-width: 680px;
 }

@@ -176,3 +176,39 @@
     font-weight: 600;
   }
 }
+
+@media (max-width: 768px) {
+  .explorer-intro-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .explorer-intro-card .intro-text {
+    align-items: center;
+  }
+
+  .map-preview {
+    min-height: 250px;
+    justify-content: center;
+  }
+
+  .map-overlay {
+    margin: 1rem;
+    text-align: center;
+    max-width: calc(100% - 2rem);
+    justify-self: center;
+  }
+
+  .layer-list li {
+    text-align: center;
+  }
+
+  .zone-summary .table-row {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 0.5rem;
+  }
+}
+
+```

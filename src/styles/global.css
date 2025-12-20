@@ -85,10 +85,10 @@
   /* Blue 800 */
 
   /* Glassmorphism for Light Mode - Defined Borders */
-  --glass-surface: rgba(255, 255, 255, 0.9);
-  --glass-surface-light: rgba(56, 189, 248, 0.05);
-  --glass-border: rgba(15, 23, 42, 0.12);
-  /* Slightly darker border */
+  --glass-surface: rgba(255, 255, 255, 0.95);
+  --glass-surface-light: rgba(56, 189, 248, 0.06);
+  --glass-border: rgba(15, 23, 42, 0.15);
+  --glass-highlight: rgba(15, 23, 42, 0.03);
   --glass-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 
   /* Theme-specific shadows and overlays */
@@ -107,6 +107,12 @@
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -175,7 +181,7 @@ main {
 }
 
 .container {
-  width: min(1200px, 92vw);
+  width: min(1200px, 100% - 2rem);
   margin: 0 auto;
 }
 
@@ -279,6 +285,14 @@ main {
 .section-header {
   margin-bottom: 3rem;
   max-width: 700px;
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .section-header h2 {

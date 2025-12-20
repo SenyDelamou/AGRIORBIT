@@ -175,9 +175,33 @@
     .contact-grid {
         grid-template-columns: 1fr;
         gap: 3rem;
+        text-align: center;
+    }
+
+    .info-card {
+        flex-direction: column;
+        text-align: center;
+        transform: none !important;
+    }
+
+    .info-icon {
+        margin: 0 auto;
     }
 
     .contact-form-wrapper {
-        padding: 2rem;
+        padding: 2rem 1.5rem;
+    }
+
+    .contact-form label {
+        text-align: left;
+    }
+
+    .dr-profile::before {
+        display: none;
+    }
+
+    .dr-profile {
+        border-left: none;
+        border-top: 4px solid var(--accent-neon-green);
     }
 }

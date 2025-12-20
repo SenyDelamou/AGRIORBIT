@@ -168,6 +168,48 @@
   justify-items: start;
 }
 
+@media (max-width: 768px) {
+  .analytics-hero-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .analytics-intro {
+    align-items: center;
+  }
+
+  .module-card,
+  .timeline-event {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .timeline-event {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.5rem;
+  }
+
+  .export-panel {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .export-actions {
+    width: 100%;
+    justify-items: center;
+  }
+
+  .export-actions .button {
+    width: 100%;
+  }
+
+  .chart-footer {
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
 @media (max-width: 640px) {
   .timeline-event {
     grid-template-columns: 1fr;

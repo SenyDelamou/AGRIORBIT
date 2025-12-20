@@ -142,6 +142,26 @@
 
 @media (max-width: 640px) {
   .mission-stats {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .stat-card {
+    justify-content: center;
+  }
+
+  .partners-panel,
+  .values-panel,
+  .tech-panel {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .tech-list li {
+    text-align: center;
+  }
+
+  .partners-strip {
+    justify-content: center;
   }
 }

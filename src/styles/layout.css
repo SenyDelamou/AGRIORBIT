@@ -109,14 +109,14 @@
 }
 
 [data-theme='light'] .nav-group a {
-  color: #475569;
-  /* Slate 600 */
+  color: #1E293B;
+  /* Slate 800 - much more solid */
 }
 
 [data-theme='light'] .nav-group a:hover,
 [data-theme='light'] .nav-group a.active {
-  color: #0F172A;
-  /* Slate 900 */
+  color: #020617;
+  /* Slate 950 - maximum clarity */
 }
 
 .nav-links a {
@@ -291,8 +291,8 @@
 /* Footer Styles */
 .footer-shell {
   margin-top: auto;
-  border-top: 1px solid rgba(56, 189, 248, 0.1);
-  background: #020409;
+  border-top: 1px solid var(--glass-border);
+  background: var(--bg-panel);
   padding: 4rem 0 2rem;
   position: relative;
 }
@@ -450,7 +450,7 @@
   }
 
   .nav-group a {
-    font-size: 2.5rem;
+    font-size: 1.6rem;
     font-weight: 700;
     font-family: var(--font-heading);
     color: var(--text-primary);

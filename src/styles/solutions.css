@@ -99,8 +99,30 @@
 }
 
 @media (max-width: 640px) {
+
+  .solutions-hero-card,
+  .pillars,
+  .advisory-panel {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .pillar-card,
+  .program-card {
+    text-align: center;
+    align-items: center;
+  }
+
+  .support-panel {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+  }
+
   .support-actions {
     width: 100%;
+    justify-items: center;
+    /* Center buttons */
   }
 
   .support-actions .button,
