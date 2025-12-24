@@ -35,7 +35,8 @@ function Login() {
           picture: payload.picture,
           id: payload.sub
         });
-        navigate('/plateforme');
+        const origin = location.state?.from?.pathname || '/plateforme';
+        navigate(origin);
       }
     };
 

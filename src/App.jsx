@@ -20,6 +20,8 @@ import ToastContainer from './components/ToastContainer.jsx';
 import NotificationSimulator from './components/NotificationSimulator.jsx';
 import ChatWidget from './components/ChatWidget.jsx';
 
+import { ProtectedRoute, GuestRoute } from './components/ProtectedRoute.jsx';
+
 function App() {
   const location = useLocation();
   const authPaths = ['/connexion', '/inscription', '/mot-de-passe-oublie'];
@@ -33,17 +35,44 @@ function App() {
             <Routes>
               <Route path="/" element={<Loading />} />
               <Route path="/plateforme" element={<Home />} />
-              <Route path="/explorateur" element={<FieldExplorer />} />
-              <Route path="/analyses" element={<AnalyticsSuite />} />
-              <Route path="/solutions" element={<SolutionsHub />} />
+              <Route
+                path="/explorateur"
+                element={<ProtectedRoute><FieldExplorer /></ProtectedRoute>}
+              />
+              <Route
+                path="/analyses"
+                element={<ProtectedRoute><AnalyticsSuite /></ProtectedRoute>}
+              />
+              <Route
+                path="/solutions"
+                element={<ProtectedRoute><SolutionsHub /></ProtectedRoute>}
+              />
               <Route path="/a-propos" element={<About />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/profil" element={<Profile />} />
-              <Route path="/notifications" element={<Notifications />} />
-              <Route path="/parametres" element={<Settings />} />
-              <Route path="/connexion" element={<Login />} />
-              <Route path="/inscription" element={<Register />} />
-              <Route path="/mot-de-passe-oublie" element={<ForgotPassword />} />
+              <Route
+                path="/profil"
+                element={<ProtectedRoute><Profile /></ProtectedRoute>}
+              />
+              <Route
+                path="/notifications"
+                element={<ProtectedRoute><Notifications /></ProtectedRoute>}
+              />
+              <Route
+                path="/parametres"
+                element={<ProtectedRoute><Settings /></ProtectedRoute>}
+              />
+              <Route
+                path="/connexion"
+                element={<GuestRoute><Login /></GuestRoute>}
+              />
+              <Route
+                path="/inscription"
+                element={<GuestRoute><Register /></GuestRoute>}
+              />
+              <Route
+                path="/mot-de-passe-oublie"
+                element={<GuestRoute><ForgotPassword /></GuestRoute>}
+              />
               <Route path="*" element={<Navigate to="/plateforme" replace />} />
             </Routes>
           </Layout>
