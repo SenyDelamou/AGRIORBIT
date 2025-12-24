@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useToast } from '../context/ToastContext';
+import { useDocumentTitle } from '../hooks/useWebLogic';
 import '../styles/profile.css';
 import { ChartBarIcon, MapIcon, BeakerIcon, UserCircleIcon, LockClosedIcon, PencilSquareIcon, CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 function Profile() {
     const { user, updateUser } = useAuth();
     const { t } = useLanguage();
+    useDocumentTitle(t('profile'));
     const { showToast } = useToast();
 
     const [editingName, setEditingName] = useState(false);

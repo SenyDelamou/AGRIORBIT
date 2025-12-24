@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero.jsx';
 import { explorerImages } from '../data/heroImages.js';
+import { useLanguage } from '../context/LanguageContext.jsx';
+import { useDocumentTitle, useMetaDescription } from '../hooks/useWebLogic.js';
 import '../styles/fieldExplorer.css';
 
 const sampleZones = [
@@ -81,6 +83,9 @@ const mockAnalysisResult = {
 };
 
 function FieldExplorer() {
+  const { t } = useLanguage();
+  useDocumentTitle(t('title_explorer'));
+  useMetaDescription(t('cap_card1_desc'));
   const [analysisState, setAnalysisState] = useState('idle'); // 'idle', 'scanning', 'results'
   const [formVisible, setFormVisible] = useState(true);
 

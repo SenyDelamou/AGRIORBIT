@@ -22,6 +22,9 @@ import ChatWidget from './components/ChatWidget.jsx';
 
 import { ProtectedRoute, GuestRoute } from './components/ProtectedRoute.jsx';
 
+import { ScrollToTop } from './hooks/useWebLogic.js';
+import NotFound from './pages/NotFound.jsx';
+
 function App() {
   const location = useLocation();
   const authPaths = ['/connexion', '/inscription', '/mot-de-passe-oublie'];
@@ -31,6 +34,7 @@ function App() {
     <AuthProvider>
       <LanguageProvider>
         <ToastProvider>
+          <ScrollToTop />
           <Layout>
             <Routes>
               <Route path="/" element={<Loading />} />
@@ -39,14 +43,8 @@ function App() {
                 path="/explorateur"
                 element={<ProtectedRoute><FieldExplorer /></ProtectedRoute>}
               />
-              <Route
-                path="/analyses"
-                element={<ProtectedRoute><AnalyticsSuite /></ProtectedRoute>}
-              />
-              <Route
-                path="/solutions"
-                element={<ProtectedRoute><SolutionsHub /></ProtectedRoute>}
-              />
+              <Route path="/analyses" element={<AnalyticsSuite />} />
+              <Route path="/solutions" element={<SolutionsHub />} />
               <Route path="/a-propos" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route
@@ -73,7 +71,7 @@ function App() {
                 path="/mot-de-passe-oublie"
                 element={<GuestRoute><ForgotPassword /></GuestRoute>}
               />
-              <Route path="*" element={<Navigate to="/plateforme" replace />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
           <ToastContainer />

@@ -109,7 +109,13 @@ const translations = {
         subscription_desc: 'Plan Expert - Renouvellement le 12 Janvier 2026.',
         logout: 'Déconnexion',
         change: 'Modifier',
-        select_lang: 'Sélectionner la langue'
+        select_lang: 'Sélectionner la langue',
+        title_explorer: 'Explorateur de Champs',
+        title_analytics: 'Analyses Agrologiques',
+        title_about: 'À propos de nous',
+        title_contact: 'Contactez-nous',
+        title_solutions: 'Centre de Solutions',
+        title_notifications: 'Vos Alertes'
     },
     en: {
         // Navbar
@@ -217,7 +223,13 @@ const translations = {
         subscription_desc: 'Expert Plan - Renewal on January 12, 2026.',
         logout: 'Logout',
         change: 'Edit',
-        select_lang: 'Select language'
+        select_lang: 'Select language',
+        title_explorer: 'Field Explorer',
+        title_analytics: 'Agronomic Analytics',
+        title_about: 'About Us',
+        title_contact: 'Contact Us',
+        title_solutions: 'Solutions Hub',
+        title_notifications: 'Your Alerts'
     }
 };
 

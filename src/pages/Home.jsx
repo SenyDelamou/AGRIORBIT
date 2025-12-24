@@ -8,6 +8,7 @@ import GlowCard from '../components/GlowCard.jsx';
 import MagneticButton from '../components/MagneticButton.jsx';
 import { useScrollReveal } from '../hooks/useScrollReveal.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { useDocumentTitle, useMetaDescription } from '../hooks/useWebLogic.js';
 
 function TestimonialForm() {
   const { t } = useLanguage();
@@ -116,6 +117,8 @@ function TestimonialForm() {
 function Home() {
   useScrollReveal();
   const { t } = useLanguage();
+  useDocumentTitle(t('nav_home'));
+  useMetaDescription(t('hero_subtitle'));
 
   const capabilityCards = [
     {
