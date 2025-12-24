@@ -64,19 +64,19 @@
 }
 
 .auth-header-clean h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: white;
+    font-size: 2.2rem;
+    font-weight: 800;
     margin-bottom: 0.5rem;
-    background: linear-gradient(to right, #fff, #94a3b8);
+    background: var(--heading-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .auth-header-clean p {
     color: var(--text-secondary);
-    /* Muted text */
-    font-size: 0.95rem;
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 /* Inputs */
