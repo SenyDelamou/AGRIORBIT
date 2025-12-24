@@ -263,9 +263,7 @@ function Layout({ children }) {
 
             <div className="mobile-utility">
               {user && (
-                <Link to="/profil" className="mobile-profile-link" onClick={() => setMobileMenuOpen(false)}>
-                  <img src={user.picture} alt={user.name} className="profile-img-mobile" />
-                </Link>
+                <UserProfile user={user} logout={logout} />
               )}
               <button
                 className="menu-toggle"
