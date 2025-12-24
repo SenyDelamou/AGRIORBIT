@@ -10,6 +10,9 @@ import Register from './pages/Register.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import Loading from './pages/Loading.jsx';
 import Contact from './pages/Contact.jsx';
+import Profile from './pages/Profile.jsx';
+import Notifications from './pages/Notifications.jsx';
+import Settings from './pages/Settings.jsx';
 import { ToastProvider } from './context/ToastContext.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import ToastContainer from './components/ToastContainer.jsx';
@@ -33,6 +36,9 @@ function App() {
             <Route path="/solutions" element={<SolutionsHub />} />
             <Route path="/a-propos" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/profil" element={<Profile />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/parametres" element={<Settings />} />
             <Route path="/connexion" element={<Login />} />
             <Route path="/inscription" element={<Register />} />
             <Route path="/mot-de-passe-oublie" element={<ForgotPassword />} />
