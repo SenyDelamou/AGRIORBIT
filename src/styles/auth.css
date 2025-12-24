@@ -15,6 +15,12 @@
     height: 100%;
 }
 
+@media (max-width: 960px) {
+    .auth-split-clean {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Left Visual */
 .auth-visual-clean {
     position: relative;
@@ -22,6 +28,12 @@
     background-position: center top;
     background-repeat: no-repeat;
     border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 960px) {
+    .auth-visual-clean {
+        display: none;
+    }
 }
 
 /* Gradient removed to show satellite image clearly */
@@ -35,6 +47,12 @@
     /* Dark Background */
     padding: 2rem;
     position: relative;
+}
+
+@media (max-width: 640px) {
+    .auth-form-clean-container {
+        padding: 2.5rem 1.5rem;
+    }
 }
 
 /* Glass Orb for atmosphere */
@@ -97,7 +115,7 @@
 
 .input-wrapper input {
     width: 100%;
-    padding: 0.95rem 1rem 0.95rem 3rem;
+    padding: 1rem 1rem 1rem 3.2rem;
     border: 1px solid var(--glass-border);
     border-radius: 0.75rem;
     font-size: 1rem;
@@ -440,6 +458,18 @@
     border: 1px solid var(--glass-border);
     border-radius: 0.75rem;
     transition: all 0.2s ease;
+}
+
+@media (max-width: 420px) {
+    .otp-container {
+        gap: 0.4rem;
+    }
+
+    .otp-input {
+        width: 2.5rem;
+        height: 3rem;
+        font-size: 1.2rem;
+    }
 }
 
 .otp-input:focus {
