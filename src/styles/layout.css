@@ -441,6 +441,39 @@
     gap: 0.75rem;
   }
 
+  /* Mobile Utility Group */
+  .mobile-utility {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 1001;
+  }
+
+  .mobile-profile-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-neon-green);
+    padding: 2px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    box-shadow: 0 0 10px rgba(185, 255, 102, 0.2);
+  }
+
+  .mobile-profile-link:active {
+    transform: scale(0.9);
+  }
+
+  .profile-img-mobile {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
   .theme-toggle-btn {
     width: 36px;
     height: 36px;

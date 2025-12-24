@@ -261,13 +261,20 @@ function Layout({ children }) {
               <ThemeToggle />
             </div>
 
-            <button
-              className="menu-toggle"
-              aria-label={t('menu_toggle_label')}
-              onClick={() => setMobileMenuOpen(true)} // Changed setMenuOpen to setMobileMenuOpen
-            >
-              <Bars3Icon className="icon" />
-            </button>
+            <div className="mobile-utility">
+              {user && (
+                <Link to="/profil" className="mobile-profile-link" onClick={() => setMobileMenuOpen(false)}>
+                  <img src={user.picture} alt={user.name} className="profile-img-mobile" />
+                </Link>
+              )}
+              <button
+                className="menu-toggle"
+                aria-label={t('menu_toggle_label')}
+                onClick={() => setMobileMenuOpen(true)}
+              >
+                <Bars3Icon className="icon" />
+              </button>
+            </div>
           </div>
         </header>
       )}
