@@ -182,161 +182,157 @@ function Layout({ children }) {
 
   return (
     <div className="app-shell">
-      {!hideChrome && (
-        <header className={`nav-shell ${scrolled ? 'scrolled' : ''}`}>
-          <div className="container nav-inner">
-            {/* Zone 1: Brand (Left) */}
-            <Link to="/plateforme" className="brand">
-              <div className="brand-logo-wrapper">
-                <img src={logo} alt="Agri Orbit" className="brand-logo" />
-              </div>
-              <div className="brand-info">
-                <span className="brand-name">Agri Orbit</span>
-                <span className="brand-subtitle">{t('brand_subtitle')}</span>
-              </div>
-            </Link>
+      <header className={`nav-shell ${scrolled ? 'scrolled' : ''}`}>
+        <div className="container nav-inner">
+          {/* Zone 1: Brand (Left) */}
+          <Link to="/plateforme" className="brand">
+            <div className="brand-logo-wrapper">
+              <img src={logo} alt="Agri Orbit" className="brand-logo" />
+            </div>
+            <div className="brand-info">
+              <span className="brand-name">Agri Orbit</span>
+              <span className="brand-subtitle">{t('brand_subtitle')}</span>
+            </div>
+          </Link>
 
-            {/* Zone 2: Navigation (Center) */}
-            <nav className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}> {/* Changed menuOpen to mobileMenuOpen */}
-              <div className="mobile-menu-header">
-                <Link to="/plateforme" className="brand" onClick={() => setMobileMenuOpen(false)}> {/* Changed setMenuOpen to setMobileMenuOpen */}
-                  <div className="brand-logo-wrapper">
-                    <img src={logo} alt="Agri Orbit" className="brand-logo" />
-                  </div>
-                </Link>
-                <button className="menu-close" onClick={() => setMobileMenuOpen(false)}> {/* Changed setMenuOpen to setMobileMenuOpen */}
-                  <XMarkIcon className="icon" />
-                </button>
-              </div>
+          {/* Zone 2: Navigation (Center) */}
+          <nav className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}> {/* Changed menuOpen to mobileMenuOpen */}
+            <div className="mobile-menu-header">
+              <Link to="/plateforme" className="brand" onClick={() => setMobileMenuOpen(false)}> {/* Changed setMenuOpen to setMobileMenuOpen */}
+                <div className="brand-logo-wrapper">
+                  <img src={logo} alt="Agri Orbit" className="brand-logo" />
+                </div>
+              </Link>
+              <button className="menu-close" onClick={() => setMobileMenuOpen(false)}> {/* Changed setMenuOpen to setMobileMenuOpen */}
+                <XMarkIcon className="icon" />
+              </button>
+            </div>
 
-              <div className="nav-group">
-                {navLinks.map((link, index) => (
-                  <NavLink
-                    key={link.to}
-                    to={link.to}
-                    onClick={() => setMobileMenuOpen(false)} // Changed setMenuOpen to setMobileMenuOpen
-                    className={({ isActive }) => (isActive ? 'nav-pill active' : 'nav-pill')}
-                    style={{ '--index': index }}
-                  >
-                    <link.Icon className="nav-icon" />
-                    <span>{link.label}</span>
-                  </NavLink>
-                ))}
-              </div>
+            <div className="nav-group">
+              {navLinks.map((link, index) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setMobileMenuOpen(false)} // Changed setMenuOpen to setMobileMenuOpen
+                  className={({ isActive }) => (isActive ? 'nav-pill active' : 'nav-pill')}
+                  style={{ '--index': index }}
+                >
+                  <link.Icon className="nav-icon" />
+                  <span>{link.label}</span>
+                </NavLink>
+              ))}
+            </div>
 
-              {/* Mobile-only actions inside the menu */}
-              <div className="mobile-actions">
-                {!user ? (
-                  <NavLink
-                    to="/connexion"
-                    onClick={() => setMobileMenuOpen(false)} // Changed setMenuOpen to setMobileMenuOpen
-                    className="login-pill"
-                  >
-                    <ArrowRightOnRectangleIcon className="nav-icon" />
-                    <span>{t('nav_login')}</span>
-                  </NavLink>
-                ) : (
-                  <button onClick={() => { logout(); setMobileMenuOpen(false); }} className="login-pill"> {/* Changed setMenuOpen to setMobileMenuOpen */}
-                    <ArrowRightOnRectangleIcon className="nav-icon" />
-                    <span>{t('nav_logout')}</span>
-                  </button>
-                )}
-                <ThemeToggle />
-              </div>
-            </nav>
-
-            {/* Zone 3: Actions (Right) */}
-            <div className="desktop-actions">
+            {/* Mobile-only actions inside the menu */}
+            <div className="mobile-actions">
               {!user ? (
                 <NavLink
                   to="/connexion"
+                  onClick={() => setMobileMenuOpen(false)} // Changed setMenuOpen to setMobileMenuOpen
                   className="login-pill"
                 >
                   <ArrowRightOnRectangleIcon className="nav-icon" />
                   <span>{t('nav_login')}</span>
                 </NavLink>
               ) : (
-                <UserProfile user={user} logout={logout} />
+                <button onClick={() => { logout(); setMobileMenuOpen(false); }} className="login-pill"> {/* Changed setMenuOpen to setMobileMenuOpen */}
+                  <ArrowRightOnRectangleIcon className="nav-icon" />
+                  <span>{t('nav_logout')}</span>
+                </button>
               )}
               <ThemeToggle />
             </div>
+          </nav>
 
-            <div className="mobile-utility">
-              {user && (
-                <UserProfile user={user} logout={logout} />
-              )}
-              <button
-                className="menu-toggle"
-                aria-label={t('menu_toggle_label')}
-                onClick={() => setMobileMenuOpen(true)}
+          {/* Zone 3: Actions (Right) */}
+          <div className="desktop-actions">
+            {!user ? (
+              <NavLink
+                to="/connexion"
+                className="login-pill"
               >
-                <Bars3Icon className="icon" />
-              </button>
-            </div>
+                <ArrowRightOnRectangleIcon className="nav-icon" />
+                <span>{t('nav_login')}</span>
+              </NavLink>
+            ) : (
+              <UserProfile user={user} logout={logout} />
+            )}
+            <ThemeToggle />
           </div>
-        </header>
-      )}
+
+          <div className="mobile-utility">
+            {user && (
+              <UserProfile user={user} logout={logout} />
+            )}
+            <button
+              className="menu-toggle"
+              aria-label={t('menu_toggle_label')}
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <Bars3Icon className="icon" />
+            </button>
+          </div>
+        </div>
+      </header>
 
       <main className={hideChrome ? 'auth-main' : undefined}>{children}</main>
 
-      {!hideChrome && (
-        <footer className="footer-shell">
-          <div className="container footer-cta">
-            <div className="cta-content">
-              <h3>{t('footer_cta_heading')}</h3>
-              <p>{t('footer_cta_text')}</p>
-            </div>
-            <Link to="/contact" className="button">{t('footer_cta_button')}</Link>
+      <footer className="footer-shell">
+        <div className="container footer-cta">
+          <div className="cta-content">
+            <h3>{t('footer_cta_heading')}</h3>
+            <p>{t('footer_cta_text')}</p>
           </div>
+          <Link to="/contact" className="button">{t('footer_cta_button')}</Link>
+        </div>
 
-          <div className="container footer-inner">
-            <div className="footer-brand">
-              <div className="brand-lockup">
-                <span className="brand-logo">AO</span>
-                <span className="brand-name">Agri Orbit</span>
-              </div>
-              <p className="footer-tagline">
-                {t('footer_tagline')}
-              </p>
-              <div className="social-links">
-                <a href="#" aria-label="LinkedIn"><i className="social-icon">in</i></a>
-                <a href="#" aria-label="Twitter"><i className="social-icon">X</i></a>
-                <a href="#" aria-label="YouTube"><i className="social-icon">YT</i></a>
-              </div>
+        <div className="container footer-inner">
+          <div className="footer-brand">
+            <div className="brand-lockup">
+              <span className="brand-logo">AO</span>
+              <span className="brand-name">Agri Orbit</span>
             </div>
-
-            <div className="footer-links-grid">
-              <div className="footer-col">
-                <h4>{t('footer_platform')}</h4>
-                <Link to="/explorateur">{t('footer_carto')}</Link>
-                <Link to="/analyses">{t('footer_ia')}</Link>
-                <Link to="/solutions">{t('footer_reports')}</Link>
-              </div>
-              <div className="footer-col">
-                <h4>{t('footer_company')}</h4>
-                <Link to="/a-propos">{t('nav_about')}</Link>
-                <Link to="#">{t('footer_careers')}</Link>
-                <Link to="#">{t('footer_blog')}</Link>
-              </div>
-              <div className="footer-col">
-                <h4>{t('footer_help')}</h4>
-                <Link to="/contact">{t('nav_contact')}</Link>
-                <Link to="#">{t('footer_doc')}</Link>
-                <Link to="#">{t('footer_status')}</Link>
-              </div>
+            <p className="footer-tagline">
+              {t('footer_tagline')}
+            </p>
+            <div className="social-links">
+              <a href="#" aria-label="LinkedIn"><i className="social-icon">in</i></a>
+              <a href="#" aria-label="Twitter"><i className="social-icon">X</i></a>
+              <a href="#" aria-label="YouTube"><i className="social-icon">YT</i></a>
             </div>
           </div>
 
-          <div className="container footer-meta">
-            <span>© {new Date().getFullYear()} Agri Orbit Analytics. {t('footer_rights')}</span>
-            <div className="footer-meta-links">
-              <Link to="#">{t('footer_legal')}</Link>
-              <Link to="#">{t('footer_privacy')}</Link>
-              <Link to="#">{t('footer_security')}</Link>
+          <div className="footer-links-grid">
+            <div className="footer-col">
+              <h4>{t('footer_platform')}</h4>
+              <Link to="/explorateur">{t('footer_carto')}</Link>
+              <Link to="/analyses">{t('footer_ia')}</Link>
+              <Link to="/solutions">{t('footer_reports')}</Link>
+            </div>
+            <div className="footer-col">
+              <h4>{t('footer_company')}</h4>
+              <Link to="/a-propos">{t('nav_about')}</Link>
+              <Link to="#">{t('footer_careers')}</Link>
+              <Link to="#">{t('footer_blog')}</Link>
+            </div>
+            <div className="footer-col">
+              <h4>{t('footer_help')}</h4>
+              <Link to="/contact">{t('nav_contact')}</Link>
+              <Link to="#">{t('footer_doc')}</Link>
+              <Link to="#">{t('footer_status')}</Link>
             </div>
           </div>
-        </footer>
-      )}
+        </div>
+
+        <div className="container footer-meta">
+          <span>© {new Date().getFullYear()} Agri Orbit Analytics. {t('footer_rights')}</span>
+          <div className="footer-meta-links">
+            <Link to="#">{t('footer_legal')}</Link>
+            <Link to="#">{t('footer_privacy')}</Link>
+            <Link to="#">{t('footer_security')}</Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
