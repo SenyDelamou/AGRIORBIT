@@ -14,6 +14,7 @@ import {
   ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/outline';
 import { useTheme } from '../context/ThemeContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import logo from '../assets/logo.png';
 import '../styles/layout.css';
 
@@ -43,9 +44,36 @@ function ThemeToggle() {
   );
 }
 
+function UserProfile({ user, logout }) {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  return (
+    <div className="user-profile-nav">
+      <button className="profile-btn" onClick={() => setDropdownOpen(!dropdownOpen)}>
+        <img src={user.picture} alt={user.name} className="profile-img" />
+      </button>
+
+      {dropdownOpen && (
+        <div className="profile-dropdown">
+          <div className="dropdown-header">
+            <span className="user-name">{user.name}</span>
+            <span className="user-email">{user.email}</span>
+          </div>
+          <div className="dropdown-divider" />
+          <button onClick={logout} className="logout-btn">
+            <ArrowRightOnRectangleIcon className="logout-icon" />
+            Déconnexion
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Layout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { user, logout } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -114,27 +142,38 @@ function Layout({ children }) {
 
               {/* Mobile-only actions inside the menu */}
               <div className="mobile-actions">
-                <NavLink
-                  to="/connexion"
-                  onClick={() => setMenuOpen(false)}
-                  className="login-pill"
-                >
-                  <ArrowRightOnRectangleIcon className="nav-icon" />
-                  <span>Connexion</span>
-                </NavLink>
+                {!user ? (
+                  <NavLink
+                    to="/connexion"
+                    onClick={() => setMenuOpen(false)}
+                    className="login-pill"
+                  >
+                    <ArrowRightOnRectangleIcon className="nav-icon" />
+                    <span>Connexion</span>
+                  </NavLink>
+                ) : (
+                  <button onClick={logout} className="login-pill">
+                    <ArrowRightOnRectangleIcon className="nav-icon" />
+                    <span>Déconnexion</span>
+                  </button>
+                )}
                 <ThemeToggle />
               </div>
             </nav>
 
             {/* Zone 3: Actions (Right) */}
             <div className="desktop-actions">
-              <NavLink
-                to="/connexion"
-                className="login-pill"
-              >
-                <ArrowRightOnRectangleIcon className="nav-icon" />
-                <span>Connexion</span>
-              </NavLink>
+              {!user ? (
+                <NavLink
+                  to="/connexion"
+                  className="login-pill"
+                >
+                  <ArrowRightOnRectangleIcon className="nav-icon" />
+                  <span>Connexion</span>
+                </NavLink>
+              ) : (
+                <UserProfile user={user} logout={logout} />
+              )}
               <ThemeToggle />
             </div>
 

@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.jsx';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import loginSatellite from '../assets/login_satellite.png';
@@ -8,15 +9,36 @@ function Login() {
   const googleButtonRef = useRef(null);
   const [googleReady, setGoogleReady] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   useEffect(() => {
     /* Google Auth Logic kept intact */
     if (!googleClientId || !googleButtonRef.current) return;
     const scriptId = 'google-identity-services';
-    const handleCredentialResponse = (response) => {
-      console.info('Google credential reçu', response.credential);
+
+    const parseJwt = (token) => {
+      try {
+        return JSON.parse(atob(token.split('.')[1]));
+      } catch (e) {
+        return null;
+      }
     };
+
+    const handleCredentialResponse = (response) => {
+      const payload = parseJwt(response.credential);
+      if (payload) {
+        login({
+          name: payload.name,
+          email: payload.email,
+          picture: payload.picture,
+          id: payload.sub
+        });
+        navigate('/plateforme');
+      }
+    };
+
     const renderGoogleButton = () => {
       if (!window.google?.accounts?.id) return;
       window.google.accounts.id.initialize({

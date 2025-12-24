@@ -11,6 +11,7 @@ import ForgotPassword from './pages/ForgotPassword.jsx';
 import Loading from './pages/Loading.jsx';
 import Contact from './pages/Contact.jsx';
 import { ToastProvider } from './context/ToastContext.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 import ToastContainer from './components/ToastContainer.jsx';
 import NotificationSimulator from './components/NotificationSimulator.jsx';
 import ChatWidget from './components/ChatWidget.jsx';
@@ -21,26 +22,28 @@ function App() {
   const hideChat = authPaths.includes(location.pathname) || location.pathname === '/';
 
   return (
-    <ToastProvider>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Loading />} />
-          <Route path="/plateforme" element={<Home />} />
-          <Route path="/explorateur" element={<FieldExplorer />} />
-          <Route path="/analyses" element={<AnalyticsSuite />} />
-          <Route path="/solutions" element={<SolutionsHub />} />
-          <Route path="/a-propos" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/connexion" element={<Login />} />
-          <Route path="/inscription" element={<Register />} />
-          <Route path="/mot-de-passe-oublie" element={<ForgotPassword />} />
-          <Route path="*" element={<Navigate to="/plateforme" replace />} />
-        </Routes>
-      </Layout>
-      <ToastContainer />
-      <NotificationSimulator />
-      {!hideChat && <ChatWidget />}
-    </ToastProvider>
+    <AuthProvider>
+      <ToastProvider>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Loading />} />
+            <Route path="/plateforme" element={<Home />} />
+            <Route path="/explorateur" element={<FieldExplorer />} />
+            <Route path="/analyses" element={<AnalyticsSuite />} />
+            <Route path="/solutions" element={<SolutionsHub />} />
+            <Route path="/a-propos" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/connexion" element={<Login />} />
+            <Route path="/inscription" element={<Register />} />
+            <Route path="/mot-de-passe-oublie" element={<ForgotPassword />} />
+            <Route path="*" element={<Navigate to="/plateforme" replace />} />
+          </Routes>
+        </Layout>
+        <ToastContainer />
+        <NotificationSimulator />
+        {!hideChat && <ChatWidget />}
+      </ToastProvider>
+    </AuthProvider>
   );
 }
 
