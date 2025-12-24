@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
-import castro from '../assets/castro.png';
+import loginSatellite from '../assets/login_satellite.png';
 import '../styles/auth.css';
 
 function Login() {
@@ -46,7 +46,7 @@ function Login() {
       <div className="auth-split-clean">
 
         {/* Left Side: Professional Visual */}
-        <div className="auth-visual-clean" style={{ backgroundImage: `url(${castro})` }}>
+        <div className="auth-visual-clean" style={{ backgroundImage: `url(${loginSatellite})` }}>
           {/* Overlay handled in CSS */}
         </div>
 
