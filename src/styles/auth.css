@@ -173,20 +173,7 @@
 }
 
 .registration-wrapper {
-    max-height: 85vh;
-    overflow-y: auto;
-    padding-right: 1rem;
-    scrollbar-width: thin;
-    scrollbar-color: var(--glass-border) transparent;
-}
-
-.registration-wrapper::-webkit-scrollbar {
-    width: 6px;
-}
-
-.registration-wrapper::-webkit-scrollbar-thumb {
-    background: var(--glass-border);
-    border-radius: 10px;
+    width: 100%;
 }
 
 .checkbox-clean {
