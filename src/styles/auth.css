@@ -157,6 +157,36 @@
     justify-content: space-between;
     align-items: center;
     font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-row-clean {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+    .form-row-clean {
+        grid-template-columns: 1fr;
+    }
+}
+
+.registration-wrapper {
+    max-height: 85vh;
+    overflow-y: auto;
+    padding-right: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--glass-border) transparent;
+}
+
+.registration-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+.registration-wrapper::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 10px;
 }
 
 .checkbox-clean {
@@ -313,6 +343,7 @@
     margin-bottom: 0.5rem;
     background: var(--heading-gradient);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -443,6 +474,23 @@
     text-align: center;
     padding: 1rem 0;
     animation: fadeIn 0.5s ease-out;
+}
+
+.text-xs {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .success-icon-wrapper {
