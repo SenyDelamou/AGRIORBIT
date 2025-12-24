@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import {
   Bars3Icon,
@@ -11,7 +11,13 @@ import {
   DocumentTextIcon,
   InformationCircleIcon,
   PhoneIcon,
-  ArrowRightOnRectangleIcon
+  ArrowRightOnRectangleIcon,
+  UserIcon,
+  Cog6ToothIcon,
+  BellIcon,
+  ListBulletIcon,
+  QuestionMarkCircleIcon,
+  ChartPieIcon
 } from '@heroicons/react/24/outline';
 import { useTheme } from '../context/ThemeContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -46,24 +52,90 @@ function ThemeToggle() {
 
 function UserProfile({ user, logout }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const menuSections = [
+    {
+      label: 'Personnel',
+      items: [
+        { label: 'Mon Profil', icon: UserIcon, to: '/profil' },
+        { label: 'Mes Parcelles', icon: ListBulletIcon, to: '/explorateur' },
+        { label: 'Analyses IA', icon: ChartPieIcon, to: '/analyses' },
+      ]
+    },
+    {
+      label: 'Système',
+      items: [
+        { label: 'Notifications', icon: BellIcon, to: '/notifications', badge: 3 },
+        { label: 'Paramètres', icon: Cog6ToothIcon, to: '/parametres' },
+      ]
+    },
+    {
+      label: 'Assistance',
+      items: [
+        { label: 'Centre d\'aide', icon: QuestionMarkCircleIcon, to: '#' },
+      ]
+    }
+  ];
 
   return (
-    <div className="user-profile-nav">
-      <button className="profile-btn" onClick={() => setDropdownOpen(!dropdownOpen)}>
+    <div className="user-profile-nav" ref={dropdownRef}>
+      <button
+        className={`profile-btn ${dropdownOpen ? 'active' : ''}`}
+        onClick={() => setDropdownOpen(!dropdownOpen)}
+        aria-label="Menu utilisateur"
+      >
         <img src={user.picture} alt={user.name} className="profile-img" />
       </button>
 
       {dropdownOpen && (
         <div className="profile-dropdown">
-          <div className="dropdown-header">
-            <span className="user-name">{user.name}</span>
-            <span className="user-email">{user.email}</span>
+          <div className="dropdown-user-info">
+            <div className="info-avatar">
+              <img src={user.picture} alt="" />
+            </div>
+            <div className="info-text">
+              <span className="user-name">{user.name}</span>
+              <span className="user-email">{user.email}</span>
+            </div>
           </div>
-          <div className="dropdown-divider" />
-          <button onClick={logout} className="logout-btn">
-            <ArrowRightOnRectangleIcon className="logout-icon" />
-            Déconnexion
-          </button>
+
+          <div className="dropdown-content">
+            {menuSections.map((section, sIdx) => (
+              <div key={sIdx} className="dropdown-section">
+                <span className="section-label">{section.label}</span>
+                {section.items.map((item, iIdx) => (
+                  <Link
+                    key={iIdx}
+                    to={item.to}
+                    className="dropdown-item"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    <item.icon className="item-icon" />
+                    <span className="item-label">{item.label}</span>
+                    {item.badge && <span className="item-badge">{item.badge}</span>}
+                  </Link>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          <div className="dropdown-footer">
+            <button onClick={logout} className="logout-btn">
+              <ArrowRightOnRectangleIcon className="logout-icon" />
+              Déconnexion
+            </button>
+          </div>
         </div>
       )}
     </div>
