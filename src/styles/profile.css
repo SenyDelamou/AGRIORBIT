@@ -53,8 +53,8 @@
 }
 
 .avatar-wrapper-large img {
-    width: 140px;
-    height: 140px;
+    width: clamp(100px, 15vw, 140px);
+    height: clamp(100px, 15vw, 140px);
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid var(--accent-neon-green);
@@ -342,11 +342,6 @@
         flex-direction: column;
         text-align: center;
         gap: 1.5rem;
-    }
-
-    .avatar-wrapper-large img {
-        width: 120px;
-        height: 120px;
     }
 
     .user-name-display {
