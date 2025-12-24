@@ -1,26 +1,166 @@
+import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { EnvelopeIcon, ArrowLeftIcon, ShieldCheckIcon, LockClosedIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import '../styles/auth.css';
 
 function ForgotPassword() {
+  const [step, setStep] = useState(1);
+  const [email, setEmail] = useState('');
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const otpRefs = useRef([]);
+
+  const handleNext = (e) => {
+    e.preventDefault();
+    if (step < 3) setStep(step + 1);
+  };
+
+  const handleBack = () => {
+    if (step > 1) setStep(step - 1);
+  };
+
+  const handleOtpChange = (value, index) => {
+    if (isNaN(value)) return;
+
+    const newOtp = [...otp];
+    newOtp[index] = value.substring(value.length - 1);
+    setOtp(newOtp);
+
+    // Focus next input if value is entered
+    if (value && index < 5) {
+      otpRefs.current[index + 1].focus();
+    }
+  };
+
+  const handleOtpKeyDown = (e, index) => {
+    // Focus previous input on Backspace if current is empty
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      otpRefs.current[index - 1].focus();
+    }
+  };
+
+  const handleOtpPaste = (e) => {
+    e.preventDefault();
+    const data = e.clipboardData.getData('text').slice(0, 6);
+    if (!/^\d+$/.test(data)) return;
+
+    const newOtp = [...otp];
+    data.split('').forEach((char, i) => {
+      newOtp[i] = char;
+    });
+    setOtp(newOtp);
+
+    // Focus last filled input
+    const lastIdx = Math.min(data.length, 5);
+    if (otpRefs.current[lastIdx]) otpRefs.current[lastIdx].focus();
+  };
+
   return (
-    <div className="auth-page">
-      <div className="container auth-shell glass-panel">
-        <div className="auth-header">
-          <span className="badge">Réinitialisation</span>
-          <h1>Récupérez l’accès à votre cockpit.</h1>
-          <p>Entrez l’adresse e-mail associée à votre compte pour recevoir un lien de réinitialisation sécurisé.</p>
-        </div>
+    <div className="auth-page-clean auth-centered-wrapper">
+      <div className="auth-centered-container">
+        <div className="auth-card-clean">
+          {step === 1 ? (
+            <Link to="/connexion" className="back-link-clean">
+              <ArrowLeftIcon />
+              <span>Retour à la connexion</span>
+            </Link>
+          ) : (
+            <button onClick={handleBack} className="back-link-clean btn-reset">
+              <ArrowLeftIcon />
+              <span>Étape précédente</span>
+            </button>
+          )}
 
-        <form className="auth-form" aria-label="Mot de passe oublié">
-          <div className="form-group">
-            <label htmlFor="reset-email">Adresse e-mail</label>
-            <input id="reset-email" name="email" type="email" placeholder="nom@exploitation.com" required />
+          <div className="auth-header-minimal">
+            <h1>
+              {step === 1 && "Réinitialiser le mot de passe"}
+              {step === 2 && "Vérifiez votre email"}
+              {step === 3 && "Nouveau mot de passe"}
+            </h1>
+            <p>
+              {step === 1 && "Entrez votre email pour recevoir un code"}
+              {step === 2 && `Nous avons envoyé un code à ${email || 'votre@email.com'}`}
+              {step === 3 && "Définissez votre nouveau mot de passe sécurisé"}
+            </p>
           </div>
-          <button type="submit" className="button">Envoyer le lien de réinitialisation</button>
-        </form>
 
-        <div className="auth-footer">
-          <Link to="/connexion">Retour à la connexion</Link>
+          <div className="stepper-clean">
+            <div className={`step ${step >= 1 ? 'active' : ''} ${step > 1 ? 'completed' : ''}`}>
+              {step > 1 ? <CheckCircleIcon className="icon-step" /> : '1'}
+            </div>
+            <div className={`step-line ${step > 1 ? 'active' : ''}`}></div>
+            <div className={`step ${step >= 2 ? 'active' : ''} ${step > 2 ? 'completed' : ''}`}>
+              {step > 2 ? <CheckCircleIcon className="icon-step" /> : '2'}
+            </div>
+            <div className={`step-line ${step > 2 ? 'active' : ''}`}></div>
+            <div className={`step ${step >= 3 ? 'active' : ''}`}>3</div>
+          </div>
+
+          <form className="auth-form-clean" onSubmit={handleNext}>
+            {step === 1 && (
+              <div className="clean-input-group">
+                <label htmlFor="email">Adresse email</label>
+                <div className="input-wrapper">
+                  <EnvelopeIcon className="input-icon left" />
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="votre@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+            )}
+
+            {step === 2 && (
+              <div className="clean-input-group">
+                <label>Code de vérification</label>
+                <div className="otp-container">
+                  {otp.map((digit, index) => (
+                    <input
+                      key={index}
+                      type="text"
+                      className="otp-input"
+                      maxLength={1}
+                      value={digit}
+                      ref={(el) => (otpRefs.current[index] = el)}
+                      onChange={(e) => handleOtpChange(e.target.value, index)}
+                      onKeyDown={(e) => handleOtpKeyDown(e, index)}
+                      onPaste={handleOtpPaste}
+                      required
+                    />
+                  ))}
+                </div>
+                <p className="input-help">Vous n'avez pas reçu le code ? <span className="resend">Renvoyer</span></p>
+              </div>
+            )}
+
+            {step === 3 && (
+              <div className="step-3-group">
+                <div className="clean-input-group">
+                  <label htmlFor="password">Nouveau mot de passe</label>
+                  <div className="input-wrapper">
+                    <LockClosedIcon className="input-icon left" />
+                    <input id="password" type="password" placeholder="••••••••" required />
+                  </div>
+                </div>
+                <div className="clean-input-group">
+                  <label htmlFor="confirm-password">Confirmer le mot de passe</label>
+                  <div className="input-wrapper">
+                    <LockClosedIcon className="input-icon left" />
+                    <input id="confirm-password" type="password" placeholder="••••••••" required />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <button type="submit" className="button-clean-primary green-vibrant">
+              {step === 1 && "Envoyer le code"}
+              {step === 2 && "Vérifier le code"}
+              {step === 3 && "Réinitialiser"}
+            </button>
+          </form>
         </div>
       </div>
     </div>
