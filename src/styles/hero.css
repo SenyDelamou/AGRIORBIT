@@ -17,7 +17,8 @@
 
 .hero-slide {
   position: absolute;
-  inset: 0;
+  inset: -20px;
+  /* Allow wiggle room */
   background-size: cover;
   background-position: center;
   opacity: 0;
@@ -28,19 +29,14 @@
 
 .hero-slide.active {
   opacity: 1;
-  animation: ken-burns 12s linear forwards;
+  /* Combine Ken Burns with Parallax */
+  transform: translate(calc(var(--mouse-x, 0px) * -1), calc(var(--mouse-y, 0px) * -1)) scale(1.05);
+  transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1);
+  /* Quick response for mouse */
   z-index: 1;
 }
 
-@keyframes ken-burns {
-  0% {
-    transform: scale(1.1) translate(0, 0);
-  }
-
-  100% {
-    transform: scale(1.0) translate(0, 0);
-  }
-}
+/* Note: Removed keyframe animation to prioritize interactive parallax */
 
 /* Gradient Overlay - Adaptive for themes */
 .hero-overlay {

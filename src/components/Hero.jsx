@@ -24,7 +24,21 @@ function Hero({
       setCurrentIdx((prev) => (prev + 1) % images.length);
     }, 6000); // 6 seconds per slide
     return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, [images.length]);
+
+  // Parallax Effect Logic
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20; // -10 to 10
+      const y = (e.clientY / window.innerHeight - 0.5) * 20; // -10 to 10
+      document.documentElement.style.setProperty('--mouse-x', `${x}px`);
+      document.documentElement.style.setProperty('--mouse-y', `${y}px`);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
   const renderPrimary = () => {
     if (!ctaLabel) return null;
     return ctaTo ? (
