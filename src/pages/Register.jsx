@@ -36,21 +36,46 @@ function Register() {
       return;
     }
 
-    // Simuler la création de compte
-    const user = {
-      name: `${formData.firstname} ${formData.lastname}`,
-      email: formData.email,
-      organisation: formData.organisation,
-      picture: `https://ui-avatars.com/api/?name=${formData.firstname}+${formData.lastname}&background=random`,
-      id: Date.now().toString(),
-      provider: 'local',
-      preferredLanguage: formData.language
-    };
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
-    setLang(formData.language);
-    login(user);
-    navigate('/plateforme');
+    // Appeler le backend pour l'inscription
+    fetch(`${apiUrl}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstname: formData.firstname,
+        lastname: formData.lastname,
+        organisation: formData.organisation,
+        email: formData.email,
+        password: formData.password,
+        language: formData.language
+      }),
+    })
+      .then(res => {
+        if (!res.ok) {
+          return res.json().then(err => { throw new Error(err.message || 'Erreur lors de l\'inscription'); });
+        }
+        return res.json();
+      })
+      .then(data => {
+        console.log('Inscription réussie :', data);
+
+        setLang(formData.language);
+        login(data.user);
+
+        if (data.accessToken) {
+          localStorage.setItem('agri_orbit_token', data.accessToken);
+        }
+
+        navigate('/plateforme');
+      })
+      .catch(err => {
+        console.error('Erreur inscription :', err);
+        alert(err.message);
+      });
   };
+ pieces of code in Register.jsx
+
 
   return (
     <div className="auth-page-clean">

@@ -17,46 +17,38 @@ function Login() {
     if (!googleClientId || !googleButtonRef.current) return;
 
     const handleCredentialResponse = (response) => {
-      // Décoder le token Google
-      const payload = JSON.parse(atob(response.credential.split('.')[1]));
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
-      const user = {
-        name: payload.name,
-        email: payload.email,
-        picture: payload.picture,
-        id: payload.sub,
-        provider: 'google'
-      };
-
-      // Optionnel : afficher les infos sur la page (exemple)
-      console.log("Utilisateur connecté :", user);
-
-      // Connecter l'utilisateur dans l'application
-      login(user);
-
-      // Envoyer l'email de bienvenue via votre backend sécurisé
-      fetch('/api/send-welcome-email', {
+      // Appeler le backend pour valider le token Google
+      fetch(`${apiUrl}/auth/google`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: user.email,
-          name: user.name
-        }),
+        body: JSON.stringify({ credential: response.credential }),
       })
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) throw new Error('Erreur d\'authentification Google');
+          return res.json();
+        })
         .then(data => {
-          console.log('Réponse backend :', data);
-          if (data.success) {
-            console.log("Email de bienvenue envoyé !");
+          console.log('Connexion réussie :', data);
+
+          // Connecter l'utilisateur avec les données renvoyées par le backend
+          login(data.user);
+
+          // Stocker les tokens (si vous voulez les utiliser plus tard)
+          if (data.accessToken) {
+            localStorage.setItem('agri_orbit_token', data.accessToken);
           }
+
+          const origin = location.state?.from?.pathname || '/plateforme';
+          navigate(origin);
         })
         .catch(err => {
-          console.error('Erreur envoi email :', err);
+          console.error('Erreur Google Auth :', err);
+          alert("Erreur lors de la connexion avec Google. Veuillez réessayer.");
         });
-
-      const origin = location.state?.from?.pathname || '/plateforme';
-      navigate(origin);
     };
+
 
     const renderGoogleButton = () => {
       if (!window.google?.accounts?.id) {
