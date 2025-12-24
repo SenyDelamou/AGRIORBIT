@@ -76,10 +76,10 @@
 /* Light Mode Overrides for "Pill" Style */
 [data-theme='light'] .hero-chips,
 [data-theme='light'] .hero-snapshot {
-  background: #ffffff;
-  border-color: rgba(0, 0, 0, 0.05);
+  background: var(--bg-panel);
+  border-color: var(--glass-border);
   backdrop-filter: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  box-shadow: var(--glass-shadow);
 }
 
 [data-theme='light'] .hero-chips .chip {
@@ -377,7 +377,7 @@
   background: linear-gradient(135deg, var(--accent-data-blue), var(--accent-neon-green));
   display: grid;
   place-items: center;
-  color: #050B14;
+  color: #000;
   font-weight: 800;
   font-size: 1.2rem;
 }
@@ -392,8 +392,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.05);
+  background: var(--glass-surface-light);
+  border-radius: var(--radius-sm);
 }
 
 .metric-tile strong {
@@ -436,7 +436,7 @@
 
 .testimonial-form input,
 .testimonial-form textarea {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--glass-surface-light);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   padding: 1rem 1.25rem;
@@ -498,9 +498,15 @@
   align-items: center;
   justify-content: space-between;
   padding: 3rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-lg);
+}
+
+[data-theme='dark'] .demo-panel {
   background: linear-gradient(120deg, rgba(56, 189, 248, 0.1), rgba(10, 22, 37, 0.8));
-  border: 1px solid rgba(56, 189, 248, 0.3);
-  box-shadow: 0 0 50px rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.3);
 }
 
 .demo-panel h2 {
@@ -550,10 +556,12 @@
   flex-direction: column;
   gap: 1.5rem;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  background: rgba(10, 22, 37, 0.3);
+  background: var(--bg-panel);
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-md);
+  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--glass-border);
 }
 
 .why-card::before {
@@ -570,9 +578,9 @@
 
 .why-card:hover {
   transform: translateY(-8px);
-  background: rgba(10, 22, 37, 0.6);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border-color: rgba(56, 189, 248, 0.4);
+  background: var(--glass-surface);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border-color: var(--accent-data-blue);
 }
 
 .why-card:hover::before {

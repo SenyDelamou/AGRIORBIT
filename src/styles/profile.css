@@ -28,12 +28,19 @@
 }
 
 .surface-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-panel);
+    border: 1px solid var(--glass-border);
     backdrop-filter: blur(12px);
     border-radius: 28px;
     padding: 2.5rem;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: var(--glass-shadow);
+}
+
+[data-theme='dark'] .surface-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
 }
 
 .surface-card:hover {
@@ -118,9 +125,9 @@
 }
 
 .edit-input {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--glass-surface-light);
     border: 2px solid var(--accent-neon-green);
-    color: white;
+    color: var(--text-primary);
     padding: 0.6rem 1rem;
     border-radius: 12px;
     font-size: 1.8rem;
@@ -156,8 +163,9 @@
 }
 
 .action-btn.cancel {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    background: var(--secondary-button-hover-bg);
+    border: 1px solid var(--secondary-button-border);
+    color: var(--text-primary);
 }
 
 /* Security Section */
@@ -193,18 +201,17 @@
 }
 
 .form-group input {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--glass-surface-light);
+    border: 1px solid var(--glass-border);
     padding: 1rem 1.2rem;
     border-radius: 14px;
-    color: white;
+    color: var(--text-primary);
     outline: none;
     transition: all 0.2s;
 }
 
 .form-group input:focus {
     border-color: var(--accent-neon-green);
-    background: rgba(52, 211, 153, 0.05);
 }
 
 .form-footer {
@@ -215,9 +222,9 @@
 
 .btn-cancel {
     flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: none;
-    color: white;
+    background: var(--secondary-button-hover-bg);
+    border: 1px solid var(--secondary-button-border);
+    color: var(--text-primary);
     padding: 1rem;
     border-radius: 14px;
     cursor: pointer;
@@ -264,14 +271,21 @@
 }
 
 .stat-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--bg-panel);
+    border: 1px solid var(--glass-border);
     padding: 2.5rem;
     border-radius: 28px;
     display: flex;
     align-items: center;
     gap: 1.5rem;
     transition: all 0.3s ease;
+    box-shadow: var(--glass-shadow);
+}
+
+[data-theme='dark'] .stat-card {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.05);
+    box-shadow: none;
 }
 
 .stat-card:hover {
@@ -291,7 +305,7 @@
     display: block;
     font-size: 2.5rem;
     font-weight: 800;
-    color: white;
+    color: var(--text-primary);
     margin-bottom: 0.2rem;
 }
 
