@@ -8,7 +8,7 @@ import {
   ArrowRightIcon,
   CheckCircleIcon
 } from '@heroicons/react/24/outline';
-import loginSatellite from '../assets/login_satellite.png';
+import registerVisual from '../assets/register_visual.png';
 import '../styles/auth.css';
 
 function Register() {
@@ -24,7 +24,7 @@ function Register() {
       <div className="auth-split-clean">
 
         {/* Left Side: Professional Visual */}
-        <div className="auth-visual-clean" style={{ backgroundImage: `url(${loginSatellite})` }}>
+        <div className="auth-visual-clean" style={{ backgroundImage: `url(${registerVisual})` }}>
           {/* Overlay handled in CSS */}
         </div>
 
