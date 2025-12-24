@@ -3,7 +3,6 @@ import Hero from '../components/Hero.jsx';
 import { homeImages } from '../data/heroImages.js';
 import castro from '../assets/castro.png';
 import '../styles/home.css';
-import ChatWidget from '../components/ChatWidget.jsx';
 
 const capabilityCards = [
   {
@@ -395,7 +394,6 @@ function Home() {
         </div>
       </section>
 
-      <ChatWidget />
     </div>
   );
 }

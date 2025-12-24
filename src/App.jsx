@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/Layout.jsx';
 import Home from './pages/Home.jsx';
 import FieldExplorer from './pages/FieldExplorer.jsx';
@@ -10,12 +10,16 @@ import Register from './pages/Register.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import Loading from './pages/Loading.jsx';
 import Contact from './pages/Contact.jsx';
-import { Navigate } from 'react-router-dom';
 import { ToastProvider } from './context/ToastContext.jsx';
 import ToastContainer from './components/ToastContainer.jsx';
 import NotificationSimulator from './components/NotificationSimulator.jsx';
+import ChatWidget from './components/ChatWidget.jsx';
 
 function App() {
+  const location = useLocation();
+  const authPaths = ['/connexion', '/inscription', '/mot-de-passe-oublie'];
+  const hideChat = authPaths.includes(location.pathname) || location.pathname === '/';
+
   return (
     <ToastProvider>
       <Layout>
@@ -35,6 +39,7 @@ function App() {
       </Layout>
       <ToastContainer />
       <NotificationSimulator />
+      {!hideChat && <ChatWidget />}
     </ToastProvider>
   );
 }

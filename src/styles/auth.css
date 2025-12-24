@@ -1,8 +1,9 @@
 /* Clean Theme Auth - AgriOrbit Dark Mode */
 .auth-page-clean {
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     background: var(--bg-deep-space);
     /* Site Theme Background */
     font-family: 'Inter', sans-serif;
@@ -12,7 +13,7 @@
 .auth-split-clean {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    height: 100%;
+    min-height: 100vh;
 }
 
 @media (max-width: 960px) {
@@ -72,8 +73,9 @@
     max-width: 420px;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
     z-index: 1;
+    padding: 2rem 0;
 }
 
 /* Header */
