@@ -21,6 +21,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useTheme } from '../context/ThemeContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
+import { useLanguage } from '../context/LanguageContext.jsx';
 import logo from '../assets/logo.png';
 import '../styles/layout.css';
 
@@ -52,6 +53,7 @@ function ThemeToggle() {
 
 function UserProfile({ user, logout }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { t } = useLanguage();
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -66,24 +68,24 @@ function UserProfile({ user, logout }) {
 
   const menuSections = [
     {
-      label: 'Personnel',
+      label: t('Personnel'), // We can add a translation for sections if needed, but let's stick to keys
       items: [
-        { label: 'Mon Profil', icon: UserIcon, to: '/profil' },
-        { label: 'Mes Parcelles', icon: ListBulletIcon, to: '/explorateur' },
-        { label: 'Analyses IA', icon: ChartPieIcon, to: '/analyses' },
+        { label: t('profile'), icon: UserIcon, to: '/profil' },
+        { label: t('nav_explorer'), icon: ListBulletIcon, to: '/explorateur' },
+        { label: t('nav_analytics'), icon: ChartPieIcon, to: '/analyses' },
       ]
     },
     {
-      label: 'Système',
+      label: t('System'),
       items: [
-        { label: 'Notifications', icon: BellIcon, to: '/notifications', badge: 3 },
-        { label: 'Paramètres', icon: Cog6ToothIcon, to: '/parametres' },
+        { label: t('notifications'), icon: BellIcon, to: '/notifications', badge: 3 },
+        { label: t('settings'), icon: Cog6ToothIcon, to: '/parametres' },
       ]
     },
     {
-      label: 'Assistance',
+      label: t('Assistance'),
       items: [
-        { label: 'Centre d\'aide', icon: QuestionMarkCircleIcon, to: '#' },
+        { label: t('footer_help'), icon: QuestionMarkCircleIcon, to: '#' },
       ]
     }
   ];
@@ -133,7 +135,7 @@ function UserProfile({ user, logout }) {
           <div className="dropdown-footer">
             <button onClick={logout} className="logout-btn">
               <ArrowRightOnRectangleIcon className="logout-icon" />
-              Déconnexion
+              {t('logout')}
             </button>
           </div>
         </div>
@@ -143,10 +145,20 @@ function UserProfile({ user, logout }) {
 }
 
 function Layout({ children }) {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Renamed menuOpen to mobileMenuOpen
   const [scrolled, setScrolled] = useState(false);
   const { user, logout } = useAuth();
+  const { t } = useLanguage(); // Added t for Layout
   const location = useLocation();
+
+  const navLinks = [
+    { to: '/plateforme', label: t('nav_home'), Icon: HomeIcon },
+    { to: '/explorateur', label: t('nav_explorer'), Icon: GlobeAltIcon },
+    { to: '/analyses', label: t('nav_analytics'), Icon: ChartBarIcon },
+    { to: '/solutions', label: t('nav_solutions'), Icon: DocumentTextIcon },
+    { to: '/a-propos', label: t('nav_about'), Icon: InformationCircleIcon },
+    { to: '/contact', label: t('nav_contact'), Icon: PhoneIcon }
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -158,12 +170,12 @@ function Layout({ children }) {
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
-    if (menuOpen) {
+    if (mobileMenuOpen) { // Changed menuOpen to mobileMenuOpen
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
-  }, [menuOpen]);
+  }, [mobileMenuOpen]); // Changed menuOpen to mobileMenuOpen
 
   const authPaths = ['/connexion', '/inscription', '/mot-de-passe-oublie'];
   const hideChrome = authPaths.includes(location.pathname) || location.pathname === '/';
@@ -180,19 +192,19 @@ function Layout({ children }) {
               </div>
               <div className="brand-info">
                 <span className="brand-name">Agri Orbit</span>
-                <span className="brand-subtitle">DATA & AGRONOMIE AU SERVICE DU TERRAIN</span>
+                <span className="brand-subtitle">{t('brand_subtitle')}</span>
               </div>
             </Link>
 
             {/* Zone 2: Navigation (Center) */}
-            <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
+            <nav className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}> {/* Changed menuOpen to mobileMenuOpen */}
               <div className="mobile-menu-header">
-                <Link to="/plateforme" className="brand" onClick={() => setMenuOpen(false)}>
+                <Link to="/plateforme" className="brand" onClick={() => setMobileMenuOpen(false)}> {/* Changed setMenuOpen to setMobileMenuOpen */}
                   <div className="brand-logo-wrapper">
                     <img src={logo} alt="Agri Orbit" className="brand-logo" />
                   </div>
                 </Link>
-                <button className="menu-close" onClick={() => setMenuOpen(false)}>
+                <button className="menu-close" onClick={() => setMobileMenuOpen(false)}> {/* Changed setMenuOpen to setMobileMenuOpen */}
                   <XMarkIcon className="icon" />
                 </button>
               </div>
@@ -202,7 +214,7 @@ function Layout({ children }) {
                   <NavLink
                     key={link.to}
                     to={link.to}
-                    onClick={() => setMenuOpen(false)}
+                    onClick={() => setMobileMenuOpen(false)} // Changed setMenuOpen to setMobileMenuOpen
                     className={({ isActive }) => (isActive ? 'nav-pill active' : 'nav-pill')}
                     style={{ '--index': index }}
                   >
@@ -217,16 +229,16 @@ function Layout({ children }) {
                 {!user ? (
                   <NavLink
                     to="/connexion"
-                    onClick={() => setMenuOpen(false)}
+                    onClick={() => setMobileMenuOpen(false)} // Changed setMenuOpen to setMobileMenuOpen
                     className="login-pill"
                   >
                     <ArrowRightOnRectangleIcon className="nav-icon" />
-                    <span>Connexion</span>
+                    <span>{t('nav_login')}</span>
                   </NavLink>
                 ) : (
-                  <button onClick={logout} className="login-pill">
+                  <button onClick={() => { logout(); setMobileMenuOpen(false); }} className="login-pill"> {/* Changed setMenuOpen to setMobileMenuOpen */}
                     <ArrowRightOnRectangleIcon className="nav-icon" />
-                    <span>Déconnexion</span>
+                    <span>{t('nav_logout')}</span>
                   </button>
                 )}
                 <ThemeToggle />
@@ -241,7 +253,7 @@ function Layout({ children }) {
                   className="login-pill"
                 >
                   <ArrowRightOnRectangleIcon className="nav-icon" />
-                  <span>Connexion</span>
+                  <span>{t('nav_login')}</span>
                 </NavLink>
               ) : (
                 <UserProfile user={user} logout={logout} />
@@ -251,8 +263,8 @@ function Layout({ children }) {
 
             <button
               className="menu-toggle"
-              aria-label="Ouvrir le menu"
-              onClick={() => setMenuOpen(true)}
+              aria-label={t('menu_toggle_label')}
+              onClick={() => setMobileMenuOpen(true)} // Changed setMenuOpen to setMobileMenuOpen
             >
               <Bars3Icon className="icon" />
             </button>
@@ -266,49 +278,56 @@ function Layout({ children }) {
         <footer className="footer-shell">
           <div className="container footer-cta">
             <div className="cta-content">
-              <h3>Prêt à optimiser vos terres ?</h3>
-              <p>Rejoignez les innovateurs qui transforment l'agriculture avec la data.</p>
+              <h3>{t('footer_cta_heading')}</h3>
+              <p>{t('footer_cta_text')}</p>
             </div>
-            <Link to="/contact" className="button">Démarrer maintenant</Link>
+            <Link to="/contact" className="button">{t('footer_cta_button')}</Link>
           </div>
 
           <div className="container footer-inner">
             <div className="footer-brand">
-              <img src={logo} alt="Agri Orbit" className="footer-logo" />
-              <p>Data & agronomie au service du terrain pour une agriculture de précision durable.</p>
+              <div className="brand-lockup">
+                <span className="brand-logo">AO</span>
+                <span className="brand-name">Agri Orbit</span>
+              </div>
+              <p className="footer-tagline">
+                {t('footer_tagline')}
+              </p>
               <div className="social-links">
                 <a href="#" aria-label="LinkedIn"><i className="social-icon">in</i></a>
                 <a href="#" aria-label="Twitter"><i className="social-icon">X</i></a>
                 <a href="#" aria-label="YouTube"><i className="social-icon">YT</i></a>
               </div>
             </div>
-            <div className="footer-links">
-              <div>
-                <span className="footer-heading">Plateforme</span>
-                <Link to="/explorateur">Cartographie</Link>
-                <Link to="/analyses">Modèles IA</Link>
-                <Link to="/solutions">Rapports</Link>
+
+            <div className="footer-links-grid">
+              <div className="footer-col">
+                <h4>{t('footer_platform')}</h4>
+                <Link to="/explorateur">{t('footer_carto')}</Link>
+                <Link to="/analyses">{t('footer_ia')}</Link>
+                <Link to="/solutions">{t('footer_reports')}</Link>
               </div>
-              <div>
-                <span className="footer-heading">Société</span>
-                <Link to="/a-propos">À propos</Link>
-                <Link to="#">Carrières</Link>
-                <Link to="#">Blog</Link>
+              <div className="footer-col">
+                <h4>{t('footer_company')}</h4>
+                <Link to="/a-propos">{t('nav_about')}</Link>
+                <Link to="#">{t('footer_careers')}</Link>
+                <Link to="#">{t('footer_blog')}</Link>
               </div>
-              <div>
-                <span className="footer-heading">Aide</span>
-                <Link to="/contact">Contact</Link>
-                <Link to="#">Documentation</Link>
-                <Link to="#">État du système</Link>
+              <div className="footer-col">
+                <h4>{t('footer_help')}</h4>
+                <Link to="/contact">{t('nav_contact')}</Link>
+                <Link to="#">{t('footer_doc')}</Link>
+                <Link to="#">{t('footer_status')}</Link>
               </div>
             </div>
           </div>
+
           <div className="container footer-meta">
-            <span>© {new Date().getFullYear()} Agri Orbit Analytics. Tous droits réservés.</span>
+            <span>© {new Date().getFullYear()} Agri Orbit Analytics. {t('footer_rights')}</span>
             <div className="footer-meta-links">
-              <Link to="#">Mentions Légales</Link>
-              <Link to="#">Confidentialité</Link>
-              <Link to="#">Sécurité</Link>
+              <Link to="#">{t('footer_legal')}</Link>
+              <Link to="#">{t('footer_privacy')}</Link>
+              <Link to="#">{t('footer_security')}</Link>
             </div>
           </div>
         </footer>

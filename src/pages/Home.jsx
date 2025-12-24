@@ -7,107 +7,10 @@ import AnimatedCounter from '../components/AnimatedCounter.jsx';
 import GlowCard from '../components/GlowCard.jsx';
 import MagneticButton from '../components/MagneticButton.jsx';
 import { useScrollReveal } from '../hooks/useScrollReveal.js';
-
-const capabilityCards = [
-  {
-    title: 'Cartographie temps réel',
-    kpi: '+4 constellations',
-    description:
-      'Synchronisez vos parcelles avec Sentinel, PlanetScope et Landsat pour visualiser en continu l’évolution de vos cultures.'
-  },
-  {
-    title: 'Modélisation de rendement',
-    kpi: 'Précision 95%',
-    description:
-      'Couplez historiques météo, données sols et imagerie multi-spectrale pour simuler vos récoltes et sécuriser vos campagnes.'
-  },
-  {
-    title: 'Surveillance sanitaire proactive',
-    kpi: '-12 j d’alerte',
-    description:
-      'Détectez stress hydrique, maladies foliaires et carences nutritionnelles avant les premiers symptômes terrain.'
-  }
-];
-
-const workflowSteps = [
-  {
-    step: '01',
-    title: 'Importer une zone',
-    description: 'Saisissez les coordonnées ou chargez un fichier GeoJSON/KML pour définir vos limites de parcelle.'
-  },
-  {
-    step: '02',
-    title: 'Analyser les images',
-    description: 'Notre moteur fusionne imagerie satellite, météo et historique cultural pour bâtir des tableaux interactifs.'
-  },
-  {
-    step: '03',
-    title: 'Décider & agir',
-    description: 'Accédez aux recommandations agronomiques et partagez-les avec vos coopératives ou techniciens terrain.'
-  }
-];
-
-const insightHighlights = [
-  {
-    metric: '+37%',
-    label: 'de rendement moyen sur trois saisons pilotes'
-  },
-  {
-    metric: '12 h',
-    label: 'entre détection satellite et diagnostic terrain'
-  },
-  {
-    metric: '98%',
-    label: 'de précision sur les alertes sanitaires croisées'
-  }
-];
-
-const testimonial = {
-  quote:
-    'Grâce à Agri Orbit, nos équipes terrain anticipent les stress hydriques et ajustent les intrants avant même d’observer un symptôme. Le pilotage est enfin aligné entre la coopérative et les exploitants.',
-  name: 'Fatou Ndiaye',
-  role: 'Directrice Innovation, Coopérative AgriSun',
-  metrics: [
-    { label: 'Économie d’intrants', value: '-18%' },
-    { label: 'Alertes pertinentes', value: '92%' },
-    { label: 'Adoption terrain', value: '120 exploitants' }
-  ]
-};
-
-const whyChoose = [
-  {
-    title: 'Intégration API ouverte',
-    description:
-      'Connectez vos ERP agricoles, outils BI et plateformes coopératives via des APIs sécurisées et documentées.',
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-      </svg>
-    )
-  },
-  {
-    title: 'Gouvernance des données',
-    description:
-      'Infrastructure hébergée dans l’UE, chiffrement de bout en bout, conformité RGPD et audit trail complet.',
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-    )
-  },
-  {
-    title: 'Accompagnement agronome',
-    description:
-      'Équipe d’agronomes data pour cadrer vos cas d’usage, former les équipes terrain et suivre la performance dans le temps.',
-    icon: (
-      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    )
-  }
-];
+import { useLanguage } from '../context/LanguageContext.jsx';
 
 function TestimonialForm() {
+  const { t } = useLanguage();
   const [showForm, setShowForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -119,7 +22,6 @@ function TestimonialForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.info('Témoignage soumis :', formData);
     setSubmitted(true);
   };
 
@@ -128,9 +30,11 @@ function TestimonialForm() {
       <section className="section testimonial-form-section">
         <div className="container glass-panel form-success">
           <div className="success-icon">✓</div>
-          <h2>Merci pour votre confiance !</h2>
-          <p>Votre témoignage a été transmis à nos équipes agronomiques. Il sera examiné avant d'être publié sur la plateforme.</p>
-          <MagneticButton type="button" className="button" onClick={() => setSubmitted(false)}>Rédiger un autre avis</MagneticButton>
+          <h2>{t('testi_form_success_title')}</h2>
+          <p>{t('testi_form_success_desc')}</p>
+          <MagneticButton type="button" className="button" onClick={() => setSubmitted(false)}>
+            {t('testi_form_cta')}
+          </MagneticButton>
         </div>
       </section>
     );
@@ -141,12 +45,12 @@ function TestimonialForm() {
       <section className="section testimonial-form-section">
         <div className="container" style={{ textAlign: 'center', padding: '4rem 0' }}>
           <header className="section-header" style={{ margin: '0 auto 2rem' }}>
-            <span className="tag">Votre avis nous intéresse</span>
-            <h2>Vous utilisez Agri Orbit ?</h2>
-            <p>Partagez votre expérience et aidez d'autres exploitants à franchir le pas de l'agriculture de précision.</p>
+            <span className="tag">{t('testi_form_tag')}</span>
+            <h2>{t('testi_form_title')}</h2>
+            <p>{t('testi_form_desc')}</p>
           </header>
-          <MagneticButton className="button" to="/temoignages/nouveau" onClick={(e) => { e.preventDefault(); setShowForm(true); }}>
-            Rédiger un témoignage
+          <MagneticButton className="button" to="#" onClick={(e) => { e.preventDefault(); setShowForm(true); }}>
+            {t('testi_form_cta')}
           </MagneticButton>
         </div>
       </section>
@@ -157,9 +61,9 @@ function TestimonialForm() {
     <section className="section testimonial-form-section">
       <div className="container glass-panel">
         <header className="section-header">
-          <span className="tag">Partagez votre expérience</span>
+          <span className="tag">{t('testi_form_tag')}</span>
           <h2>Devenez un ambassadeur Agri Orbit</h2>
-          <p>Votre retour terrain est précieux. Partagez l'impact de nos analyses satellite sur votre exploitation.</p>
+          <p>{t('testi_form_desc')}</p>
         </header>
 
         <form className="testimonial-form" onSubmit={handleSubmit}>
@@ -194,25 +98,14 @@ function TestimonialForm() {
               id="t-quote"
               required
               rows="4"
-              placeholder="Décrivez comment Agri Orbit a changé votre quotidien..."
+              placeholder="..."
               value={formData.quote}
               onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
             ></textarea>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="t-metric">Métrique d'impact (Optionnel)</label>
-            <input
-              id="t-metric"
-              type="text"
-              placeholder="Ex: +15% de rendement, -20% d'intrants..."
-              value={formData.metric}
-              onChange={(e) => setFormData({ ...formData, metric: e.target.value })}
-            />
-          </div>
-
           <button type="submit" className="button">
-            Publier mon témoignage
+            {t('testi_form_submit')}
           </button>
         </form>
       </div>
@@ -222,16 +115,100 @@ function TestimonialForm() {
 
 function Home() {
   useScrollReveal();
+  const { t } = useLanguage();
+
+  const capabilityCards = [
+    {
+      title: t('cap_card1_title'),
+      kpi: '+4 constellations',
+      description: t('cap_card1_desc')
+    },
+    {
+      title: t('cap_card2_title'),
+      kpi: 'Précision 95%',
+      description: t('cap_card2_desc')
+    },
+    {
+      title: t('cap_card3_title'),
+      kpi: '-12 j d’alerte',
+      description: t('cap_card3_desc')
+    }
+  ];
+
+  const workflowSteps = [
+    {
+      step: '01',
+      title: t('methodo_step1'),
+      description: t('methodo_step1_desc')
+    },
+    {
+      step: '02',
+      title: t('methodo_step2'),
+      description: t('methodo_step2_desc')
+    },
+    {
+      step: '03',
+      title: t('methodo_step3'),
+      description: t('methodo_step3_desc')
+    }
+  ];
+
+  const insightHighlights = [
+    { metric: '+37%', label: t('impact_metric1') },
+    { metric: '12 h', label: t('impact_metric2') },
+    { metric: '98%', label: t('impact_metric3') }
+  ];
+
+  const whyChoose = [
+    {
+      title: t('why_us_title_1', 'Intégration API ouverte'), // Placeholder keys if not in context yet
+      description: t('why_us_desc_1', 'Connectez vos ERP agricoles, outils BI et plateformes coopératives via des APIs sécurisées et documentées.'),
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      )
+    },
+    {
+      title: t('why_us_title_2', 'Gouvernance des données'),
+      description: t('why_us_desc_2', 'Infrastructure hébergée dans l’UE, chiffrement de bout en bout, conformité RGPD et audit trail complet.'),
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+      )
+    },
+    {
+      title: t('why_us_title_3', 'Accompagnement agronome'),
+      description: t('why_us_desc_3', 'Équipe d’agronomes data pour cadrer vos cas d’usage, former les équipes terrain et suivre la performance dans le temps.'),
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      )
+    }
+  ];
+
+  const testimonial = {
+    quote: t('testi_quote', 'Grâce à Agri Orbit, nos équipes terrain anticipent les stress hydriques et ajustent les intrants avant même d’observer un symptôme. Le pilotage est enfin aligné entre la coopérative et les exploitants.'),
+    name: 'Fatou Ndiaye',
+    role: t('testi_role', 'Directrice Innovation, Coopérative AgriSun'),
+    metrics: [
+      { label: t('testi_metric1'), value: '-18%' },
+      { label: t('testi_metric2'), value: '92%' },
+      { label: t('testi_metric3'), value: '120 exploitants' }
+    ]
+  };
 
   return (
     <div className="home-page">
       <Hero
-        eyebrow="Plateforme d’orchestration agronomique"
-        title="Supervisez vos cultures avec l’observation spatiale et l’intelligence prédictive"
-        subtitle="Agri Orbit consolide imagerie satellite, données sols et météo pour fournir des tableaux de bord opérationnels et prêts pour la décision."
-        ctaLabel="Explorer la plateforme"
+        eyebrow={t('hero_eyebrow')}
+        title={t('hero_title')}
+        subtitle={t('hero_subtitle')}
+        ctaLabel={t('hero_cta')}
         ctaTo="/explorateur"
-        secondaryLabel="Planifier une démonstration"
+        secondaryLabel={t('hero_secondary')}
         secondaryHref="#demo"
         images={homeImages}
       />
@@ -239,13 +216,13 @@ function Home() {
       <section className="section hero-followup">
         <div className="container hero-followup-grid">
           <div className="hero-chips surface-card">
-            <span className="chip">Partenaires ESA Copernicus</span>
-            <span className="chip">ISO 27001 en cours</span>
-            <span className="chip">Infrastructure UE</span>
+            <span className="chip">{t('hero_chip_esa')}</span>
+            <span className="chip">{t('hero_chip_iso')}</span>
+            <span className="chip">{t('hero_chip_eu')}</span>
           </div>
           <div className="hero-snapshot surface-card">
             <strong>NDVI 0.78</strong>
-            <p>Vigueur optimale parcelle maïs hybride / périmètre Delta.</p>
+            <p>{t('hero_ndvi_status')}</p>
           </div>
         </div>
       </section>
@@ -253,11 +230,9 @@ function Home() {
       <section className="section capabilities reveal-on-scroll">
         <div className="container">
           <header className="section-header">
-            <span className="tag">Ce que vous pouvez faire</span>
-            <h2>Un cockpit décisionnel pour piloter vos cultures</h2>
-            <p>
-              Une console unifiée qui fédère cartographie, analytics, plans d’actions et reporting pour vos équipes agronomiques, coopératives et investisseurs.
-            </p>
+            <span className="tag">{t('cap_tag')}</span>
+            <h2>{t('cap_title')}</h2>
+            <p>{t('cap_desc')}</p>
           </header>
           <div className="grid capability-grid">
             {capabilityCards.map((card) => (
@@ -278,12 +253,9 @@ function Home() {
       <section className="section workflow reveal-on-scroll">
         <div className="container glass-panel workflow-panel">
           <div className="workflow-intro">
-            <span className="badge">Méthodologie</span>
-            <h2>Une chaîne complète, de la donnée à l’action terrain</h2>
-            <p>
-              Chaque étape est automatisée et documentée : choisissez vos parcelles, laissez l’IA analyser, recevez les alertes et planifiez les interventions avec vos équipes sur
-              le terrain.
-            </p>
+            <span className="badge">{t('methodo_tag')}</span>
+            <h2>{t('methodo_title')}</h2>
+            <p>{t('methodo_desc')}</p>
           </div>
           <div className="workflow-steps">
             {workflowSteps.map((item) => (
@@ -302,22 +274,16 @@ function Home() {
       <section className="section home-founder">
         <div className="container glass-panel home-founder-panel">
           <div className="home-founder-image">
-            <img
-              src={castro}
-              alt="Dr. Castro Hounmenou"
-              className="founder-portrait"
-            />
-            <div className="founder-badge">Le Visionnaire</div>
+            <img src={castro} alt="Dr. Castro Hounmenou" className="founder-portrait" />
+            <div className="founder-badge">{t('founder_badge')}</div>
           </div>
           <div className="home-founder-content">
-            <span className="tag">L'Origine du Projet</span>
-            <h2>Une idée née de la science et de la passion</h2>
-            <p>
-              "Agri Orbit n’est pas qu’une plateforme technologique, c’est une promesse faite à l’agriculture de demain. Mon idée était de mettre la puissance de l'observation spatiale au service direct des producteurs pour sécuriser notre souveraineté alimentaire."
-            </p>
+            <span className="tag">{t('founder_tag')}</span>
+            <h2>{t('founder_title')}</h2>
+            <p>{t('founder_quote')}</p>
             <div className="founder-signature">
               <strong>Dr. Castro Hounmenou</strong>
-              <span>Fondateur & Directeur de Projet</span>
+              <span>{t('founder_signature')}</span>
             </div>
           </div>
         </div>
@@ -326,11 +292,9 @@ function Home() {
       <section className="section insights reveal-on-scroll">
         <div className="container insights-panel glass-panel">
           <div>
-            <span className="badge">Impact mesuré</span>
-            <h2>Un pilotage basé sur des indicateurs fiables</h2>
-            <p>
-              Nos tableaux de bord sont calibrés avec les retours de coopératives et de stations agronomiques partenaires pour délivrer des KPIs fiables et actionnables.
-            </p>
+            <span className="badge">{t('impact_tag')}</span>
+            <h2>{t('impact_title')}</h2>
+            <p>{t('impact_desc')}</p>
           </div>
           <div className="insight-metrics">
             {insightHighlights.map((highlight) => (
@@ -348,7 +312,7 @@ function Home() {
       <section className="section testimonial reveal-on-scroll">
         <div className="container testimonial-panel glass-panel">
           <div className="testimonial-content">
-            <span className="badge">Témoignage client</span>
+            <span className="badge">{t('testi_tag')}</span>
             <blockquote>
               <p>{testimonial.quote}</p>
             </blockquote>
@@ -378,16 +342,14 @@ function Home() {
       <section className="section why-us reveal-on-scroll">
         <div className="container why-panel glass-panel">
           <header className="section-header">
-            <span className="tag">Pourquoi nous choisir</span>
-            <h2>Une plateforme pensée pour les organisations agricoles exigeantes</h2>
-            <p>Nous combinons excellence technologique, gouvernance des données et expertise agronomique pour garantir un déploiement durable.</p>
+            <span className="tag">{t('why_us_tag', 'Pourquoi nous choisir')}</span>
+            <h2>{t('why_us_title', 'Une plateforme pensée pour les organisations agricoles exigeantes')}</h2>
+            <p>{t('why_us_desc', 'Nous combinons excellence technologique, gouvernance des données et expertise agronomique pour garantir un déploiement durable.')}</p>
           </header>
           <div className="grid why-grid">
             {whyChoose.map((reason) => (
               <article key={reason.title} className="why-card surface-card">
-                <div className="why-icon">
-                  {reason.icon}
-                </div>
+                <div className="why-icon">{reason.icon}</div>
                 <h3>{reason.title}</h3>
                 <p>{reason.description}</p>
               </article>
@@ -399,15 +361,14 @@ function Home() {
       <section className="section demo" id="demo">
         <div className="container demo-panel glass-panel">
           <div>
-            <h2>Prêt à connecter vos parcelles ?</h2>
-            <p>Profitez d’une session guidée de 30 minutes avec un agronome data analyst pour découvrir la lecture satellitaire appliquée à vos cultures.</p>
+            <h2>{t('demo_title', 'Prêt à connecter vos parcelles ?')}</h2>
+            <p>{t('demo_desc', 'Profitez d’une session guidée de 30 minutes avec un agronome data analyst pour découvrir la lecture satellitaire appliquée à vos cultures.')}</p>
           </div>
           <MagneticButton className="button" onClick={() => window.location.href = "mailto:contact@agriorbit.ai"}>
-            Planifier une démo
+            {t('hero_secondary')}
           </MagneticButton>
         </div>
       </section>
-
     </div>
   );
 }
