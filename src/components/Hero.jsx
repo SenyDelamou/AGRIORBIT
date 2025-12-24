@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import MagneticButton from './MagneticButton.jsx';
 import '../styles/hero.css';
 
 function Hero({
@@ -24,7 +25,6 @@ function Hero({
       setCurrentIdx((prev) => (prev + 1) % images.length);
     }, 6000); // 6 seconds per slide
     return () => clearInterval(interval);
-    return () => clearInterval(interval);
   }, [images.length]);
 
   // Parallax Effect Logic
@@ -41,37 +41,30 @@ function Hero({
   }, []);
   const renderPrimary = () => {
     if (!ctaLabel) return null;
-    return ctaTo ? (
-      <Link className="button" to={ctaTo} onClick={ctaOnClick}>
+    return (
+      <MagneticButton className="button" to={ctaTo} onClick={ctaOnClick}>
         {ctaLabel}
-      </Link>
-    ) : (
-      <a className="button" href={ctaHref} onClick={(e) => {
-        if (ctaOnClick) {
-          e.preventDefault();
-          ctaOnClick();
-        }
-      }}>
-        {ctaLabel}
-      </a>
+      </MagneticButton>
     );
   };
 
   const renderSecondary = () => {
     if (!secondaryLabel) return null;
-    return secondaryTo ? (
-      <Link className="button secondary" to={secondaryTo} onClick={secondaryOnClick}>
+    return (
+      <MagneticButton
+        className="button secondary"
+        to={secondaryTo}
+        onClick={(e) => {
+          if (secondaryHref.startsWith('#')) {
+            // Internal anchor scroll
+            const el = document.querySelector(secondaryHref);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }
+          if (secondaryOnClick) secondaryOnClick(e);
+        }}
+      >
         {secondaryLabel}
-      </Link>
-    ) : (
-      <a className="button secondary" href={secondaryHref} onClick={(e) => {
-        if (secondaryOnClick) {
-          e.preventDefault();
-          secondaryOnClick();
-        }
-      }}>
-        {secondaryLabel}
-      </a>
+      </MagneticButton>
     );
   };
 
@@ -81,13 +74,19 @@ function Hero({
       {images.length > 0 && (
         <div className="hero-backgrounds">
           <div className="hero-overlay" />
-          {images.map((img, index) => (
-            <div
-              key={`${img}-${index}`}
-              className={`hero-slide ${index === currentIdx ? 'active' : ''}`}
-              style={{ backgroundImage: `url(${img})` }}
-            />
-          ))}
+          <div className="hero-parallax-layer">
+            {images.map((img, index) => (
+              <div
+                key={`${img}-${index}`}
+                className={`hero-slide ${index === currentIdx ? 'active' : ''}`}
+              >
+                <div
+                  className="hero-image"
+                  style={{ backgroundImage: `url(${img})` }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

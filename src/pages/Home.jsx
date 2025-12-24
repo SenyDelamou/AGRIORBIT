@@ -3,6 +3,10 @@ import Hero from '../components/Hero.jsx';
 import { homeImages } from '../data/heroImages.js';
 import castro from '../assets/castro.png';
 import '../styles/home.css';
+import AnimatedCounter from '../components/AnimatedCounter.jsx';
+import GlowCard from '../components/GlowCard.jsx';
+import MagneticButton from '../components/MagneticButton.jsx';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 const capabilityCards = [
   {
@@ -126,7 +130,7 @@ function TestimonialForm() {
           <div className="success-icon">✓</div>
           <h2>Merci pour votre confiance !</h2>
           <p>Votre témoignage a été transmis à nos équipes agronomiques. Il sera examiné avant d'être publié sur la plateforme.</p>
-          <button type="button" className="button" onClick={() => setSubmitted(false)}>Rédiger un autre avis</button>
+          <MagneticButton type="button" className="button" onClick={() => setSubmitted(false)}>Rédiger un autre avis</MagneticButton>
         </div>
       </section>
     );
@@ -141,9 +145,9 @@ function TestimonialForm() {
             <h2>Vous utilisez Agri Orbit ?</h2>
             <p>Partagez votre expérience et aidez d'autres exploitants à franchir le pas de l'agriculture de précision.</p>
           </header>
-          <button className="button" onClick={() => setShowForm(true)}>
+          <MagneticButton className="button" to="/temoignages/nouveau" onClick={(e) => { e.preventDefault(); setShowForm(true); }}>
             Rédiger un témoignage
-          </button>
+          </MagneticButton>
         </div>
       </section>
     );
@@ -217,6 +221,8 @@ function TestimonialForm() {
 }
 
 function Home() {
+  useScrollReveal();
+
   return (
     <div className="home-page">
       <Hero
@@ -244,7 +250,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="section capabilities">
+      <section className="section capabilities reveal-on-scroll">
         <div className="container">
           <header className="section-header">
             <span className="tag">Ce que vous pouvez faire</span>
@@ -255,19 +261,21 @@ function Home() {
           </header>
           <div className="grid capability-grid">
             {capabilityCards.map((card) => (
-              <article key={card.title} className="capability-card surface-card">
+              <GlowCard key={card.title} className="capability-card surface-card">
                 <div className="card-meta">
-                  <span className="chip">{card.kpi}</span>
+                  <span className="chip">
+                    <AnimatedCounter value={card.kpi} />
+                  </span>
                 </div>
                 <h3>{card.title}</h3>
                 <p>{card.description}</p>
-              </article>
+              </GlowCard>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section workflow">
+      <section className="section workflow reveal-on-scroll">
         <div className="container glass-panel workflow-panel">
           <div className="workflow-intro">
             <span className="badge">Méthodologie</span>
@@ -315,7 +323,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="section insights">
+      <section className="section insights reveal-on-scroll">
         <div className="container insights-panel glass-panel">
           <div>
             <span className="badge">Impact mesuré</span>
@@ -327,7 +335,9 @@ function Home() {
           <div className="insight-metrics">
             {insightHighlights.map((highlight) => (
               <div key={highlight.metric} className="metric-card surface-card">
-                <strong>{highlight.metric}</strong>
+                <strong>
+                  <AnimatedCounter value={highlight.metric} />
+                </strong>
                 <span>{highlight.label}</span>
               </div>
             ))}
@@ -335,7 +345,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="section testimonial">
+      <section className="section testimonial reveal-on-scroll">
         <div className="container testimonial-panel glass-panel">
           <div className="testimonial-content">
             <span className="badge">Témoignage client</span>
@@ -353,7 +363,9 @@ function Home() {
           <div className="testimonial-metrics">
             {testimonial.metrics.map((item) => (
               <div key={item.label} className="surface-card metric-tile">
-                <strong>{item.value}</strong>
+                <strong>
+                  <AnimatedCounter value={item.value} />
+                </strong>
                 <span>{item.label}</span>
               </div>
             ))}
@@ -363,7 +375,7 @@ function Home() {
 
       <TestimonialForm />
 
-      <section className="section why-us">
+      <section className="section why-us reveal-on-scroll">
         <div className="container why-panel glass-panel">
           <header className="section-header">
             <span className="tag">Pourquoi nous choisir</span>
@@ -390,7 +402,9 @@ function Home() {
             <h2>Prêt à connecter vos parcelles ?</h2>
             <p>Profitez d’une session guidée de 30 minutes avec un agronome data analyst pour découvrir la lecture satellitaire appliquée à vos cultures.</p>
           </div>
-          <a className="button" href="mailto:contact@agriorbit.ai">Planifier une démo</a>
+          <MagneticButton className="button" onClick={() => window.location.href = "mailto:contact@agriorbit.ai"}>
+            Planifier une démo
+          </MagneticButton>
         </div>
       </section>
 
