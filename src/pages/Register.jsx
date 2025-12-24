@@ -13,6 +13,7 @@ import registerVisual from '../assets/register_visual.png';
 import '../styles/auth.css';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
+import { request, setStoredTokens } from '../api/client.js';
 
 function Register() {
   const { t, setLang, lang } = useLanguage();
@@ -29,50 +30,42 @@ function Register() {
     language: lang
   });
 
-  const handleSubmit = (e) => {
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Les mots de passe ne correspondent pas");
       return;
     }
 
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
-
-    // Appeler le backend pour l'inscription
-    fetch(`${apiUrl}/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        firstname: formData.firstname,
-        lastname: formData.lastname,
-        organisation: formData.organisation,
-        email: formData.email,
-        password: formData.password,
-        language: formData.language
-      }),
-    })
-      .then(res => {
-        if (!res.ok) {
-          return res.json().then(err => { throw new Error(err.message || 'Erreur lors de l\'inscription'); });
+    try {
+      const data = await request('/auth/register', {
+        method: 'POST',
+        auth: false,
+        body: {
+          firstname: formData.firstname,
+          lastname: formData.lastname,
+          organisation: formData.organisation,
+          email: formData.email,
+          password: formData.password,
+          language: formData.language
         }
-        return res.json();
-      })
-      .then(data => {
-        console.log('Inscription réussie :', data);
-
-        setLang(formData.language);
-        login(data.user);
-
-        if (data.accessToken) {
-          localStorage.setItem('agri_orbit_token', data.accessToken);
-        }
-
-        navigate('/plateforme');
-      })
-      .catch(err => {
-        console.error('Erreur inscription :', err);
-        alert(err.message);
       });
+
+      setLang(formData.language);
+      login(data.user);
+      setStoredTokens(data.accessToken, data.refreshToken);
+
+      if (data.accessToken) {
+        localStorage.setItem('agri_orbit_token', data.accessToken);
+      }
+
+      navigate('/plateforme');
+    } catch (err) {
+      console.error('Erreur inscription :', err);
+      alert(err.message);
+    }
   };
 
 
@@ -209,12 +202,20 @@ function Register() {
 
               <div className="form-options-clean">
                 <label className="checkbox-clean">
-                  <input type="checkbox" required />
+                  <input
+                    type="checkbox"
+                    checked={acceptedTerms}
+                    onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  />
                   <span className="text-xs">J'accepte les conditions générales</span>
                 </label>
               </div>
 
-              <button type="submit" className="button-clean-primary">
+              <button
+                type="submit"
+                className="button-clean-primary"
+                disabled={!acceptedTerms}
+              >
                 {t('create_account') || 'Créer mon compte'}
                 <ArrowRightIcon className="icon-arrow" />
               </button>

@@ -269,6 +269,19 @@
     box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
 }
 
+.button-clean-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.4);
+    box-shadow: none;
+}
+
+.button-clean-primary:disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
 .icon-arrow {
     width: 1.2rem;
     height: 1.2rem;
