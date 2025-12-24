@@ -201,8 +201,10 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.9rem;
-    background: linear-gradient(135deg, var(--color-primary), #059669);
-    /* Gradient */
+    background: #10b981;
+    /* Explicit vibrant green */
+    /* Gradient fallback */
+    background: linear-gradient(135deg, #10b981, #059669);
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -233,8 +235,39 @@
 }
 
 .divider-text {
-    display: none;
-    /* Removed for cleaner look in dark mode, usually redundant with border */
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.google-fallback-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.8rem;
+    background: white;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    /* Pill shape */
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.google-fallback-btn:hover {
+    background: #f9fafb;
+}
+
+.w-5 {
+    width: 1.25rem;
+}
+
+.h-5 {
+    height: 1.25rem;
 }
 
 .register-redirect {
