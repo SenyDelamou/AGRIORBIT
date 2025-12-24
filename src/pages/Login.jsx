@@ -14,51 +14,68 @@ function Login() {
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   useEffect(() => {
-    /* Google Auth Logic kept intact */
     if (!googleClientId || !googleButtonRef.current) return;
-    const scriptId = 'google-identity-services';
-
-    const parseJwt = (token) => {
-      try {
-        return JSON.parse(atob(token.split('.')[1]));
-      } catch (e) {
-        return null;
-      }
-    };
 
     const handleCredentialResponse = (response) => {
-      const payload = parseJwt(response.credential);
-      if (payload) {
-        login({
-          name: payload.name,
-          email: payload.email,
-          picture: payload.picture,
-          id: payload.sub,
-          provider: 'google'
+      // Décoder le token Google
+      const payload = JSON.parse(atob(response.credential.split('.')[1]));
+
+      const user = {
+        name: payload.name,
+        email: payload.email,
+        picture: payload.picture,
+        id: payload.sub,
+        provider: 'google'
+      };
+
+      // Optionnel : afficher les infos sur la page (exemple)
+      console.log("Utilisateur connecté :", user);
+
+      // Connecter l'utilisateur dans l'application
+      login(user);
+
+      // Envoyer l'email de bienvenue via votre backend sécurisé
+      fetch('/api/send-welcome-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user.email,
+          name: user.name
+        }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log('Réponse backend :', data);
+          if (data.success) {
+            console.log("Email de bienvenue envoyé !");
+          }
+        })
+        .catch(err => {
+          console.error('Erreur envoi email :', err);
         });
-        const origin = location.state?.from?.pathname || '/plateforme';
-        navigate(origin);
-      }
+
+      const origin = location.state?.from?.pathname || '/plateforme';
+      navigate(origin);
     };
 
     const renderGoogleButton = () => {
-      if (!window.google?.accounts?.id) return;
+      if (!window.google?.accounts?.id) {
+        // Retry if script not yet fully loaded
+        setTimeout(renderGoogleButton, 100);
+        return;
+      }
       window.google.accounts.id.initialize({
-        client_id: googleClientId, callback: handleCredentialResponse
+        client_id: googleClientId,
+        callback: handleCredentialResponse
       });
       window.google.accounts.id.renderButton(googleButtonRef.current, {
         theme: 'outline', size: 'large', width: '100%', shape: 'pill', text: 'continue_with'
       });
       setGoogleReady(true);
     };
-    const existingScript = document.getElementById(scriptId);
-    if (existingScript) { renderGoogleButton(); } else {
-      const script = document.createElement('script');
-      script.src = 'https://accounts.google.com/gsi/client';
-      script.async = true; script.defer = true; script.id = scriptId;
-      script.onload = renderGoogleButton; document.head.appendChild(script);
-    }
-  }, [googleClientId]);
+
+    renderGoogleButton();
+  }, [googleClientId, login, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

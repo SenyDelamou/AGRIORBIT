@@ -2,6 +2,7 @@ import Hero from '../components/Hero.jsx';
 import { aboutImages } from '../data/heroImages.js';
 import castro from '../assets/castro.png';
 import '../styles/about.css';
+import { useLanguage } from '../context/LanguageContext.jsx';
 
 const values = [
   {
@@ -27,13 +28,15 @@ const partners = [
 ];
 
 function About() {
+  const { t } = useLanguage();
+
   return (
     <div className="about-page">
       <Hero
-        eyebrow="Notre mission"
-        title="Accompagner chaque exploitation vers une agriculture de précision accessible"
-        subtitle="Agri Orbit réunit ingénieurs en observation de la Terre et agronomes de terrain pour rendre l’imagerie satellite lisible et actionnable par toutes les exploitations."
-        ctaLabel="Découvrir nos engagements"
+        eyebrow={t('about_mission_eyebrow')}
+        title={t('about_mission_title')}
+        subtitle={t('about_mission_subtitle')}
+        ctaLabel={t('hero_cta')}
         ctaHref="#valeurs"
         images={aboutImages}
       />
@@ -43,15 +46,15 @@ function About() {
           <div className="mission-stats">
             <div className="stat-card">
               <strong>120k ha</strong>
-              <span>Parcelles suivies en 2025</span>
+              <span>{t('about_stat_ha')}</span>
             </div>
             <div className="stat-card">
-              <strong>18 pays</strong>
-              <span>Utilisateurs répartis en Afrique & Europe</span>
+              <strong>18</strong>
+              <span>{t('about_stat_countries')}</span>
             </div>
             <div className="stat-card">
               <strong>24 h</strong>
-              <span>Temps moyen entre acquisition satellite et analyse</span>
+              <span>{t('about_stat_time')}</span>
             </div>
           </div>
         </div>
@@ -62,25 +65,15 @@ function About() {
           <div className="founder-image-container">
             <img
               src={castro}
-              alt="Dr. Castro - Visionnaire et Fondateur de Agri Orbit"
+              alt="Dr. Castro"
               className="founder-img"
             />
-            <span className="founder-label">Fondateur & Visionnaire</span>
+            <span className="founder-label">{t('founder_badge')}</span>
           </div>
           <div className="founder-content">
-            <span className="badge">L'Origine du Projet</span>
-            <h2>La Vision du Dr. Castro</h2>
-            <p>
-              C'est sous l'impulsion du <strong>Dr. Castro</strong> que l'aventure Agri Orbit a débuté. Passionné par l'intersection entre les technologies spatiales et le développement agronomique souverain, il a conçu cette plateforme pour briser les barrières d'accès à l'agriculture de précision.
-            </p>
-            <p>
-              Son idée était simple mais révolutionnaire : transformer des téraoctets de données spectrales brutes en conseils concrets, directement utilisables par les exploitants sur le terrain pour sécuriser leurs récoltes et optimiser leurs ressources.
-            </p>
-            <div className="founder-quote">
-              <blockquote>
-                "La technologie n'a de sens que si elle sert la terre et ceux qui la travaillent."
-              </blockquote>
-            </div>
+            <span className="badge">{t('founder_tag')}</span>
+            <h2>{t('about_founder_vision')}</h2>
+            <p>{t('founder_quote')}</p>
           </div>
         </div>
       </section>

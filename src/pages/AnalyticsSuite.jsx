@@ -2,6 +2,7 @@ import Hero from '../components/Hero.jsx';
 import { analyticsImages } from '../data/heroImages.js';
 import castro from '../assets/castro.png';
 import '../styles/analytics.css';
+import { useLanguage } from '../context/LanguageContext.jsx';
 
 const analyticsModules = [
   {
@@ -37,13 +38,15 @@ const timelineEvents = [
 ];
 
 function AnalyticsSuite() {
+  const { t } = useLanguage();
+
   return (
     <div className="analytics-page">
       <Hero
-        eyebrow="Suite analytique"
-        title="Des tableaux de bord IA au service de vos cultures"
-        subtitle="Fusionnez imagerie satellite, météo et historiques agronomiques pour générer projections fiables, alertes ciblées et plans d’actions."
-        ctaLabel="Découvrir les modules"
+        eyebrow={t('analytics_hero_eyebrow')}
+        title={t('analytics_hero_title')}
+        subtitle={t('analytics_hero_subtitle')}
+        ctaLabel={t('hero_cta')}
         ctaHref="#modules"
         images={analyticsImages}
       />
@@ -113,20 +116,18 @@ function AnalyticsSuite() {
       <section className="section analytics-expert">
         <div className="container expert-insight-panel glass-panel">
           <div className="expert-content">
-            <span className="badge">Validation Scientifique</span>
-            <h2>L'expertise derrière les algorithmes</h2>
-            <p>
-              "Chaque modèle de détection et chaque indice de végétation intégré à notre suite analytique a été rigoureusement validé. Nous ne nous contentons pas de fournir des images, nous livrons une intelligence agronomique de précision."
-            </p>
+            <span className="badge">{t('founder_tag')}</span>
+            <h2>{t('analytics_expert_title')}</h2>
+            <p>{t('founder_quote')}</p>
             <div className="expert-signature">
               <strong>Dr. Castro Hounmenou</strong>
-              <span>Visionnaire Agri Orbit</span>
+              <span>{t('founder_signature')}</span>
             </div>
           </div>
           <div className="expert-image">
             <img
               src={castro}
-              alt="Dr. Castro - Expertise"
+              alt="Dr. Castro"
               className="expert-portrait"
             />
           </div>
@@ -136,15 +137,15 @@ function AnalyticsSuite() {
       <section className="section export">
         <div className="container export-panel glass-panel">
           <div>
-            <h2>Automatisez vos exports et reporting</h2>
-            <p>Générez des rapports PDF, des exports shapefile et poussez vos indicateurs vers vos outils existants (Power BI, QGIS, Farm Management System).</p>
+            <h2>{t('analytics_export_title')}</h2>
+            <p>{t('demo_desc')}</p>
           </div>
           <div className="export-actions">
             <button type="button" className="button">
-              Exporter en PDF
+              {t('hero_cta')}
             </button>
             <button type="button" className="button secondary">
-              Connecter Power BI
+              {t('hero_secondary')}
             </button>
           </div>
         </div>

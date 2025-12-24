@@ -66,6 +66,7 @@ function Settings() {
                   >
                     <option value="fr">Français</option>
                     <option value="en">English</option>
+                    <option value="pulaar">Pulaar</option>
                   </select>
                 </div>
               ) : (

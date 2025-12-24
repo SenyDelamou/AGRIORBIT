@@ -4,11 +4,16 @@ import { useLanguage } from '../context/LanguageContext';
 import { useToast } from '../context/ToastContext';
 import { useDocumentTitle } from '../hooks/useWebLogic';
 import '../styles/profile.css';
-import { ChartBarIcon, MapIcon, BeakerIcon, UserCircleIcon, LockClosedIcon, PencilSquareIcon, CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ChartBarIcon, MapIcon, BeakerIcon, UserCircleIcon, LockClosedIcon, PencilSquareIcon, CheckIcon, XMarkIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+
+const LOCAL_LANGUAGES = [
+    'Pulaar', 'Sérère', 'Diola', 'Mandingue', 'Soninké',
+    'Soussou', 'Malinké', 'Guerzé', 'Tome', 'Kissi'
+];
 
 function Profile() {
     const { user, updateUser } = useAuth();
-    const { t } = useLanguage();
+    const { lang, setLang, t } = useLanguage();
     useDocumentTitle(t('profile'));
     const { showToast } = useToast();
 
@@ -39,6 +44,23 @@ function Profile() {
         showToast('Mot de passe mis à jour avec succès', 'success');
         setEditingPassword(false);
         setPasswords({ current: '', new: '', confirm: '' });
+    };
+
+    const handleToggleLanguage = (langName) => {
+        const langCode = langName.toLowerCase();
+        const currentLangs = user.localLanguages || [];
+        const updatedLangs = currentLangs.includes(langName)
+            ? currentLangs.filter(l => l !== langName)
+            : [...currentLangs, langName];
+
+        updateUser({ localLanguages: updatedLangs });
+
+        // Switch the UI language if it's one of the supported ones
+        if (['fr', 'en', 'pulaar', 'sérère'].includes(langCode)) {
+            setLang(langCode);
+        }
+
+        showToast(t('settings_updated'), 'success');
     };
 
     const stats = [
@@ -158,6 +180,29 @@ function Profile() {
                                 </div>
                             </form>
                         )}
+                    </div>
+
+                    {/* Section Langues Locales */}
+                    <div className="languages-section surface-card">
+                        <div className="section-header-row">
+                            <h3><GlobeAltIcon className="icon-sm" style={{ width: '20px' }} /> {t('local_languages')}</h3>
+                        </div>
+                        <p className="small-info" style={{ opacity: 0.7, fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                            {t('local_languages_desc')}
+                        </p>
+
+                        <div className="languages-selection-grid">
+                            {LOCAL_LANGUAGES.map(langName => (
+                                <button
+                                    key={langName}
+                                    className={`lang-chip ${user.localLanguages?.includes(langName) ? 'active' : ''}`}
+                                    onClick={() => handleToggleLanguage(langName)}
+                                >
+                                    {langName}
+                                    {user.localLanguages?.includes(langName) && <CheckIcon style={{ width: '14px', marginLeft: '6px' }} />}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
