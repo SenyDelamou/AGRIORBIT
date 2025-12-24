@@ -10,8 +10,6 @@ import Register from './pages/Register.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import Loading from './pages/Loading.jsx';
 import Contact from './pages/Contact.jsx';
-import Loading from './pages/Loading.jsx';
-import Contact from './pages/Contact.jsx';
 import { Navigate } from 'react-router-dom';
 import { ToastProvider } from './context/ToastContext.jsx';
 import ToastContainer from './components/ToastContainer.jsx';
