@@ -33,7 +33,8 @@ function Login() {
           name: payload.name,
           email: payload.email,
           picture: payload.picture,
-          id: payload.sub
+          id: payload.sub,
+          provider: 'google'
         });
         const origin = location.state?.from?.pathname || '/plateforme';
         navigate(origin);

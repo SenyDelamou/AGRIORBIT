@@ -100,7 +100,23 @@ function Profile() {
                             <h3><LockClosedIcon className="icon-sm" style={{ width: '20px' }} /> Sécurité du compte</h3>
                         </div>
 
-                        {!editingPassword ? (
+                        {user.provider === 'google' ? (
+                            <div className="security-summary">
+                                <p>Votre compte est sécurisé via <strong>Google</strong>.</p>
+                                <p className="small-info" style={{ opacity: 0.6, fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+                                    Pour modifier votre mot de passe ou vos paramètres de sécurité, rendez-vous sur votre compte Google.
+                                </p>
+                                <a
+                                    href="https://myaccount.google.com/security"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="button-outline"
+                                    style={{ display: 'inline-block', textDecoration: 'none', textAlign: 'center' }}
+                                >
+                                    Gérer mon compte Google
+                                </a>
+                            </div>
+                        ) : !editingPassword ? (
                             <div className="security-summary">
                                 <p>Modifier votre mot de passe pour sécuriser votre accès.</p>
                                 <button onClick={() => setEditingPassword(true)} className="button-outline">
