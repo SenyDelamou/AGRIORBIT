@@ -20,13 +20,19 @@ export function AuthProvider({ children }) {
         localStorage.setItem('agri_orbit_user', JSON.stringify(userData));
     };
 
+    const updateUser = (newInfo) => {
+        const updatedUser = { ...user, ...newInfo };
+        setUser(updatedUser);
+        localStorage.setItem('agri_orbit_user', JSON.stringify(updatedUser));
+    };
+
     const logout = () => {
         setUser(null);
         localStorage.removeItem('agri_orbit_user');
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading }}>
+        <AuthContext.Provider value={{ user, login, logout, updateUser, loading }}>
             {children}
         </AuthContext.Provider>
     );
