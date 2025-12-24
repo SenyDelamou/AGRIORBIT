@@ -74,7 +74,7 @@ function Register() {
         alert(err.message);
       });
   };
- pieces of code in Register.jsx
+
 
 
   return (
@@ -97,7 +97,7 @@ function Register() {
             <form className="auth-form-clean" onSubmit={handleSubmit}>
               <div className="form-row-clean">
                 <div className="clean-input-group">
-                  <label htmlFor="firstname">{t('profile')}</label>
+                  <label htmlFor="firstname">{t('firstname') || 'Prénom'}</label>
                   <div className="input-wrapper">
                     <UserIcon className="input-icon left" />
                     <input
@@ -111,7 +111,7 @@ function Register() {
                   </div>
                 </div>
                 <div className="clean-input-group">
-                  <label htmlFor="lastname">{t('profile')}</label>
+                  <label htmlFor="lastname">{t('lastname') || 'Nom'}</label>
                   <div className="input-wrapper">
                     <UserIcon className="input-icon left" />
                     <input
@@ -148,11 +148,10 @@ function Register() {
                     id="language"
                     className="select-lang-ui"
                     value={formData.language}
-                    style={{ paddingLeft: '2.5rem' }}
                     onChange={(e) => {
                       const newLang = e.target.value;
                       setFormData({ ...formData, language: newLang });
-                      setLang(newLang); // Update UI language immediately
+                      setLang(newLang);
                     }}
                   >
                     <option value="fr">Français</option>
@@ -193,7 +192,7 @@ function Register() {
                   </div>
                 </div>
                 <div className="clean-input-group">
-                  <label htmlFor="confirm-password">{t('change')}</label>
+                  <label htmlFor="confirm-password">{t('confirm_password') || 'Confirmer'}</label>
                   <div className="input-wrapper">
                     <LockClosedIcon className="input-icon left" />
                     <input
@@ -216,14 +215,15 @@ function Register() {
               </div>
 
               <button type="submit" className="button-clean-primary">
-                {t('testi_form_cta').replace('Rédiger un témoignage', 'Créer mon compte').replace('Write a Testimonial', 'Create Account').replace('Winndu miylo maa', 'Fuɗɗu kont')}
+                {t('create_account') || 'Créer mon compte'}
                 <ArrowRightIcon className="icon-arrow" />
               </button>
             </form>
 
             <div className="register-redirect">
-              {t('nav_login').replace('Connexion', 'Déjà membre ?').replace('Login', 'Already a member?').replace('Ubbital', 'Mbe on njogi kont ?')} <Link to="/connexion">{t('nav_login')}</Link>
+              {t('already_member') || 'Déjà membre ?'} <Link to="/connexion">{t('nav_login')}</Link>
             </div>
+
           </div>
         </div>
       </div>
