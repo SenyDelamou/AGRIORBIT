@@ -267,7 +267,13 @@
     font-size: 0.9rem;
     font-weight: 500;
     color: var(--text-secondary);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.google-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .google-fallback-btn {
@@ -277,18 +283,19 @@
     justify-content: center;
     gap: 0.75rem;
     padding: 0.8rem;
-    background: white;
-    color: #374151;
-    border: 1px solid #e5e7eb;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    border: 1px solid var(--glass-border);
     border-radius: 999px;
     /* Pill shape */
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
 
 .google-fallback-btn:hover {
-    background: #f9fafb;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-neon-green);
 }
 
 .w-5 {

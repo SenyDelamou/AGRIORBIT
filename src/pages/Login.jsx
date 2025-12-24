@@ -69,7 +69,7 @@ function Login() {
         callback: handleCredentialResponse
       });
       window.google.accounts.id.renderButton(googleButtonRef.current, {
-        theme: 'outline', size: 'large', width: '100%', shape: 'pill', text: 'continue_with'
+        theme: 'filled_black', size: 'large', width: '400', shape: 'pill', text: 'continue_with'
       });
       setGoogleReady(true);
     };
