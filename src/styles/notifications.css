@@ -1,0 +1,170 @@
+.notification-stack {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 1200;
+  pointer-events: none;
+}
+
+.notification-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  min-width: 320px;
+  max-width: 420px;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  backdrop-filter: blur(16px);
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
+  color: #f8fafc;
+  animation: notification-slide-in 0.32s ease-out;
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+.notification-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(148, 163, 184, 0.04));
+  z-index: -1;
+}
+
+.notification-card.success {
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.16), rgba(15, 23, 42, 0.75));
+}
+
+.notification-card.error {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.16), rgba(15, 23, 42, 0.75));
+}
+
+.notification-card.warning {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.18), rgba(15, 23, 42, 0.75));
+}
+
+.notification-card.info {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.18), rgba(15, 23, 42, 0.75));
+}
+
+.notification-accent {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+}
+
+.notification-icon-wrapper {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.85rem;
+  background: rgba(15, 23, 42, 0.75);
+}
+
+.notification-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.notification-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.notification-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.notification-message {
+  font-size: 0.9rem;
+  line-height: 1.35;
+  color: rgba(226, 232, 240, 0.92);
+}
+
+.notification-description {
+  font-size: 0.85rem;
+  color: rgba(203, 213, 225, 0.8);
+}
+
+.notification-timestamp {
+  font-size: 0.75rem;
+  color: rgba(203, 213, 225, 0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.notification-dismiss {
+  background: transparent;
+  border: none;
+  color: rgba(226, 232, 240, 0.65);
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 0.5rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.notification-dismiss:hover {
+  background: rgba(148, 163, 184, 0.12);
+  color: rgba(248, 250, 252, 0.92);
+}
+
+.notification-dismiss-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.notification-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  transform-origin: left;
+  animation: notification-progress var(--notification-duration, 6000ms) linear forwards;
+  opacity: 0.55;
+}
+
+@keyframes notification-slide-in {
+  from {
+    transform: translateX(24px) translateY(6px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes notification-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .notification-stack {
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+    align-items: center;
+  }
+
+  .notification-card {
+    width: 100%;
+    min-width: auto;
+  }
+}

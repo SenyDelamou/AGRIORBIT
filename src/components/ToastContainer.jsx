@@ -1,69 +1,99 @@
+import { useMemo } from 'react';
 import { useToast } from '../context/ToastContext';
-import '../styles/global.css'; // Ensure we have base styles or create new ones
+import { CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import '../styles/notifications.css';
+
+const ICON_MAP = {
+    success: CheckCircleIcon,
+    error: ExclamationTriangleIcon,
+    warning: ExclamationTriangleIcon,
+    info: InformationCircleIcon
+};
+
+const COLOR_MAP = {
+    success: '#22c55e',
+    error: '#ef4444',
+    warning: '#f97316',
+    info: '#38bdf8'
+};
+
+const formatTimestamp = (createdAt) => {
+    if (!createdAt) return '';
+    const diff = Date.now() - createdAt;
+    if (diff < 0) return '';
+    if (diff < 1000) return "À l'instant";
+    const seconds = Math.floor(diff / 1000);
+    if (seconds < 60) return `${seconds}s`; 
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes} min`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h`;
+    const days = Math.floor(hours / 24);
+    return `${days} j`;
+};
 
 function ToastContainer() {
-    const { toasts, removeToast } = useToast();
+    const { notifications, removeNotification } = useToast();
 
-    if (toasts.length === 0) return null;
+    const orderedNotifications = useMemo(
+        () => notifications.slice(-5).reverse(),
+        [notifications]
+    );
+
+    if (orderedNotifications.length === 0) return null;
 
     return (
-        <div style={{
-            position: 'fixed',
-            top: '1rem',
-            right: '1rem',
-            zIndex: 2000,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.75rem',
-            pointerEvents: 'none'
-        }}>
-            {toasts.map((toast) => (
-                <div
-                    key={toast.id}
-                    style={{
-                        background: 'var(--surface-color, rgba(17, 24, 39, 0.85))',
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        borderLeft: `4px solid ${toast.type === 'success' ? '#10b981' :
-                                toast.type === 'error' ? '#ef4444' :
-                                    '#3b82f6'
-                            }`,
-                        color: 'white',
-                        padding: '1rem 1.2rem',
-                        borderRadius: '0.5rem',
-                        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                        minWidth: '300px',
-                        animation: 'slideIn 0.3s ease-out',
-                        pointerEvents: 'all',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }}
-                >
-                    <div style={{ fontSize: '0.9rem', fontWeight: 500 }}>
-                        {toast.message}
-                    </div>
-                    <button
-                        onClick={() => removeToast(toast.id)}
-                        style={{
-                            background: 'transparent',
-                            border: 'none',
-                            color: 'rgba(255, 255, 255, 0.5)',
-                            cursor: 'pointer',
-                            marginLeft: '1rem',
-                            padding: '0.2rem'
-                        }}
+        <div className="notification-stack" role="status" aria-live="polite">
+            {orderedNotifications.map((notification) => {
+                const Icon = ICON_MAP[notification.type] ?? InformationCircleIcon;
+                const accentColor = COLOR_MAP[notification.type] ?? COLOR_MAP.info;
+                const duration = notification.duration ?? 0;
+
+                return (
+                    <article
+                        key={notification.id}
+                        className={`notification-card ${notification.type}`}
+                        style={{ '--notification-duration': `${duration}ms` }}
+                        data-type={notification.type}
                     >
-                        ✕
-                    </button>
-                </div>
-            ))}
-            <style>{`
-        @keyframes slideIn {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-      `}</style>
+                        <span
+                            className="notification-accent"
+                            style={{ background: accentColor }}
+                            aria-hidden="true"
+                        />
+                        <div className="notification-icon-wrapper" style={{ color: accentColor }}>
+                            <Icon className="notification-icon" />
+                        </div>
+                        <div className="notification-content">
+                            {notification.title && (
+                                <p className="notification-title">{notification.title}</p>
+                            )}
+                            <p className="notification-message">{notification.message}</p>
+                            {notification.description && (
+                                <p className="notification-description">{notification.description}</p>
+                            )}
+                            <span className="notification-timestamp">
+                                {formatTimestamp(notification.createdAt)}
+                            </span>
+                        </div>
+                        <button
+                            type="button"
+                            className="notification-dismiss"
+                            aria-label="Fermer la notification"
+                            onClick={() => removeNotification(notification.id)}
+                        >
+                            <XMarkIcon className="notification-dismiss-icon" />
+                        </button>
+                        {duration > 0 && (
+                            <span
+                                className="notification-progress"
+                                style={{ background: accentColor }}
+                                aria-hidden="true"
+                            />
+                        )}
+                    </article>
+                );
+            })}
         </div>
     );
 }
