@@ -2,14 +2,20 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { EnvelopeIcon, ArrowLeftIcon, ShieldCheckIcon, LockClosedIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import '../styles/auth.css';
+import { request } from '../api/client.js';
+import { useToast } from '../context/ToastContext.jsx';
 
 function ForgotPassword() {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [countdown, setCountdown] = useState(5);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const [passwords, setPasswords] = useState({ password: '', confirm: '' });
   const otpRefs = useRef([]);
   const navigate = useNavigate();
+  const { addToast } = useToast();
 
   useEffect(() => {
     let timer;
@@ -23,9 +29,128 @@ function ForgotPassword() {
     return () => clearInterval(timer);
   }, [step, countdown, navigate]);
 
-  const handleNext = (e) => {
+  useEffect(() => {
+    if (step !== 2 || resendCooldown <= 0) return undefined;
+    const timer = window.setInterval(() => {
+      setResendCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [step, resendCooldown]);
+
+  const handleNext = async (e) => {
     e.preventDefault();
-    if (step < 4) setStep(step + 1);
+    if (isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
+
+      if (step === 1) {
+        await request('/auth/forgot-password', {
+          method: 'POST',
+          auth: false,
+          body: { email }
+        });
+
+        addToast({
+          title: 'Code envoyé',
+          message: `Un code a été envoyé à ${email}.`,
+          type: 'success'
+        });
+
+        setResendCooldown(45);
+        setStep(2);
+        return;
+      }
+
+      if (step === 2) {
+        const code = otp.join('');
+        if (code.length !== 6 || otp.some((d) => !d)) {
+          addToast({
+            title: 'Code incomplet',
+            message: 'Veuillez saisir les 6 chiffres du code.',
+            type: 'error'
+          });
+          return;
+        }
+        setStep(3);
+        return;
+      }
+
+      if (step === 3) {
+        if (!passwords.password || passwords.password.length < 8) {
+          addToast({
+            title: 'Mot de passe invalide',
+            message: 'Le mot de passe doit contenir au moins 8 caractères.',
+            type: 'error'
+          });
+          return;
+        }
+
+        if (passwords.password !== passwords.confirm) {
+          addToast({
+            title: 'Erreur',
+            message: 'Les mots de passe ne correspondent pas.',
+            type: 'error'
+          });
+          return;
+        }
+
+        await request('/auth/reset-password', {
+          method: 'POST',
+          auth: false,
+          body: {
+            email,
+            code: otp.join(''),
+            newPassword: passwords.password
+          }
+        });
+
+        addToast({
+          title: 'Succès',
+          message: 'Votre mot de passe a été réinitialisé avec succès.',
+          type: 'success'
+        });
+
+        setCountdown(5);
+        setStep(4);
+      }
+    } catch (err) {
+      console.error('Erreur reset password:', err);
+      addToast({
+        title: 'Erreur',
+        message: err?.message || 'Erreur inattendue',
+        type: 'error'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleResend = async () => {
+    if (step !== 2 || resendCooldown > 0 || isSubmitting) return;
+    try {
+      setIsSubmitting(true);
+      await request('/auth/forgot-password', {
+        method: 'POST',
+        auth: false,
+        body: { email }
+      });
+      addToast({
+        title: 'Nouveau code envoyé',
+        message: `Un nouveau code a été envoyé à ${email}.`,
+        type: 'info'
+      });
+      setResendCooldown(45);
+    } catch (err) {
+      console.error('Erreur resend:', err);
+      addToast({
+        title: 'Erreur',
+        message: err?.message || 'Erreur inattendue',
+        type: 'error'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleBack = () => {
@@ -164,7 +289,17 @@ function ForgotPassword() {
                       />
                     ))}
                   </div>
-                  <p className="input-help">Vous n'avez pas reçu le code ? <span className="resend">Renvoyer</span></p>
+                  <p className="input-help">
+                    Vous n'avez pas reçu le code ?{' '}
+                    <button
+                      type="button"
+                      className={`btn-reset resend ${resendCooldown > 0 ? 'is-disabled' : 'is-ready'}`}
+                      onClick={handleResend}
+                      disabled={resendCooldown > 0 || isSubmitting}
+                    >
+                      {resendCooldown > 0 ? `Renvoyer (${resendCooldown}s)` : 'Renvoyer'}
+                    </button>
+                  </p>
                 </div>
               )}
 
@@ -174,20 +309,34 @@ function ForgotPassword() {
                     <label htmlFor="password">Nouveau mot de passe</label>
                     <div className="input-wrapper">
                       <LockClosedIcon className="input-icon left" />
-                      <input id="password" type="password" placeholder="••••••••" required />
+                      <input
+                        id="password"
+                        type="password"
+                        placeholder="••••••••"
+                        required
+                        value={passwords.password}
+                        onChange={(e) => setPasswords((prev) => ({ ...prev, password: e.target.value }))}
+                      />
                     </div>
                   </div>
                   <div className="clean-input-group">
                     <label htmlFor="confirm-password">Confirmer le mot de passe</label>
                     <div className="input-wrapper">
                       <LockClosedIcon className="input-icon left" />
-                      <input id="confirm-password" type="password" placeholder="••••••••" required />
+                      <input
+                        id="confirm-password"
+                        type="password"
+                        placeholder="••••••••"
+                        required
+                        value={passwords.confirm}
+                        onChange={(e) => setPasswords((prev) => ({ ...prev, confirm: e.target.value }))}
+                      />
                     </div>
                   </div>
                 </div>
               )}
 
-              <button type="submit" className="button-clean-primary green-vibrant">
+              <button type="submit" className="button-clean-primary green-vibrant" disabled={isSubmitting}>
                 {step === 1 && "Envoyer le code"}
                 {step === 2 && "Vérifier le code"}
                 {step === 3 && "Réinitialiser"}

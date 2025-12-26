@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import '../styles/auth.css';
 import { useToast } from '../context/ToastContext.jsx';
+import { request } from '../api/client.js';
 
 const RESEND_COOLDOWN = 45; // seconds
 
@@ -18,13 +19,26 @@ function VerifyEmail() {
   const prevCooldownRef = useRef(RESEND_COOLDOWN);
   const otpRefs = useRef([]);
 
-  const targetEmail = location.state?.email ?? 'votre@email.com';
+  const targetEmail = location.state?.email ?? null;
+  const displayEmail = targetEmail ?? 'votre@email.com';
 
   useEffect(() => {
     if (otpRefs.current[0]) {
       otpRefs.current[0].focus();
     }
   }, []);
+
+  useEffect(() => {
+    if (!targetEmail) return;
+
+    request('/auth/verify-email/request', {
+      method: 'POST',
+      auth: false,
+      body: { email: targetEmail }
+    }).catch((err) => {
+      console.error('Erreur verify-email/request:', err);
+    });
+  }, [targetEmail]);
 
   useEffect(() => {
     if (cooldown <= 0) {
@@ -80,7 +94,7 @@ function VerifyEmail() {
     otpRefs.current[lastIdx]?.focus();
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const code = otp.join('');
     if (code.length !== otp.length) {
@@ -88,29 +102,57 @@ function VerifyEmail() {
       return;
     }
 
+    if (!targetEmail) {
+      setError('Email manquant. Veuillez recommencer le processus.');
+      return;
+    }
+
     setIsVerifying(true);
     setError('');
 
-    // Simulation d'appel API : remplacez par votre logique réelle
-    window.setTimeout(() => {
-      setIsVerifying(false);
+    try {
+      await request('/auth/verify-email/confirm', {
+        method: 'POST',
+        auth: false,
+        body: { email: targetEmail, code }
+      });
+
       addToast({
         title: 'Code validé',
         message: 'Votre adresse email est désormais vérifiée.',
         type: 'success'
       });
       navigate('/connexion');
-    }, 1200);
+    } catch (err) {
+      console.error('Erreur verify-email/confirm:', err);
+      setError(err?.message || 'Erreur inattendue');
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
-  const handleResend = () => {
-    if (cooldown > 0) return;
-    addToast({
-      title: 'Nouveau code envoyé',
-      message: `Un nouveau code de vérification a été envoyé à ${targetEmail}.`,
-      type: 'info'
-    });
-    setCooldown(RESEND_COOLDOWN);
+  const handleResend = async () => {
+    if (cooldown > 0 || !targetEmail) return;
+    try {
+      await request('/auth/verify-email/request', {
+        method: 'POST',
+        auth: false,
+        body: { email: targetEmail }
+      });
+      addToast({
+        title: 'Nouveau code envoyé',
+        message: `Un nouveau code de vérification a été envoyé à ${targetEmail}.`,
+        type: 'info'
+      });
+      setCooldown(RESEND_COOLDOWN);
+    } catch (err) {
+      console.error('Erreur resend verify-email:', err);
+      addToast({
+        title: 'Erreur',
+        message: err?.message || 'Erreur inattendue',
+        type: 'error'
+      });
+    }
   };
 
   return (
@@ -124,7 +166,7 @@ function VerifyEmail() {
 
           <div className="auth-header-minimal">
             <h1>Vérifiez votre email</h1>
-            <p>Nous avons envoyé un code à {targetEmail}</p>
+            <p>Nous avons envoyé un code à {displayEmail}</p>
           </div>
 
           <div className="stepper-clean">
