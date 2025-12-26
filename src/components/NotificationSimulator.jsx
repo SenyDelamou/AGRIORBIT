@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useToast } from '../context/ToastContext';
+import { useAuth } from '../context/AuthContext';
 
 const NOTIFICATIONS = [
     { message: "Satellite Sentinel-2 : Nouvelles données disponibles", type: "info" },
@@ -11,26 +12,53 @@ const NOTIFICATIONS = [
 
 function NotificationSimulator() {
     const { addToast } = useToast();
+    const { user } = useAuth();
+    const timersRef = useRef({ initial: null, loop: null });
 
     useEffect(() => {
-        // Initial welcome toast
-        const t0 = setTimeout(() => {
-            addToast("Bienvenue sur Agri Orbit v2.0", "success");
-        }, 1000);
+        if (!user) {
+            if (timersRef.current.initial) {
+                clearTimeout(timersRef.current.initial);
+            }
+            if (timersRef.current.loop) {
+                clearInterval(timersRef.current.loop);
+            }
+            timersRef.current = { initial: null, loop: null };
+            return undefined;
+        }
 
-        // Random toasts loop
-        const interval = setInterval(() => {
+        const welcomeMessage = user?.name
+            ? `Heureux de vous revoir, ${user.name} !`
+            : 'Bienvenue sur Agri Orbit v2.0';
+
+        const initial = window.setTimeout(() => {
+            addToast({
+                title: 'Connexion réussie',
+                message: welcomeMessage,
+                type: 'success'
+            });
+        }, 800);
+
+        const loop = window.setInterval(() => {
             if (Math.random() > 0.6) { // 40% chance every 15s
                 const randomNotif = NOTIFICATIONS[Math.floor(Math.random() * NOTIFICATIONS.length)];
-                addToast(randomNotif.message, randomNotif.type);
+                addToast({
+                    title: 'Centre de notifications',
+                    message: randomNotif.message,
+                    type: randomNotif.type,
+                    duration: 7000
+                });
             }
         }, 15000);
 
+        timersRef.current = { initial, loop };
+
         return () => {
-            clearTimeout(t0);
-            clearInterval(interval);
+            clearTimeout(initial);
+            clearInterval(loop);
+            timersRef.current = { initial: null, loop: null };
         };
-    }, [addToast]);
+    }, [user, addToast]);
 
     return null; // Logic only component
 }
