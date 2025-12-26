@@ -673,10 +673,15 @@
 
 /* Inputs on Theme Bg */
 .auth-card-clean .input-wrapper input {
-    background: var(--glass-surface-light);
-    color: var(--text-primary);
-    border: 1px solid var(--glass-border);
+    background: var(--glass-surface-light, rgba(255, 255, 255, 0.06));
+    color: var(--text-primary, rgba(255, 255, 255, 0.92));
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
     padding-left: 3rem;
+    caret-color: var(--accent-neon-green);
+}
+
+.auth-card-clean .input-wrapper input::placeholder {
+    color: rgba(226, 232, 240, 0.55);
 }
 
 .auth-card-clean .input-wrapper input:focus {
