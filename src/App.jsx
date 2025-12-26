@@ -8,6 +8,7 @@ import About from './pages/About.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
+import VerifyEmail from './pages/VerifyEmail.jsx';
 import Loading from './pages/Loading.jsx';
 import Contact from './pages/Contact.jsx';
 import Profile from './pages/Profile.jsx';
@@ -70,6 +71,10 @@ function App() {
               <Route
                 path="/mot-de-passe-oublie"
                 element={<GuestRoute><ForgotPassword /></GuestRoute>}
+              />
+              <Route
+                path="/verification-email"
+                element={<GuestRoute><VerifyEmail /></GuestRoute>}
               />
               <Route path="*" element={<NotFound />} />
             </Routes>
