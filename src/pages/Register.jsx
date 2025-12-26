@@ -31,6 +31,8 @@ function Register() {
   });
 
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [registered, setRegistered] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,6 +41,7 @@ function Register() {
       return;
     }
 
+    setSubmitting(true);
     try {
       const data = await request('/auth/register', {
         method: 'POST',
@@ -61,10 +64,13 @@ function Register() {
         localStorage.setItem('agri_orbit_token', data.accessToken);
       }
 
-      navigate('/plateforme');
+      // show success briefly then navigate
+      setRegistered(true);
+      setTimeout(() => navigate('/plateforme'), 900);
     } catch (err) {
       console.error('Erreur inscription :', err);
       alert(err.message);
+      setSubmitting(false);
     }
   };
 
@@ -229,11 +235,20 @@ function Register() {
                 ref={buttonRef}
                 onClick={animateButton}
                 className="button-clean-primary"
-                disabled={!acceptedTerms}
+                disabled={!acceptedTerms || submitting}
               >
                 {t('create_account') || 'Créer mon compte'}
                 <ArrowRightIcon className="icon-arrow" />
               </button>
+
+              {registered && (
+                <div className="success-message" aria-live="polite">
+                  <div className="success-icon-wrapper">
+                    <CheckCircleIcon className="success-icon-large" />
+                  </div>
+                  <div className="redirection-text">Inscription réussie — redirection…</div>
+                </div>
+              )}
             </form>
 
             <div className="register-redirect">

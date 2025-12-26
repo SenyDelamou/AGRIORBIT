@@ -620,6 +620,24 @@
     animation: fadeIn 0.5s ease-out;
 }
 
+.success-icon-wrapper {
+    width: 4.5rem;
+    height: 4.5rem;
+    background: rgba(185, 255, 102, 0.08);
+    border-radius: 50%;
+    margin: 0 auto 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(185,255,102,0.18);
+}
+
+.success-icon-large {
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--accent-neon-green);
+}
+
 .text-xs {
     font-size: 0.85rem;
     color: var(--text-secondary);
