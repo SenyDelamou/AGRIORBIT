@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   UserIcon,
@@ -66,6 +66,19 @@ function Register() {
       console.error('Erreur inscription :', err);
       alert(err.message);
     }
+  };
+
+  const buttonRef = useRef(null);
+
+  const animateButton = () => {
+    const btn = buttonRef.current;
+    if (!btn || btn.disabled) return;
+    btn.classList.remove('click-animate');
+    // restart animation
+    // eslint-disable-next-line no-unused-expressions
+    void btn.offsetWidth;
+    btn.classList.add('click-animate');
+    setTimeout(() => btn && btn.classList.remove('click-animate'), 700);
   };
 
 
@@ -213,6 +226,8 @@ function Register() {
 
               <button
                 type="submit"
+                ref={buttonRef}
+                onClick={animateButton}
                 className="button-clean-primary"
                 disabled={!acceptedTerms}
               >
