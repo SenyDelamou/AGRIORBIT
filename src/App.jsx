@@ -38,7 +38,7 @@ function App() {
           <ScrollToTop />
           <Layout>
             <Routes>
-              <Route path="/" element={<Loading />} />
+              <Route path="/" element={<Navigate to="/plateforme" replace />} />
               <Route path="/plateforme" element={<Home />} />
               <Route
                 path="/explorateur"
