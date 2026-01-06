@@ -40,7 +40,8 @@ function App() {
           <Layout>
             <Suspense fallback={<div className="page-loader" aria-busy="true" aria-live="polite">Chargement…</div>}>
               <Routes>
-                <Route path="/" element={<Navigate to="/plateforme" replace />} />
+                <Route path="/" element={<Loading />} />
+                <Route path="/loading" element={<Loading />} />
                 <Route path="/plateforme" element={<Home />} />
                 <Route
                   path="/explorateur"
