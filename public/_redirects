@@ -1,1 +1,20 @@
+# ========================================
+# SPA Redirect Rules for Agri Orbit Frontend
+# ========================================
+#
+# This file ensures that all routes are redirected to index.html
+# for client-side routing with React Router.
+#
+# Syntax: [source] [destination] [status_code]
+# - /* = all routes
+# - /index.html = serve the main app
+# - 200 = success (not a redirect, rewrite)
+#
+# This file will be copied to /dist during build and used by:
+# - Netlify
+# - Render.com
+# - Other static hosting providers
+#
+# ========================================
+
 /*    /index.html   200

@@ -1,31 +1,59 @@
+# ========================================
+# AGRI ORBIT - RENDER.COM DEPLOYMENT
+# ========================================
+#
+# This file defines the infrastructure for Agri Orbit
+# on Render.com, including:
+# - Backend API (Node.js)
+# - Frontend (Static Site)
+# - PostgreSQL Database
+#
+# Documentation: https://render.com/docs/blueprint-spec
+#
+# ========================================
+
 services:
-  # Backend API Service
+  # ========================================
+  # BACKEND API SERVICE
+  # ========================================
   - type: web
     name: agriorbit-api
     env: node
     rootDir: server
     plan: free
-    buildCommand: npm install && npm run prisma:generate
+    region: frankfurt  # EU region for GDPR compliance
+    buildCommand: npm ci && npm run prisma:generate
     startCommand: npm run prisma:migrate:deploy && npm start
+    healthCheckPath: /api/health
+    
     envVars:
+      # Database
       - key: DATABASE_URL
         fromDatabase:
           name: agriorbit-db
           property: connectionString
+      
+      # Environment
       - key: NODE_ENV
         value: production
+      
+      # JWT & Security
       - key: JWT_ACCESS_SECRET
-        sync: false
+        generateValue: true  # Auto-generate secure secret
       - key: OTP_SECRET
-        sync: false
+        generateValue: true
       - key: ACCESS_TOKEN_TTL_SECONDS
-        value: "900"
+        value: "900"  # 15 minutes
       - key: REFRESH_TOKEN_TTL_SECONDS
-        value: "2592000"
+        value: "2592000"  # 30 days
+      
+      # External Services
       - key: FRONTEND_URL
-        sync: false
+        sync: false  # Set manually in dashboard
       - key: GOOGLE_CLIENT_ID
         sync: false
+      
+      # Email (SMTP)
       - key: SMTP_HOST
         sync: false
       - key: SMTP_PORT
@@ -37,24 +65,68 @@ services:
       - key: SMTP_FROM
         sync: false
 
-  # Frontend Static Site
+  # ========================================
+  # FRONTEND STATIC SITE
+  # ========================================
   - type: web
     name: agriorbit-frontend
     env: static
     rootDir: frontend
     plan: free
-    buildCommand: npm install && npm run build
+    region: frankfurt  # Same region as backend
+    buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
+    
+    # SPA Routing - Redirect all routes to index.html
     routes:
       - type: rewrite
         source: /*
         destination: /index.html
+    
+    # Custom Headers for Security & Performance
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+    
     envVars:
       - key: VITE_API_URL
+        sync: false  # Set to backend URL in dashboard
+      - key: VITE_GOOGLE_CLIENT_ID
         sync: false
 
+# ========================================
+# DATABASE
+# ========================================
 databases:
   - name: agriorbit-db
     plan: free
     databaseName: agriorbit
     user: agriorbit
+    region: frankfurt  # Same region for low latency
+
+# ========================================
+# NOTES
+# ========================================
+# 
+# After deploying:
+# 1. Set VITE_API_URL to: https://agriorbit-api.onrender.com/api
+# 2. Set FRONTEND_URL to: https://agriorbit-frontend.onrender.com
+# 3. Configure Google OAuth callback URLs
+# 4. Set up SMTP credentials for email
+#
+# Free tier limitations:
+# - Services spin down after 15 min of inactivity
+# - First request may take 30-60 seconds (cold start)
+# - Database: 1 GB storage, 97 hours uptime/month
+#
+# ========================================
