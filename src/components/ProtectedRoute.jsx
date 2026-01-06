@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Loading from '../pages/Loading';
+import LoadingSpinner from './LoadingSpinner';
 
 /**
  * Composant de protection des routes.
@@ -12,7 +12,7 @@ export const ProtectedRoute = ({ children }) => {
     const location = useLocation();
 
     if (loading) {
-        return <Loading />;
+        return <LoadingSpinner />;
     }
 
     if (!user) {
@@ -31,7 +31,7 @@ export const GuestRoute = ({ children }) => {
     const { user, loading } = useAuth();
 
     if (loading) {
-        return <Loading />;
+        return <LoadingSpinner />;
     }
 
     if (user) {
