@@ -277,7 +277,7 @@ function Home() {
       <section className="section home-founder">
         <div className="container glass-panel home-founder-panel">
           <div className="home-founder-image">
-            <img src={castro} alt="Dr. Castro Hounmenou" className="founder-portrait" />
+            <img src={castro} alt="Dr. Castro Hounmenou" className="founder-portrait" loading="lazy" />
             <div className="founder-badge">{t('founder_badge')}</div>
           </div>
           <div className="home-founder-content">

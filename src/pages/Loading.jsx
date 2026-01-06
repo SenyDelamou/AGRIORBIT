@@ -1,15 +1,31 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import '../styles/loading.css';
 
 function Loading() {
   const navigate = useNavigate();
+  const steps = [
+    'Initialisation des couches satellites',
+    'Synchronisation météo et sols',
+    'Préparation des tableaux de bord',
+    'Chargement des alertes et notifications'
+  ];
+  const [stepIndex, setStepIndex] = useState(0);
+  const [percent, setPercent] = useState(12);
 
   useEffect(() => {
-    const timer = setTimeout(() => navigate('/plateforme'), 3200);
+    const timer = setTimeout(() => navigate('/plateforme'), 3800);
     return () => clearTimeout(timer);
   }, [navigate]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStepIndex((prev) => (prev + 1) % steps.length);
+      setPercent((prev) => (prev >= 96 ? 22 : prev + 18));
+    }, 900);
+    return () => clearInterval(interval);
+  }, [steps.length]);
 
   return (
     <div className="loading-page">
@@ -31,6 +47,15 @@ function Loading() {
           </div>
           <div className="satellite-track track-2">
             <span className="satellite" />
+          </div>
+        </div>
+        <div className="loading-progress" aria-label="Progression du chargement">
+          <div className="progress-track">
+            <div className="progress-bar" style={{ width: `${percent}%` }} />
+          </div>
+          <div className="progress-meta">
+            <span>{steps[stepIndex]}</span>
+            <span>{percent}%</span>
           </div>
         </div>
         <p className="loading-note">Synchronisation des constellations, veuillez patienter…</p>

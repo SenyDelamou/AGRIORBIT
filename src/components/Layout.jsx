@@ -183,6 +183,20 @@ function Layout({ children }) {
 
   return (
     <div className="app-shell">
+      {hideChrome && (
+        <div className="auth-brand-shell">
+          <Link to="/plateforme" className="brand auth-brand">
+            <div className="brand-logo-wrapper">
+              <img src={logo} alt="Agri Orbit" className="brand-logo" />
+            </div>
+            <div className="brand-info">
+              <span className="brand-name">Agri Orbit</span>
+              <span className="brand-subtitle">{t('brand_subtitle')}</span>
+            </div>
+          </Link>
+        </div>
+      )}
+
       {!hideChrome && (
         <header className={`nav-shell ${scrolled ? 'scrolled' : ''}`}>
           <div className="container nav-inner">

@@ -1,0 +1,17 @@
+{
+  "name": "Agri Orbit Analytics",
+  "short_name": "AgriOrbit",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a1625",
+  "theme_color": "#0a1625",
+  "description": "Plateforme d’analyse agricole par imagerie satellite.",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    }
+  ]
+}
+

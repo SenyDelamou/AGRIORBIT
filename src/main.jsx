@@ -5,6 +5,15 @@ import { ThemeProvider } from './context/ThemeContext.jsx';
 import App from './App.jsx';
 import './styles/global.css';
 
+// Enregistrement du service worker pour PWA/offline
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((err) => {
+      console.error('Service worker registration failed:', err);
+    });
+  });
+}
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>

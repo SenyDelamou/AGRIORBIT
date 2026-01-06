@@ -190,6 +190,8 @@ function ForgotPassword() {
     if (otpRefs.current[lastIdx]) otpRefs.current[lastIdx].focus();
   };
 
+  const stepTitles = ['Envoyer le code', 'Vérifier le code', 'Nouveau mot de passe'];
+
   return (
     <div className="auth-page-clean auth-centered-wrapper">
       <div className="auth-centered-container">
@@ -236,6 +238,22 @@ function ForgotPassword() {
               </div>
               <div className={`step-line ${step > 2 ? 'active' : ''}`}></div>
               <div className={`step ${step >= 3 ? 'active' : ''}`}>3</div>
+            </div>
+          )}
+
+          {step < 4 && (
+            <div className="step-helper">
+              <div className="step-badge">{stepTitles[step - 1]}</div>
+              <p className="step-caption">
+                {step === 1 && 'Nous envoyons un code unique sur votre email.'}
+                {step === 2 && 'Saisissez les 6 chiffres reçus pour confirmer votre identité.'}
+                {step === 3 && 'Créez un mot de passe fort (8+ caractères).'}
+              </p>
+              <ul className="step-checklist">
+                <li><ShieldCheckIcon className="check-icon" /> Code valable 10 minutes.</li>
+                <li><ShieldCheckIcon className="check-icon" /> 3 tentatives avant blocage temporaire.</li>
+                <li><ShieldCheckIcon className="check-icon" /> Ne partagez jamais ce code.</li>
+              </ul>
             </div>
           )}
 
