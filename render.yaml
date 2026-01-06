@@ -1,4 +1,5 @@
 services:
+  # Backend API Service
   - type: web
     name: agriorbit-api
     env: node
@@ -34,6 +35,22 @@ services:
       - key: SMTP_PASS
         sync: false
       - key: SMTP_FROM
+        sync: false
+
+  # Frontend Static Site
+  - type: web
+    name: agriorbit-frontend
+    env: static
+    rootDir: frontend
+    plan: free
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
         sync: false
 
 databases:
