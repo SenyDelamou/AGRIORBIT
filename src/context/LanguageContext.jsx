@@ -446,10 +446,21 @@ const translations = {
 };
 
 export function LanguageProvider({ children }) {
-    const [lang, setLang] = useState(localStorage.getItem('agri_orbit_lang') || 'fr');
+    // Initialisation intelligente de la langue
+    const getInitialLanguage = () => {
+        const savedLang = localStorage.getItem('agri_orbit_lang');
+        if (savedLang) return savedLang;
 
+        // Par défaut, on force le français pour une expérience localisée cohérente
+        return 'fr';
+    };
+
+    const [lang, setLang] = useState(getInitialLanguage());
+
+    // Synchronisation avec le localStorage et l'attribut 'lang' du document
     useEffect(() => {
         localStorage.setItem('agri_orbit_lang', lang);
+        document.documentElement.lang = lang;
     }, [lang]);
 
     const t = (key) => {
