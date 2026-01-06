@@ -276,18 +276,18 @@ function Home() {
 
       <section className="section home-founder">
         <div className="container glass-panel home-founder-panel">
-          <div className="home-founder-image">
+          <a href="https://portofolio-seven-lac-92.vercel.app/" target="_blank" rel="noopener noreferrer" className="home-founder-image">
             <img src={castro} alt="Dr. Castro Hounmenou" className="founder-portrait" loading="lazy" />
             <div className="founder-badge">{t('founder_badge')}</div>
-          </div>
+          </a>
           <div className="home-founder-content">
             <span className="tag">{t('founder_tag')}</span>
             <h2>{t('founder_title')}</h2>
             <p>{t('founder_quote')}</p>
-            <div className="founder-signature">
+            <a href="https://portofolio-seven-lac-92.vercel.app/" target="_blank" rel="noopener noreferrer" className="founder-signature">
               <strong>Dr. Castro Hounmenou</strong>
               <span>{t('founder_signature')}</span>
-            </div>
+            </a>
           </div>
         </div>
       </section>

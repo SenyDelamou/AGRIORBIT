@@ -1307,7 +1307,7 @@
   .nav-links {
     position: fixed;
     inset: 0;
-    z-index: 2000;
+    z-index: 2001;
     background: var(--bg-deep-space);
     background-image:
       radial-gradient(circle at top right, rgba(185, 255, 102, 0.1), transparent 60%),
@@ -1325,6 +1325,9 @@
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s 0.5s;
     height: 100vh;
     width: 100vw;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 3rem;
   }
 
   .nav-links.open {

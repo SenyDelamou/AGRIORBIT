@@ -62,14 +62,14 @@ function About() {
 
       <section className="section about-founder">
         <div className="container founder-panel glass-panel">
-          <div className="founder-image-container">
+          <a href="https://portofolio-seven-lac-92.vercel.app/" target="_blank" rel="noopener noreferrer" className="founder-image-container">
             <img
               src={castro}
               alt="Dr. Castro"
               className="founder-img"
             />
             <span className="founder-label">{t('founder_badge')}</span>
-          </div>
+          </a>
           <div className="founder-content">
             <span className="badge">{t('founder_tag')}</span>
             <h2>{t('about_founder_vision')}</h2>
