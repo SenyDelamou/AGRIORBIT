@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import loginSatellite from '../assets/login_satellite.png';
 import '../styles/auth.css';
+import { useLanguage } from '../context/LanguageContext.jsx';
 
 function Login() {
+  const { t } = useLanguage();
   const googleButtonRef = useRef(null);
   const [googleReady, setGoogleReady] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -87,27 +89,27 @@ function Login() {
         <div className="auth-form-clean-container">
           <div className="auth-form-wrapper">
             <div className="auth-header-clean">
-              <h1>Connexion</h1>
-              <p>Authentification sécurisée</p>
+              <h1>{t('login_title')}</h1>
+              <p>{t('login_subtitle')}</p>
             </div>
 
             <form className="auth-form-clean" onSubmit={handleSubmit}>
               <div className="clean-input-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">{t('email_label')}</label>
                 <div className="input-wrapper">
                   <EnvelopeIcon className="input-icon left" />
-                  <input id="email" type="email" placeholder="votre@email.com" required />
+                  <input id="email" type="email" placeholder={t('email_placeholder')} required />
                 </div>
               </div>
 
               <div className="clean-input-group">
-                <label htmlFor="password">Mot de passe</label>
+                <label htmlFor="password">{t('password_label')}</label>
                 <div className="input-wrapper">
                   <LockClosedIcon className="input-icon left" />
                   <input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
+                    placeholder={t('password_placeholder')}
                     required
                   />
                   <button
@@ -123,19 +125,19 @@ function Login() {
               <div className="form-options-clean">
                 <label className="checkbox-clean">
                   <input type="checkbox" />
-                  <span>Se souvenir de moi</span>
+                  <span>{t('remember_me')}</span>
                 </label>
-                <Link to="/mot-de-passe-oublie" className="forgot-link">Mot de passe oublié ?</Link>
+                <Link to="/mot-de-passe-oublie" className="forgot-link">{t('forgot_password')}</Link>
               </div>
 
               <button type="submit" className="button-clean-primary">
-                Se connecter
+                {t('login_submit')}
                 <ArrowRightIcon className="icon-arrow" />
               </button>
             </form>
 
             <div className="social-clean">
-              <div className="divider-text">ou continuer avec</div>
+              <div className="divider-text">{t('or_continue_with')}</div>
               {googleClientId ? (
                 <div ref={googleButtonRef} className="google-btn-wrapper" />
               ) : (
@@ -153,7 +155,7 @@ function Login() {
             </div>
 
             <div className="register-redirect">
-              Pas encore de compte ? <Link to="/inscription">Créer un compte</Link>
+              {t('no_account')} <Link to="/inscription">{t('create_account_link')}</Link>
             </div>
           </div>
         </div>

@@ -102,14 +102,14 @@ function Register() {
         <div className="auth-form-clean-container">
           <div className="auth-form-wrapper registration-wrapper">
             <div className="auth-header-clean">
-              <h1>{t('nav_login').replace('Connexion', 'Inscription').replace('Login', 'Register').replace('Ubbital', 'Suɓagol')}</h1>
-              <p>{t('hero_subtitle')}</p>
+              <h1>{t('register_title')}</h1>
+              <p>{t('register_subtitle')}</p>
             </div>
 
             <form className="auth-form-clean" onSubmit={handleSubmit}>
               <div className="form-row-clean">
                 <div className="clean-input-group">
-                  <label htmlFor="firstname">{t('firstname') || 'Prénom'}</label>
+                  <label htmlFor="firstname">{t('firstname')}</label>
                   <div className="input-wrapper">
                     <UserIcon className="input-icon left" />
                     <input
@@ -123,7 +123,7 @@ function Register() {
                   </div>
                 </div>
                 <div className="clean-input-group">
-                  <label htmlFor="lastname">{t('lastname') || 'Nom'}</label>
+                  <label htmlFor="lastname">{t('lastname')}</label>
                   <div className="input-wrapper">
                     <UserIcon className="input-icon left" />
                     <input
@@ -139,7 +139,7 @@ function Register() {
               </div>
 
               <div className="clean-input-group">
-                <label htmlFor="organisation">{t('footer_company')}</label>
+                <label htmlFor="organisation">{t('organisation')}</label>
                 <div className="input-wrapper">
                   <BuildingOfficeIcon className="input-icon left" />
                   <input
@@ -174,7 +174,7 @@ function Register() {
               </div>
 
               <div className="clean-input-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">{t('email_label')}</label>
                 <div className="input-wrapper">
                   <EnvelopeIcon className="input-icon left" />
                   <input
@@ -190,7 +190,7 @@ function Register() {
 
               <div className="form-row-clean">
                 <div className="clean-input-group">
-                  <label htmlFor="password">{t('logout').replace('Déconnexion', 'Mot de passe').replace('Logout', 'Password').replace('Uddugol', 'Sariya')}</label>
+                  <label htmlFor="password">{t('password_label')}</label>
                   <div className="input-wrapper">
                     <LockClosedIcon className="input-icon left" />
                     <input
@@ -204,7 +204,7 @@ function Register() {
                   </div>
                 </div>
                 <div className="clean-input-group">
-                  <label htmlFor="confirm-password">{t('confirm_password') || 'Confirmer'}</label>
+                  <label htmlFor="confirm-password">{t('confirm_password')}</label>
                   <div className="input-wrapper">
                     <LockClosedIcon className="input-icon left" />
                     <input
@@ -226,7 +226,7 @@ function Register() {
                     checked={acceptedTerms}
                     onChange={(e) => setAcceptedTerms(e.target.checked)}
                   />
-                  <span className="text-xs">J'accepte les conditions générales</span>
+                  <span className="text-xs">{t('agree_terms')}</span>
                 </label>
               </div>
 
@@ -237,7 +237,7 @@ function Register() {
                 className="button-clean-primary"
                 disabled={!acceptedTerms || submitting}
               >
-                {t('create_account') || 'Créer mon compte'}
+                {t('create_account_btn')}
                 <ArrowRightIcon className="icon-arrow" />
               </button>
 
@@ -246,13 +246,13 @@ function Register() {
                   <div className="success-icon-wrapper">
                     <CheckCircleIcon className="success-icon-large" />
                   </div>
-                  <div className="redirection-text">Inscription réussie — redirection…</div>
+                  <div className="redirection-text">{t('verification_success')}</div>
                 </div>
               )}
             </form>
 
             <div className="register-redirect">
-              {t('already_member') || 'Déjà membre ?'} <Link to="/connexion">{t('nav_login')}</Link>
+              {t('already_member')} <Link to="/connexion">{t('login_link')}</Link>
             </div>
 
           </div>

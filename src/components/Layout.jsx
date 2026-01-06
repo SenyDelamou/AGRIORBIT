@@ -93,6 +93,7 @@ function UserProfile({ user, logout }) {
   return (
     <div className="user-profile-nav" ref={dropdownRef}>
       <button
+        type="button"
         className={`profile-btn ${dropdownOpen ? 'active' : ''}`}
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-label="Menu utilisateur"
@@ -133,7 +134,7 @@ function UserProfile({ user, logout }) {
           </div>
 
           <div className="dropdown-footer">
-            <button onClick={logout} className="logout-btn">
+            <button type="button" onClick={logout} className="logout-btn">
               <ArrowRightOnRectangleIcon className="logout-icon" />
               {t('logout')}
             </button>
@@ -204,7 +205,12 @@ function Layout({ children }) {
                     <img src={logo} alt="Agri Orbit" className="brand-logo" />
                   </div>
                 </Link>
-                <button className="menu-close" onClick={() => setMobileMenuOpen(false)}> {/* Changed setMenuOpen to setMobileMenuOpen */}
+                <button
+                  type="button"
+                  className="menu-close"
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Fermer le menu"
+                >
                   <XMarkIcon className="icon" />
                 </button>
               </div>
@@ -229,14 +235,18 @@ function Layout({ children }) {
                 {!user ? (
                   <NavLink
                     to="/connexion"
-                    onClick={() => setMobileMenuOpen(false)} // Changed setMenuOpen to setMobileMenuOpen
+                    onClick={() => setMobileMenuOpen(false)}
                     className="login-pill"
                   >
                     <ArrowRightOnRectangleIcon className="nav-icon" />
                     <span>{t('nav_login')}</span>
                   </NavLink>
                 ) : (
-                  <button onClick={() => { logout(); setMobileMenuOpen(false); }} className="login-pill"> {/* Changed setMenuOpen to setMobileMenuOpen */}
+                  <button
+                    type="button"
+                    onClick={() => { logout(); setMobileMenuOpen(false); }}
+                    className="login-pill"
+                  >
                     <ArrowRightOnRectangleIcon className="nav-icon" />
                     <span>{t('nav_logout')}</span>
                   </button>
@@ -266,6 +276,7 @@ function Layout({ children }) {
                 <UserProfile user={user} logout={logout} />
               )}
               <button
+                type="button"
                 className="menu-toggle"
                 aria-label={t('menu_toggle_label')}
                 onClick={() => setMobileMenuOpen(true)}
