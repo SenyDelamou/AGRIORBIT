@@ -143,6 +143,17 @@
     box-shadow: 0 0 0 4px rgba(185, 255, 102, 0.1);
 }
 
+@media (max-width: 380px) {
+    .input-wrapper input {
+        font-size: 0.95rem;
+        padding-left: 2.8rem;
+    }
+
+    .input-icon.left {
+        left: 0.7rem;
+    }
+}
+
 .input-wrapper input::placeholder {
     color: rgba(255, 255, 255, 0.4);
 }
@@ -349,6 +360,61 @@
 .google-fallback-btn:hover {
     background: rgba(255, 255, 255, 0.1);
     border-color: var(--accent-neon-green);
+}
+
+/* Custom Premium Google Button */
+.google-custom-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.85rem;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out-expo);
+    position: relative;
+    overflow: hidden;
+}
+
+.google-custom-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(185, 255, 102, 0.05), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.google-custom-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--accent-neon-green);
+    box-shadow: 0 0 20px rgba(185, 255, 102, 0.15);
+    transform: translateY(-2px);
+}
+
+.google-custom-btn:hover::before {
+    transform: translateX(100%);
+}
+
+.google-icon-wrapper {
+    background: white;
+    padding: 0.4rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.google-icon-svg {
+    width: 1.15rem;
+    height: 1.15rem;
 }
 
 .w-5 {
