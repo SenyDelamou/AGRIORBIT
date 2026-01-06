@@ -71,11 +71,14 @@
 .auth-form-wrapper {
     width: 100%;
     max-width: 420px;
+    min-width: 0;
+    /* Important for grid/flex sizing */
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     z-index: 1;
     padding: 2rem 0;
+    box-sizing: border-box;
 }
 
 /* Header */
@@ -405,11 +408,22 @@
 
 .google-icon-wrapper {
     background: white;
-    padding: 0.4rem;
+    padding: 0.45rem;
     border-radius: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* White Mono Icon Mode */
+.google-custom-btn .google-icon-svg path {
+    fill: #000;
+    /* Icon is black on white bg */
+}
+
+.google-custom-btn:hover .google-icon-wrapper {
+    transform: scale(1.05);
 }
 
 .google-icon-svg {
