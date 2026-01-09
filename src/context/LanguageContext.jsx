@@ -205,6 +205,16 @@ const translations = {
         legal_notice_meta_compliance: 'Conformité',
         legal_notice_meta_compliance_value: 'RGPD & ISO 27001',
         legal_notice_meta_scope_value: 'Opérations globales',
+        legal_notice_nav_title: 'Navigation rapide',
+        legal_notice_nav_aria: 'Aller à {{section}}',
+        legal_notice_share: 'Partager',
+        legal_notice_share_copied: 'Lien copié',
+        legal_notice_share_title: 'Partager les mentions légales',
+        legal_notice_share_aria: 'Partager cette page',
+        legal_notice_copy_title: 'Copier la section',
+        legal_notice_copy_aria: 'Copier {{section}}',
+        legal_notice_back_to_top_title: 'Retour en haut',
+        legal_notice_back_to_top_aria: 'Revenir au début de la page',
 
         // About & Analytics keys
         about_mission_eyebrow: 'Notre mission',
@@ -443,6 +453,16 @@ const translations = {
         legal_notice_meta_compliance: 'Compliance',
         legal_notice_meta_compliance_value: 'GDPR & ISO 27001',
         legal_notice_meta_scope_value: 'Global operations',
+        legal_notice_nav_title: 'Quick navigation',
+        legal_notice_nav_aria: 'Jump to {{section}}',
+        legal_notice_share: 'Share',
+        legal_notice_share_copied: 'Link copied',
+        legal_notice_share_title: 'Share the legal notice',
+        legal_notice_share_aria: 'Share this page',
+        legal_notice_copy_title: 'Copy section title',
+        legal_notice_copy_aria: 'Copy {{section}}',
+        legal_notice_back_to_top_title: 'Back to top',
+        legal_notice_back_to_top_aria: 'Return to the top of the page',
 
         // About & Analytics keys
         about_mission_eyebrow: 'Our Mission',

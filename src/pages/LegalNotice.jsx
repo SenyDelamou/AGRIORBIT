@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import {
   DocumentTextIcon,
@@ -50,29 +50,60 @@ function LegalNotice() {
     fr: 'fr-FR',
     en: 'en-US'
   };
-  const dateFormatter = new Intl.DateTimeFormat(localeMap[lang] ?? 'fr-FR', { dateStyle: 'long' });
-  
+  const dateFormatter = useMemo(
+    () => new Intl.DateTimeFormat(localeMap[lang] ?? 'fr-FR', { dateStyle: 'long' }),
+    [lang]
+  );
+  const copyToClipboard = async (value) => {
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(value);
+        return true;
+      }
+      const textarea = document.createElement('textarea');
+      textarea.value = value;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'absolute';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      const success = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      return success;
+    } catch (error) {
+      console.warn('Impossible de copier le texte dans le presse-papiers.', error);
+      return false;
+    }
+  };
+
   // Copy to clipboard functionality
-  const handleCopySection = (cardId, title) => {
-    const text = `${title} - Agri Orbit Analytics Legal Notice`;
-    navigator.clipboard.writeText(text).then(() => {
+  const handleCopySection = async (cardId, title) => {
+    const text = `${title} — Agri Orbit Analytics`;
+    const copied = await copyToClipboard(text);
+    if (copied) {
       setCopiedId(cardId);
       setTimeout(() => setCopiedId(null), 2000);
-    });
+    }
   };
 
   // Share functionality
-  const handleShare = () => {
+  const handleShare = async () => {
     if (navigator.share) {
-      navigator.share({
+      try {
+        await navigator.share({
         title: 'Mentions Légales',
         text: 'Consultez les mentions légales d\'Agri Orbit Analytics',
         url: window.location.href
       });
+      } catch (error) {
+        console.warn('Partage abandonné ou non supporté.', error);
+      }
     } else {
-      navigator.clipboard.writeText(window.location.href);
-      setCopiedId('url');
-      setTimeout(() => setCopiedId(null), 2000);
+      const copied = await copyToClipboard(window.location.href);
+      if (copied) {
+        setCopiedId('url');
+        setTimeout(() => setCopiedId(null), 2000);
+      }
     }
   };
 
@@ -89,7 +120,7 @@ function LegalNotice() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const legalCards = [
+  const legalCards = useMemo(() => ([
     {
       id: 1,
       badge: 'IDENTITÉ',
@@ -170,7 +201,38 @@ function LegalNotice() {
       icon: EnvelopeIcon,
       color: 'green'
     }
-  ];
+  ]), []);
+  const sectionIds = useMemo(() => legalCards.map((card) => `section-${card.id}`), [legalCards]);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.target.offsetTop - b.target.offsetTop);
+        if (visible.length > 0) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: '-55% 0px -35% 0px',
+        threshold: 0.2
+      }
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        observer.observe(el);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, [sectionIds]);
 
   const metaCards = [
     {
@@ -192,14 +254,14 @@ function LegalNotice() {
       {/* Table of Contents */}
       <nav className="legal-toc" aria-label="Table of contents">
         <div className="container">
-          <h2 className="toc-title">Navigation rapide</h2>
+          <h2 className="toc-title">{t('legal_notice_nav_title')}</h2>
           <div className="toc-grid">
-            {legalCards.slice(0, 5).map((card) => (
+            {legalCards.map((card) => (
               <button
                 key={`toc-${card.id}`}
                 className={`toc-link ${activeSection === `section-${card.id}` ? 'active' : ''}`}
                 onClick={() => scrollToSection(`section-${card.id}`)}
-                aria-label={`Aller à ${card.title}`}
+                aria-label={t('legal_notice_nav_aria', { section: card.title })}
               >
                 {card.title}
               </button>
@@ -220,14 +282,18 @@ function LegalNotice() {
           </p>
           
           {/* Share Button */}
-          <button 
+          <button
             className="share-button animate-fade-in-up"
             onClick={handleShare}
-            aria-label="Partager cette page"
-            title="Partager les mentions légales"
+            aria-label={t('legal_notice_share_aria')}
+            title={t('legal_notice_share_title')}
           >
-            <ShareIcon className="share-icon" />
-            <span>Partager</span>
+            {copiedId === 'url' ? (
+              <CheckIcon className="share-icon" aria-hidden="true" />
+            ) : (
+              <ShareIcon className="share-icon" aria-hidden="true" />
+            )}
+            <span>{copiedId === 'url' ? t('legal_notice_share_copied') : t('legal_notice_share')}</span>
           </button>
 
           <div className="legal-meta-grid animate-fade-in-up">
@@ -273,13 +339,13 @@ function LegalNotice() {
                   <button
                     className={`copy-button ${copiedId === card.id ? 'copied' : ''}`}
                     onClick={() => handleCopySection(card.id, card.title)}
-                    aria-label={`Copier ${card.title}`}
-                    title="Copier"
+                    aria-label={t('legal_notice_copy_aria', { section: card.title })}
+                    title={t('legal_notice_copy_title')}
                   >
                     {copiedId === card.id ? (
-                      <CheckIcon className="copy-icon" />
+                      <CheckIcon className="copy-icon" aria-hidden="true" />
                     ) : (
-                      <DocumentTextIcon className="copy-icon" />
+                      <DocumentTextIcon className="copy-icon" aria-hidden="true" />
                     )}
                   </button>
                   
@@ -330,12 +396,14 @@ function LegalNotice() {
         <button
           className="back-to-top animate-fade-in-up"
           onClick={scrollToTop}
-          aria-label="Revenir au début de la page"
-          title="Retour au top"
+          aria-label={t('legal_notice_back_to_top_aria')}
+          title={t('legal_notice_back_to_top_title')}
         >
-          <ArrowUpIcon className="arrow-icon" />
+          <ArrowUpIcon className="arrow-icon" aria-hidden="true" />
         </button>
       )}
+    </div>
+  );
 }
 
 export default LegalNotice;
