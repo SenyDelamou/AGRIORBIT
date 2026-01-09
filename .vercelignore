@@ -1,0 +1,10 @@
+.git
+.gitignore
+.env
+.env.local
+.env.*.local
+.eslintrc.cjs
+node_modules
+README.md
+src
+public/sw.js.bak
