@@ -3,6 +3,7 @@ import { analyticsImages } from '../data/heroImages.js';
 import castro from '../assets/castro.png';
 import '../styles/analytics.css';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { useState, useMemo } from 'react';
 
 const analyticsModules = [
   {
@@ -160,6 +161,57 @@ const parcellesKPIs = [
 ];
 function AnalyticsSuite() {
   const { t } = useLanguage();
+  const [filterCulture, setFilterCulture] = useState('');
+  const [sortBy, setSortBy] = useState('nom');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Calcul des statistiques globales
+  const stats = useMemo(() => {
+    const filtered = parcellesKPIs.filter(p => 
+      (!filterCulture || p.culture === filterCulture) &&
+      (p.nom.toLowerCase().includes(searchTerm.toLowerCase()) || 
+       p.id.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+    
+    return {
+      totalParcelles: parcellesKPIs.length,
+      totalSurface: parcellesKPIs.reduce((sum, p) => sum + p.surface, 0),
+      rendementMoyen: Math.round(parcellesKPIs.reduce((sum, p) => sum + p.rendement, 0) / parcellesKPIs.length),
+      santeMoyenne: Math.round(parcellesKPIs.reduce((sum, p) => sum + parseInt(p.sante), 0) / parcellesKPIs.length),
+      ndviMoyen: (parcellesKPIs.reduce((sum, p) => sum + p.ndvi, 0) / parcellesKPIs.length).toFixed(2),
+      cultures: [...new Set(parcellesKPIs.map(p => p.culture))],
+      stressCount: {
+        nul: parcellesKPIs.filter(p => p.stress === 'Nul').length,
+        faible: parcellesKPIs.filter(p => p.stress === 'Faible').length,
+        modere: parcellesKPIs.filter(p => p.stress === 'Modéré').length,
+        eleve: parcellesKPIs.filter(p => p.stress === 'Élevé').length
+      }
+    };
+  }, []);
+
+  // Parcelles filtrées et triées
+  const parcellesFiltered = useMemo(() => {
+    let filtered = parcellesKPIs.filter(p => 
+      (!filterCulture || p.culture === filterCulture) &&
+      (p.nom.toLowerCase().includes(searchTerm.toLowerCase()) || 
+       p.id.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+
+    return filtered.sort((a, b) => {
+      switch(sortBy) {
+        case 'nom':
+          return a.nom.localeCompare(b.nom);
+        case 'rendement':
+          return b.rendement - a.rendement;
+        case 'sante':
+          return parseInt(b.sante) - parseInt(a.sante);
+        case 'ndvi':
+          return b.ndvi - a.ndvi;
+        default:
+          return 0;
+      }
+    });
+  }, [filterCulture, searchTerm, sortBy]);
 
   return (
     <div className="analytics-page">
@@ -214,13 +266,124 @@ function AnalyticsSuite() {
         </div>
       </section>
 
-      <section className="section parcelles-kpis">
+      <section className="section parcelles-kpis" id="dashboard">
         <div className="container">
+          {/* Dashboard Header avec Statistiques Globales */}
           <header className="section-header">
-            <span className="tag">Parcelles connectées</span>
-            <h2>Tableau de bord détaillé des parcelles</h2>
-            <p>Surveillance complète avec tous les KPIs agronomiques en temps réel: indices de végétation, conditions climatiques, nutriments et recommandations.</p>
+            <span className="tag">Tableau de bord</span>
+            <h2>Dashboard agronomique en temps réel</h2>
+            <p>Suivi complet de toutes vos parcelles avec indicateurs de performance, alertes et recommandations.</p>
           </header>
+
+          {/* Statistiques Globales */}
+          <div className="dashboard-stats-grid">
+            <div className="stat-card glass-panel">
+              <div className="stat-header">
+                <span className="stat-icon">📊</span>
+                <span className="stat-label">Parcelles actives</span>
+              </div>
+              <div className="stat-value">{stats.totalParcelles}</div>
+              <div className="stat-detail">Connectées et surveillées</div>
+            </div>
+
+            <div className="stat-card glass-panel">
+              <div className="stat-header">
+                <span className="stat-icon">🌾</span>
+                <span className="stat-label">Surface totale</span>
+              </div>
+              <div className="stat-value">{stats.totalSurface.toFixed(1)} ha</div>
+              <div className="stat-detail">Exploitée en AgriOrbit</div>
+            </div>
+
+            <div className="stat-card glass-panel">
+              <div className="stat-header">
+                <span className="stat-icon">📈</span>
+                <span className="stat-label">Rendement moyen</span>
+              </div>
+              <div className="stat-value">{stats.rendementMoyen} q/ha</div>
+              <div className="stat-detail">Projection à maturité</div>
+            </div>
+
+            <div className="stat-card glass-panel">
+              <div className="stat-header">
+                <span className="stat-icon">💚</span>
+                <span className="stat-label">Santé moyenne</span>
+              </div>
+              <div className="stat-value">{stats.santeMoyenne}%</div>
+              <div className="stat-detail">Indicateur global</div>
+            </div>
+
+            <div className="stat-card glass-panel">
+              <div className="stat-header">
+                <span className="stat-icon">🌱</span>
+                <span className="stat-label">NDVI moyen</span>
+              </div>
+              <div className="stat-value">{stats.ndviMoyen}</div>
+              <div className="stat-detail">Indice végétatif</div>
+            </div>
+
+            <div className="stat-card glass-panel">
+              <div className="stat-header">
+                <span className="stat-icon">⚠️</span>
+                <span className="stat-label">Stress hydrique</span>
+              </div>
+              <div className="stress-indicators">
+                <span className="stress-indicator nul">{stats.stressCount.nul} Nul</span>
+                <span className="stress-indicator faible">{stats.stressCount.faible} Faible</span>
+                <span className="stress-indicator modere">{stats.stressCount.modere} Modéré</span>
+                <span className="stress-indicator eleve">{stats.stressCount.eleve} Élevé</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Contrôles de filtrage et recherche */}
+          <div className="dashboard-controls glass-panel">
+            <div className="control-group">
+              <label htmlFor="search-parcelle">Rechercher parcelle</label>
+              <input
+                id="search-parcelle"
+                type="text"
+                placeholder="ID ou nom..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-input"
+              />
+            </div>
+
+            <div className="control-group">
+              <label htmlFor="filter-culture">Filtrer par culture</label>
+              <select
+                id="filter-culture"
+                value={filterCulture}
+                onChange={(e) => setFilterCulture(e.target.value)}
+                className="filter-select"
+              >
+                <option value="">Toutes les cultures</option>
+                {stats.cultures.map(culture => (
+                  <option key={culture} value={culture}>{culture}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="control-group">
+              <label htmlFor="sort-by">Trier par</label>
+              <select
+                id="sort-by"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="filter-select"
+              >
+                <option value="nom">Nom (A-Z)</option>
+                <option value="rendement">Rendement (↓)</option>
+                <option value="sante">Santé (↓)</option>
+                <option value="ndvi">NDVI (↓)</option>
+              </select>
+            </div>
+
+            <div className="control-results">
+              Affichage: <strong>{parcellesFiltered.length}</strong> / {stats.totalParcelles} parcelles
+            </div>
+          </div>
           <div className="parcelles-table-wrapper glass-panel">
             <table className="parcelles-table">
               <thead>
@@ -248,7 +411,7 @@ function AnalyticsSuite() {
                 </tr>
               </thead>
               <tbody>
-                {parcellesKPIs.map((parcelle) => (
+                {parcellesFiltered.map((parcelle) => (
                   <tr key={parcelle.id} className={`kpi-row stress-${parcelle.stress.toLowerCase().replace(/[é ]/g, '')}`}>
                     <td className="id-cell">{parcelle.id}</td>
                     <td className="nom-cell">{parcelle.nom}</td>
