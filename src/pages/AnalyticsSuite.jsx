@@ -42,55 +42,120 @@ const parcellesKPIs = [
     nom: 'Nord-Est',
     surface: 12.5,
     culture: 'Maïs',
+    stade: 'Floraison',
     ndvi: 0.78,
+    evi: 0.64,
     stress: 'Modéré',
     rendement: 82,
+    potentiel: 95,
     humidite: 65,
-    sante: '92%'
+    temperature: 24.5,
+    precipitations: 45,
+    ph: 6.8,
+    azote: 180,
+    phosphore: 45,
+    potassium: 220,
+    sante: '92%',
+    derniereScan: '2 h',
+    tendance: 'stable',
+    risqueMaladie: 'Faible',
+    recommandation: 'Vérifier irrigation'
   },
   {
     id: 'P002',
     nom: 'Centre',
     surface: 8.3,
     culture: 'Blé',
+    stade: 'Montaison',
     ndvi: 0.72,
+    evi: 0.58,
     stress: 'Faible',
     rendement: 78,
+    potentiel: 88,
     humidite: 72,
-    sante: '96%'
+    temperature: 22.8,
+    precipitations: 52,
+    ph: 7.2,
+    azote: 165,
+    phosphore: 50,
+    potassium: 210,
+    sante: '96%',
+    derniereScan: '45 min',
+    tendance: 'hausse',
+    risqueMaladie: 'Très faible',
+    recommandation: 'Conditions optimales'
   },
   {
     id: 'P003',
     nom: 'Sud-Ouest',
     surface: 15.7,
     culture: 'Soja',
+    stade: 'Gousses',
     ndvi: 0.81,
+    evi: 0.69,
     stress: 'Nul',
     rendement: 85,
+    potentiel: 92,
     humidite: 68,
-    sante: '98%'
+    temperature: 25.2,
+    precipitations: 48,
+    ph: 6.5,
+    azote: 195,
+    phosphore: 48,
+    potassium: 240,
+    sante: '98%',
+    derniereScan: '30 min',
+    tendance: 'hausse',
+    risqueMaladie: 'Nul',
+    recommandation: 'Excellent potentiel'
   },
   {
     id: 'P004',
     nom: 'Est',
     surface: 11.2,
     culture: 'Orge',
+    stade: 'Maturité',
     ndvi: 0.65,
+    evi: 0.52,
     stress: 'Élevé',
     rendement: 72,
+    potentiel: 80,
     humidite: 58,
-    sante: '78%'
+    temperature: 26.8,
+    precipitations: 35,
+    ph: 7.4,
+    azote: 145,
+    phosphore: 42,
+    potassium: 190,
+    sante: '78%',
+    derniereScan: '1 h 15',
+    tendance: 'baisse',
+    risqueMaladie: 'Modéré',
+    recommandation: 'Augmenter irrigation'
   },
   {
     id: 'P005',
     nom: 'Ouest',
     surface: 9.8,
     culture: 'Colza',
+    stade: 'Siliques',
     ndvi: 0.74,
+    evi: 0.60,
     stress: 'Faible',
     rendement: 80,
+    potentiel: 89,
     humidite: 71,
-    sante: '94%'
+    temperature: 23.5,
+    precipitations: 50,
+    ph: 6.9,
+    azote: 170,
+    phosphore: 46,
+    potassium: 215,
+    sante: '94%',
+    derniereScan: '50 min',
+    tendance: 'stable',
+    risqueMaladie: 'Faible',
+    recommandation: 'Suivi régulier'
   }
 ];
 function AnalyticsSuite() {
@@ -153,22 +218,33 @@ function AnalyticsSuite() {
         <div className="container">
           <header className="section-header">
             <span className="tag">Parcelles connectées</span>
-            <h2>KPIs des parcelles en temps réel</h2>
-            <p>Surveillance continue des indicateurs de santé, rendement et conditions hydrologiques de vos parcelles.</p>
+            <h2>Tableau de bord détaillé des parcelles</h2>
+            <p>Surveillance complète avec tous les KPIs agronomiques en temps réel: indices de végétation, conditions climatiques, nutriments et recommandations.</p>
           </header>
           <div className="parcelles-table-wrapper glass-panel">
             <table className="parcelles-table">
               <thead>
                 <tr>
-                  <th>ID Parcelle</th>
-                  <th>Nom</th>
+                  <th>ID</th>
+                  <th>Parcelle</th>
                   <th>Surface (ha)</th>
                   <th>Culture</th>
-                  <th>NDVI</th>
-                  <th>Stress hydrique</th>
-                  <th>Rendement (q/ha)</th>
+                  <th>Stade</th>
+                  <th>NDVI / EVI</th>
+                  <th>Stress</th>
+                  <th>Rendement / Potentiel (q/ha)</th>
                   <th>Humidité (%)</th>
-                  <th>Santé générale</th>
+                  <th>Température (°C)</th>
+                  <th>Précipitations (mm)</th>
+                  <th>pH Sol</th>
+                  <th>Azote (N)</th>
+                  <th>Phosphore (P)</th>
+                  <th>Potassium (K)</th>
+                  <th>Santé</th>
+                  <th>Dernier scan</th>
+                  <th>Tendance</th>
+                  <th>Risque maladie</th>
+                  <th>Recommandation</th>
                 </tr>
               </thead>
               <tbody>
@@ -178,22 +254,63 @@ function AnalyticsSuite() {
                     <td className="nom-cell">{parcelle.nom}</td>
                     <td className="num-cell">{parcelle.surface}</td>
                     <td className="culture-cell">{parcelle.culture}</td>
-                    <td className="num-cell ndvi-cell">
-                      <span className="ndvi-value">{parcelle.ndvi}</span>
+                    <td className="stade-cell">{parcelle.stade}</td>
+                    <td className="indice-cell">
+                      <div className="indices-group">
+                        <span className="indice-ndvi">{parcelle.ndvi}</span>
+                        <span className="indice-evi">{parcelle.evi}</span>
+                      </div>
                     </td>
                     <td className="stress-cell">
                       <span className={`stress-badge stress-${parcelle.stress.toLowerCase().replace(/[é ]/g, '')}`}>
                         {parcelle.stress}
                       </span>
                     </td>
-                    <td className="num-cell rendement-cell">{parcelle.rendement}</td>
-                    <td className="num-cell humidite-cell">
+                    <td className="rendement-cell">
+                      <div className="rendement-group">
+                        <span className="rendement-current">{parcelle.rendement}</span>
+                        <span className="rendement-potential">{parcelle.potentiel}</span>
+                      </div>
+                    </td>
+                    <td className="humidite-cell">
                       <span className={`humidite-bar ${parcelle.humidite > 70 ? 'high' : parcelle.humidite > 60 ? 'medium' : 'low'}`}>
                         {parcelle.humidite}%
                       </span>
                     </td>
+                    <td className="temp-cell">
+                      <span className="temp-value">{parcelle.temperature}°</span>
+                    </td>
+                    <td className="num-cell">{parcelle.precipitations}</td>
+                    <td className="ph-cell">
+                      <span className={`ph-badge ${parcelle.ph > 7 ? 'alcalin' : parcelle.ph < 6.5 ? 'acide' : 'neutre'}`}>
+                        {parcelle.ph}
+                      </span>
+                    </td>
+                    <td className="nutrient-cell">{parcelle.azote}</td>
+                    <td className="nutrient-cell">{parcelle.phosphore}</td>
+                    <td className="nutrient-cell">{parcelle.potassium}</td>
                     <td className="sante-cell">
                       <span className="sante-badge">{parcelle.sante}</span>
+                    </td>
+                    <td className="scan-cell">
+                      <span className="scan-time">{parcelle.derniereScan}</span>
+                    </td>
+                    <td className="tendance-cell">
+                      <span className={`tendance-badge tendance-${parcelle.tendance}`}>
+                        {parcelle.tendance === 'hausse' && '📈 Hausse'}
+                        {parcelle.tendance === 'baisse' && '📉 Baisse'}
+                        {parcelle.tendance === 'stable' && '➡️ Stable'}
+                      </span>
+                    </td>
+                    <td className="risque-cell">
+                      <span className={`risque-badge risque-${parcelle.risqueMaladie.toLowerCase().replace(/[é ]/g, '')}`}>
+                        {parcelle.risqueMaladie}
+                      </span>
+                    </td>
+                    <td className="recommandation-cell">
+                      <span className="recommandation-text" title={parcelle.recommandation}>
+                        {parcelle.recommandation}
+                      </span>
                     </td>
                   </tr>
                 ))}
