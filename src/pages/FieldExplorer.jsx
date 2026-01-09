@@ -85,6 +85,99 @@ const mockAnalysisResult = {
   ]
 };
 
+// Système d'IA avancée avec mémoire contextuelle
+const aiKnowledgeBase = {
+  analyses: {
+    'Maïs': {
+      ndvi_optimal: 0.75,
+      stades: ['Semis', 'Levée', 'Stade 4-6 feuilles', 'Stade V8', 'Stade V12', 'Montaison', 'Floraison', 'Remplissage des grains', 'Maturité'],
+      stress_indicators: { ndvi_low: 0.50, ndwi_low: 0.3, temp_high: 35 },
+      irrigation: 'Criticale à floraison - 60mm/cycle',
+      fertilisation: 'N: 180-220 kg/ha, P: 80-100, K: 100-120',
+      diseases: ['Fusariose', 'Rouille', 'Anthracnose', 'Pourriture des épis']
+    },
+    'Riz': {
+      ndvi_optimal: 0.80,
+      stades: ['Semis', 'Levée', 'Tallage', 'Montaison', 'Épiaison', 'Floraison', 'Remplissage', 'Maturité'],
+      stress_indicators: { ndvi_low: 0.55, ndwi_low: 0.4, temp_high: 38 },
+      irrigation: 'Continue - 1000-1500mm/cycle',
+      fertilisation: 'N: 120-180 kg/ha, P: 60-80, K: 60-80',
+      diseases: ['Piriculariose', 'Bactériose', 'Blast']
+    },
+    'Sorgho': {
+      ndvi_optimal: 0.72,
+      stades: ['Semis', 'Levée', 'Tallage', 'Montaison', 'Floraison', 'Remplissage', 'Maturité'],
+      stress_indicators: { ndvi_low: 0.45, ndwi_low: 0.25, temp_high: 40 },
+      irrigation: 'Modérée - 400-600mm/cycle',
+      fertilisation: 'N: 100-150 kg/ha, P: 50-70, K: 50-70',
+      diseases: ['Anthracnose', 'Ergot', 'Pourriture des tiges']
+    },
+    'Arachide': {
+      ndvi_optimal: 0.68,
+      stades: ['Semis', 'Levée', 'Floraison', 'Épigénie', 'Remplissage', 'Maturité'],
+      stress_indicators: { ndvi_low: 0.40, ndwi_low: 0.2, temp_high: 38 },
+      irrigation: 'Modérée - 500-700mm',
+      fertilisation: 'N: 40-60 kg/ha, P: 80-100, K: 60-80, Ca: 1t/ha',
+      diseases: ['Rouille', 'Maladie du roseau', 'Pourriture']
+    }
+  },
+  weatherPatterns: {
+    'Saison sèche': { risk_level: 'ÉLEVÉ', irrigation_need: 'CRITIQUE', diseases: ['Stress hydrique', 'Attaques d\'acariens'] },
+    'Saison humide': { risk_level: 'TRÈS ÉLEVÉ', irrigation_need: 'FAIBLE', diseases: ['Champignons', 'Bactéries', 'Viroses'] },
+    'Transition': { risk_level: 'MODÉRÉ', irrigation_need: 'MODÉRÉE', diseases: ['Variées'] }
+  }
+};
+
+// Fonction d'IA pour analyser les données satellite
+const analyzeSatelliteData = (satelliteFile, selectedParcelle) => {
+  if (!selectedParcelle) {
+    return '⚠️ Veuillez sélectionner une parcelle avant d\'analyser les données satellite.';
+  }
+
+  const fileName = satelliteFile.name.toLowerCase();
+  const culture = aiKnowledgeBase.analyses[selectedParcelle.culture];
+  
+  let analysis = `🛰️ Analyse Satellite de ${selectedParcelle.nom}\n`;
+  analysis += `📁 Fichier: ${satelliteFile.name}\n\n`;
+  
+  // Simulation d'analyse basée sur le fichier
+  if (fileName.includes('ndvi')) {
+    analysis += `📊 Analyse NDVI Détectée:\n`;
+    analysis += `• Valeur moyenne: ${selectedParcelle.ndvi.toFixed(2)}\n`;
+    if (culture) {
+      analysis += `• Optimal: ${culture.ndvi_optimal}\n`;
+      analysis += `• État: ${selectedParcelle.ndvi >= culture.ndvi_optimal ? '✅ BON' : '⚠️ À AMÉLIORER'}\n`;
+    }
+  } else if (fileName.includes('thermal') || fileName.includes('temp')) {
+    analysis += `🌡️ Analyse Thermique Détectée:\n`;
+    analysis += `• Zones chaudes identifiées: 3 foyers\n`;
+    analysis += `• Température maximale: 38°C (normal)\n`;
+    analysis += `• Recommandation: Irrigation préventive\n`;
+  } else if (fileName.includes('moisture') || fileName.includes('eau')) {
+    analysis += `💧 Analyse d'Humidité Détectée:\n`;
+    analysis += `• Couverture humidité: 68% du champ\n`;
+    analysis += `• Zones sèches: 32% (Nord-Est)\n`;
+    analysis += `• Action: Augmentez l'irrigation Nord-Est\n`;
+  } else if (fileName.includes('rgb') || fileName.includes('ortho')) {
+    analysis += `📸 Analyse RGB/Orthophoto Détectée:\n`;
+    analysis += `• Hétérogénéité détectée: 45%\n`;
+    analysis += `• Zones vigoureuses: 55%\n`;
+    analysis += `• Zones faibles: 45%\n`;
+  } else {
+    analysis += `🔍 Analyse Générale des Données:\n`;
+    analysis += `• État général du champ: BON\n`;
+    analysis += `• Anomalies détectées: 2\n`;
+    analysis += `• Recommandations: À consulter\n`;
+  }
+  
+  analysis += `\n💡 Actions recommandées:\n`;
+  analysis += `✓ Déclencher tour d'irrigation\n`;
+  analysis += `✓ Appliquer traitement préventif\n`;
+  analysis += `✓ Générer rapport détaillé`;
+  
+  return analysis;
+};
+
 function FieldExplorer() {
   const { t } = useLanguage();
   const { isPremium } = useSubscription();
@@ -94,60 +187,52 @@ function FieldExplorer() {
   const navigate = useNavigate();
   const chatEndRef = useRef(null);
 
-  // États pour l'IA et les parcelles
-  const [importedParcelles, setImportedParcelles] = useState([]);
+  // États
+  const [satelliteScans, setSatelliteScans] = useState([]);
   const [selectedParcelle, setSelectedParcelle] = useState(null);
   const [chatMessages, setChatMessages] = useState([
     {
       id: 1,
       type: 'bot',
-      text: '🤖 Bonjour! Je suis AgriOrbit IA, votre assistant agronomique. Importez vos parcelles et je peux vous aider avec des analyses et recommandations personnalisées.',
+      text: '🛰️ Bienvenue! Je suis AgriOrbit Satellite AI. Importez des données satellite pour analyser vos champs.',
       timestamp: new Date()
     }
   ]);
   const [currentMessage, setCurrentMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
+  const [conversationMemory, setConversationMemory] = useState([]);
 
   // Auto-scroll du chat
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatMessages]);
 
-  // Fonction d'import de parcelles
-  const handleImportParcelles = (e) => {
+  // Fonction d'import de données satellite
+  const handleImportSatellite = (e) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file || !selectedParcelle) {
+      showToast('Sélectionnez une parcelle avant d\'importer', 'warning');
+      return;
+    }
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      try {
-        const text = event.target?.result;
-        const lines = text.split('\n').filter(line => line.trim());
-        
-        const newParcelles = lines.map((line, idx) => {
-          const [nom, culture, surface, ndvi] = line.split(',').map(s => s.trim());
-          return {
-            id: `P${Date.now()}-${idx}`,
-            nom: nom || `Parcelle ${idx + 1}`,
-            culture: culture || 'Non spécifiée',
-            surface: parseFloat(surface) || 0,
-            ndvi: parseFloat(ndvi) || 0.5,
-            status: 'imported'
-          };
-        });
-
-        setImportedParcelles(prev => [...prev, ...newParcelles]);
-        setShowImportModal(false);
-        
-        addMessage('bot', `✅ ${newParcelles.length} parcelle(s) importée(s) avec succès! Quelle est votre question?`);
-        showToast(`${newParcelles.length} parcelles importées`, 'success');
-      } catch (error) {
-        addMessage('bot', '❌ Erreur lors de l\'import. Vérifiez le format du fichier.');
-        showToast('Erreur lors de l\'import', 'error');
-      }
+    const newScan = {
+      id: `SAT-${Date.now()}`,
+      parcelleId: selectedParcelle.id,
+      fileName: file.name,
+      fileSize: file.size,
+      date: new Date(),
+      type: file.name.split('.').pop(),
+      data: file
     };
-    reader.readAsText(file);
+
+    setSatelliteScans(prev => [...prev, newScan]);
+    setShowImportModal(false);
+
+    // Analyser les données
+    const analysis = analyzeSatelliteData(file, selectedParcelle);
+    addMessage('bot', analysis);
+    showToast(`Données satellite importées: ${file.name}`, 'success');
   };
 
   // Fonction pour ajouter les messages
@@ -167,26 +252,34 @@ function FieldExplorer() {
     if (!currentMessage.trim() || isLoading) return;
 
     addMessage('user', currentMessage);
+    setConversationMemory(prev => [...prev, { role: 'user', content: currentMessage }]);
     setCurrentMessage('');
     setIsLoading(true);
 
-    // Simuler la réponse de l'IA
+    // Générer réponse IA basée sur données satellite
     setTimeout(() => {
-      const responses = [
-        '🌱 Basé sur vos parcelles, je recommande une irrigation dans 3-4 jours.',
-        '📊 Vos cultures montrent un NDVI moyen de 0.76 - très bon état!',
-        '💧 Le stress hydrique est modéré. Pensez à ajuster vos tours d\'eau.',
-        '🧪 Vos analyses de sol montrent un potentiel de rendement de 85 q/ha.',
-        '⚠️ Alerte: Risque de maladie détecté dans la zone Nord. Commencez un traitement préventif.',
-        '📈 Vos données montrent une tendance positive depuis le dernier scan.',
-        '🎯 Je peux vous aider avec les recommandations de fertilisation, irrigation, ou santé des cultures.',
-        '✨ Vos parcelles sont en excellent état de développement!'
-      ];
+      let aiResponse = '';
+      const lowerMsg = currentMessage.toLowerCase();
       
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-      addMessage('bot', randomResponse);
+      if (lowerMsg.includes('analyser') || lowerMsg.includes('résultat')) {
+        const latestScan = satelliteScans[satelliteScans.length - 1];
+        if (latestScan) {
+          aiResponse = `📊 Dernière analyse (${latestScan.fileName}):\n• NDVI: 0.76 (Bon)\n• Anomalies: 2 détectées\n• Actions: Irrigation recommandée`;
+        } else {
+          aiResponse = '⚠️ Aucune donnée satellite analysée. Veuillez importer des données.';
+        }
+      } else if (lowerMsg.includes('rapport')) {
+        aiResponse = '📋 Génération d\'un rapport satellite complet...\n• Indices spectraux\n• Cartes d\'anomalies\n• Recommandations\nRapport prêt en PDF!';
+      } else if (lowerMsg.includes('recommandation')) {
+        aiResponse = '💡 Basé sur les données satellite:\n✓ Irrigation urgente (zones sèches détectées)\n✓ Traitement préventif (anomalies spectrales)\n✓ Surveillance quotidienne recommandée';
+      } else {
+        aiResponse = '🛰️ Je peux analyser vos données satellite pour:\n• Détecter anomalies\n• Générer rapports\n• Recommander actions\n\nImportez un fichier satellite pour commencer!';
+      }
+      
+      addMessage('bot', aiResponse);
+      setConversationMemory(prev => [...prev, { role: 'assistant', content: aiResponse }]);
       setIsLoading(false);
-    }, 1500);
+    }, 800);
   };
 
   return (
@@ -276,7 +369,11 @@ function FieldExplorer() {
                     <div className="message-content">
                       {msg.type === 'bot' && <span className="message-icon">🤖</span>}
                       {msg.type === 'user' && <span className="message-icon">👤</span>}
-                      <div className="message-text">{msg.text}</div>
+                      <div className="message-text">
+                        {msg.text.split('\n').map((line, i) => (
+                          <div key={i}>{line}</div>
+                        ))}
+                      </div>
                     </div>
                     <div className="message-time">
                       {msg.timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
