@@ -34,8 +34,8 @@ const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 
 function App() {
   const location = useLocation();
-  const authPaths = ['/connexion', '/inscription', '/mot-de-passe-oublie'];
-  const hideChat = authPaths.includes(location.pathname) || location.pathname === '/';
+  const authPaths = ['/connexion', '/inscription', '/mot-de-passe-oublie', '/verification-email'];
+  const hideChat = authPaths.includes(location.pathname) || location.pathname === '/' || location.pathname === '/loading';
 
   return (
     <AuthProvider>
@@ -46,7 +46,7 @@ function App() {
           <Layout>
             <Suspense fallback={<div className="page-loader" aria-busy="true" aria-live="polite">Chargement…</div>}>
               <Routes>
-                <Route path="/" element={<Loading />} />
+                <Route path="/" element={<Navigate to="/plateforme" replace />} />
                 <Route path="/loading" element={<Loading />} />
                 <Route path="/plateforme" element={<Home />} />
                 <Route
