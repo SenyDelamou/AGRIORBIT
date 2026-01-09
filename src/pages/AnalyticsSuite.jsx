@@ -36,7 +36,63 @@ const timelineEvents = [
     detail: 'Projection : 82 q/ha (+12 % vs moyenne historique).'
   }
 ];
-
+const parcellesKPIs = [
+  {
+    id: 'P001',
+    nom: 'Nord-Est',
+    surface: 12.5,
+    culture: 'Maïs',
+    ndvi: 0.78,
+    stress: 'Modéré',
+    rendement: 82,
+    humidite: 65,
+    sante: '92%'
+  },
+  {
+    id: 'P002',
+    nom: 'Centre',
+    surface: 8.3,
+    culture: 'Blé',
+    ndvi: 0.72,
+    stress: 'Faible',
+    rendement: 78,
+    humidite: 72,
+    sante: '96%'
+  },
+  {
+    id: 'P003',
+    nom: 'Sud-Ouest',
+    surface: 15.7,
+    culture: 'Soja',
+    ndvi: 0.81,
+    stress: 'Nul',
+    rendement: 85,
+    humidite: 68,
+    sante: '98%'
+  },
+  {
+    id: 'P004',
+    nom: 'Est',
+    surface: 11.2,
+    culture: 'Orge',
+    ndvi: 0.65,
+    stress: 'Élevé',
+    rendement: 72,
+    humidite: 58,
+    sante: '78%'
+  },
+  {
+    id: 'P005',
+    nom: 'Ouest',
+    surface: 9.8,
+    culture: 'Colza',
+    ndvi: 0.74,
+    stress: 'Faible',
+    rendement: 80,
+    humidite: 71,
+    sante: '94%'
+  }
+];
 function AnalyticsSuite() {
   const { t } = useLanguage();
 
@@ -89,6 +145,60 @@ function AnalyticsSuite() {
                 <p>{module.description}</p>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section parcelles-kpis">
+        <div className="container">
+          <header className="section-header">
+            <span className="tag">Parcelles connectées</span>
+            <h2>KPIs des parcelles en temps réel</h2>
+            <p>Surveillance continue des indicateurs de santé, rendement et conditions hydrologiques de vos parcelles.</p>
+          </header>
+          <div className="parcelles-table-wrapper glass-panel">
+            <table className="parcelles-table">
+              <thead>
+                <tr>
+                  <th>ID Parcelle</th>
+                  <th>Nom</th>
+                  <th>Surface (ha)</th>
+                  <th>Culture</th>
+                  <th>NDVI</th>
+                  <th>Stress hydrique</th>
+                  <th>Rendement (q/ha)</th>
+                  <th>Humidité (%)</th>
+                  <th>Santé générale</th>
+                </tr>
+              </thead>
+              <tbody>
+                {parcellesKPIs.map((parcelle) => (
+                  <tr key={parcelle.id} className={`kpi-row stress-${parcelle.stress.toLowerCase().replace(/[é ]/g, '')}`}>
+                    <td className="id-cell">{parcelle.id}</td>
+                    <td className="nom-cell">{parcelle.nom}</td>
+                    <td className="num-cell">{parcelle.surface}</td>
+                    <td className="culture-cell">{parcelle.culture}</td>
+                    <td className="num-cell ndvi-cell">
+                      <span className="ndvi-value">{parcelle.ndvi}</span>
+                    </td>
+                    <td className="stress-cell">
+                      <span className={`stress-badge stress-${parcelle.stress.toLowerCase().replace(/[é ]/g, '')}`}>
+                        {parcelle.stress}
+                      </span>
+                    </td>
+                    <td className="num-cell rendement-cell">{parcelle.rendement}</td>
+                    <td className="num-cell humidite-cell">
+                      <span className={`humidite-bar ${parcelle.humidite > 70 ? 'high' : parcelle.humidite > 60 ? 'medium' : 'low'}`}>
+                        {parcelle.humidite}%
+                      </span>
+                    </td>
+                    <td className="sante-cell">
+                      <span className="sante-badge">{parcelle.sante}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </section>

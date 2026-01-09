@@ -162,6 +162,219 @@
   border-radius: var(--radius-lg);
 }
 
+/* Parcelles KPIs Section */
+.parcelles-kpis {
+  padding: clamp(2.6rem, 6vw, 3.4rem) 0;
+}
+
+.parcelles-table-wrapper {
+  overflow-x: auto;
+  padding: clamp(2rem, 4vw, 2.5rem);
+  border-radius: var(--radius-lg);
+  background: var(--glass-surface);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.parcelles-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.parcelles-table thead {
+  background: var(--glass-surface-light);
+  border-bottom: 2px solid var(--glass-border);
+}
+
+.parcelles-table th {
+  padding: 1rem 1.2rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.parcelles-table td {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+}
+
+.kpi-row {
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.kpi-row:hover {
+  background: var(--glass-surface-light);
+  border-left-color: var(--accent-data-blue);
+}
+
+.id-cell {
+  font-weight: 600;
+  color: var(--accent-data-blue);
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.nom-cell {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.num-cell {
+  text-align: center;
+  font-weight: 500;
+}
+
+.ndvi-cell {
+  position: relative;
+}
+
+.ndvi-value {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid #22C55E;
+  display: inline-block;
+  color: #22C55E;
+  font-weight: 600;
+}
+
+.stress-cell {
+  text-align: center;
+}
+
+.stress-badge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stress-badge.stress-nul {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22C55E;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.stress-badge.stress-faible {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3B82F6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.stress-badge.stress-modere {
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.stress-badge.stress-eleve {
+  background: rgba(239, 68, 68, 0.15);
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.rendement-cell {
+  font-weight: 600;
+  color: var(--accent-data-green);
+}
+
+.humidite-cell {
+  text-align: center;
+}
+
+.humidite-bar {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.humidite-bar.high {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3B82F6;
+  border-left: 3px solid #3B82F6;
+}
+
+.humidite-bar.medium {
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+  border-left: 3px solid #F59E0B;
+}
+
+.humidite-bar.low {
+  background: rgba(239, 68, 68, 0.15);
+  color: #EF4444;
+  border-left: 3px solid #EF4444;
+}
+
+.sante-cell {
+  text-align: center;
+}
+
+.sante-badge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  background: rgba(34, 197, 94, 0.15);
+  color: #22C55E;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* Alternating row colors for better readability */
+.kpi-row:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+@media (max-width: 1024px) {
+  .parcelles-table {
+    font-size: 0.9rem;
+  }
+
+  .parcelles-table th,
+  .parcelles-table td {
+    padding: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .parcelles-table-wrapper {
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  .parcelles-table {
+    font-size: 0.8rem;
+  }
+
+  .parcelles-table th,
+  .parcelles-table td {
+    padding: 0.6rem 0.5rem;
+  }
+
+  .stress-badge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .humidite-bar,
+  .sante-badge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
 .export-actions {
   display: grid;
   gap: 0.8rem;
