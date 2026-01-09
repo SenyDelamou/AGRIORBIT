@@ -27,7 +27,7 @@ import ToastContainer from './components/ToastContainer.jsx';
 import NotificationSimulator from './components/NotificationSimulator.jsx';
 import ChatWidget from './components/ChatWidget.jsx';
 
-import { ProtectedRoute, GuestRoute } from './components/ProtectedRoute.jsx';
+import { GuestRoute } from './components/ProtectedRoute.jsx';
 
 import { ScrollToTop } from './hooks/useWebLogic.js';
 const NotFound = lazy(() => import('./pages/NotFound.jsx'));
@@ -49,26 +49,14 @@ function App() {
                 <Route path="/" element={<Navigate to="/plateforme" replace />} />
                 <Route path="/loading" element={<Loading />} />
                 <Route path="/plateforme" element={<Home />} />
-                <Route
-                  path="/explorateur"
-                  element={<ProtectedRoute><FieldExplorer /></ProtectedRoute>}
-                />
+                <Route path="/explorateur" element={<FieldExplorer />} />
                 <Route path="/analyses" element={<AnalyticsSuite />} />
                 <Route path="/solutions" element={<SolutionsHub />} />
                 <Route path="/a-propos" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route
-                  path="/profil"
-                  element={<ProtectedRoute><Profile /></ProtectedRoute>}
-                />
-                <Route
-                  path="/notifications"
-                  element={<ProtectedRoute><Notifications /></ProtectedRoute>}
-                />
-                <Route
-                  path="/parametres"
-                  element={<ProtectedRoute><Settings /></ProtectedRoute>}
-                />
+                <Route path="/profil" element={<Profile />} />
+                <Route path="/notifications" element={<Notifications />} />
+                <Route path="/parametres" element={<Settings />} />
                 <Route
                   path="/connexion"
                   element={<GuestRoute><Login /></GuestRoute>}
