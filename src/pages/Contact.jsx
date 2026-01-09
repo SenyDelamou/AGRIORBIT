@@ -1,4 +1,5 @@
 import Hero from '../components/Hero.jsx';
+import TechDownload from '../components/TechDownload.jsx';
 import { aboutImages } from '../data/heroImages.js';
 import { EnvelopeIcon, PhoneIcon, MapPinIcon } from '@heroicons/react/24/outline';
 import castro from '../assets/castro.png';
@@ -112,6 +113,8 @@ function Contact() {
                     </div>
                 </div>
             </section>
+
+            <TechDownload />
         </div>
     );
 }

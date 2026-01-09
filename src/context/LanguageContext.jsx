@@ -180,6 +180,32 @@ const translations = {
         premium_trial_hint: 'Essayez la simulation Premium pour démontrer la valeur aux décideurs.',
         premium_locked_toast: 'Cette fonctionnalité nécessite le plan Premium.',
 
+        // Legal - Privacy
+        legal_privacy_kicker: 'Conformité & Transparence',
+        legal_privacy_title: 'Politique de confidentialité',
+        legal_privacy_intro: 'Votre vie privée et la protection de vos données nous importent.',
+        legal_meta_last_update: 'Dernière mise à jour',
+        legal_meta_dpo: 'Délégué à la protection',
+        legal_meta_dpo_email: 'dpo@agri-orbit.com',
+        legal_meta_scope: 'Couverture',
+        legal_meta_scope_value: 'Clients & partenaires',
+        legal_privacy_summary_title: 'Sommaire',
+        legal_privacy_summary_desc: 'Parcourez les points clés de notre engagement confidentialité.',
+        legal_privacy_section_1: 'Responsable du traitement',
+        legal_privacy_section_2: 'Données collectées',
+        legal_privacy_section_3: 'Bases légales',
+        legal_privacy_section_4: 'Finalités',
+        legal_privacy_section_5: 'Partage de données',
+        legal_privacy_section_6: 'Sécurité des données',
+
+        // Legal Notice hero
+        legal_notice_kicker: 'Mention officielle',
+        legal_notice_title: 'Mentions légales',
+        legal_notice_intro: 'Informations légales, propriété intellectuelle et conditions d’utilisation.',
+        legal_notice_meta_compliance: 'Conformité',
+        legal_notice_meta_compliance_value: 'RGPD & ISO 27001',
+        legal_notice_meta_scope_value: 'Opérations globales',
+
         // About & Analytics keys
         about_mission_eyebrow: 'Notre mission',
         about_mission_title: 'Accompagner chaque exploitation vers une agriculture de précision accessible',
@@ -391,6 +417,32 @@ const translations = {
         premium_feature_point_3: 'Automated exports and secure sharing',
         premium_trial_hint: 'Try the Premium simulation to showcase value to stakeholders.',
         premium_locked_toast: 'This feature requires the Premium plan.',
+
+        // Legal - Privacy
+        legal_privacy_kicker: 'Compliance & Transparency',
+        legal_privacy_title: 'Privacy Policy',
+        legal_privacy_intro: 'Your privacy and the protection of your data matter to us.',
+        legal_meta_last_update: 'Last update',
+        legal_meta_dpo: 'Data Protection Officer',
+        legal_meta_dpo_email: 'dpo@agri-orbit.com',
+        legal_meta_scope: 'Scope',
+        legal_meta_scope_value: 'Clients & Partners',
+        legal_privacy_summary_title: 'Summary',
+        legal_privacy_summary_desc: 'Browse the key points of our privacy commitment.',
+        legal_privacy_section_1: 'Controller',
+        legal_privacy_section_2: 'Collected data',
+        legal_privacy_section_3: 'Legal bases',
+        legal_privacy_section_4: 'Purposes',
+        legal_privacy_section_5: 'Data sharing',
+        legal_privacy_section_6: 'Data security',
+
+        // Legal Notice hero
+        legal_notice_kicker: 'Official Notice',
+        legal_notice_title: 'Legal Notice',
+        legal_notice_intro: 'Legal information, intellectual property and terms of use.',
+        legal_notice_meta_compliance: 'Compliance',
+        legal_notice_meta_compliance_value: 'GDPR & ISO 27001',
+        legal_notice_meta_scope_value: 'Global operations',
 
         // About & Analytics keys
         about_mission_eyebrow: 'Our Mission',

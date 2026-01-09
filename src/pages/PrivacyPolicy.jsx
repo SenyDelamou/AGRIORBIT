@@ -5,24 +5,68 @@ import '../styles/legal.css';
 
 function PrivacyPolicy() {
   const { t } = useLanguage();
+  const summaryItems = [
+    t('legal_privacy_section_1'),
+    t('legal_privacy_section_2'),
+    t('legal_privacy_section_3'),
+    t('legal_privacy_section_4'),
+    t('legal_privacy_section_5'),
+    t('legal_privacy_section_6')
+  ];
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <div className="legal-page">
-      <section className="legal-hero">
+    <div className="legal-page premium-legal">
+      <section className="legal-hero premium">
         <div className="container">
-          <h1 className="animate-fade-in-down">Politique de Confidentialité</h1>
+          <div className="legal-hero-meta animate-fade-in-down">
+            <PremiumBadge />
+            <span className="legal-kicker">{t('legal_privacy_kicker')}</span>
+          </div>
+          <h1 className="animate-fade-in-down">{t('legal_privacy_title')}</h1>
           <p className="legal-intro animate-fade-in-up">
-            Votre vie privée et la protection de vos données nous importent
+            {t('legal_privacy_intro')}
           </p>
+          <div className="legal-meta-grid animate-fade-in-up">
+            <div className="meta-card">
+              <span className="meta-title">{t('legal_meta_last_update')}</span>
+              <strong>{new Date().toLocaleDateString('fr-FR')}</strong>
+            </div>
+            <div className="meta-card">
+              <span className="meta-title">{t('legal_meta_dpo')}</span>
+              <strong>{t('legal_meta_dpo_email')}</strong>
+            </div>
+            <div className="meta-card">
+              <span className="meta-title">{t('legal_meta_scope')}</span>
+              <strong>{t('legal_meta_scope_value')}</strong>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="legal-content">
+      <section className="legal-content premium">
         <div className="container">
+          <aside className="legal-summary-panel" aria-label="Sommaire de la politique">
+            <h2>{t('legal_privacy_summary_title')}</h2>
+            <p>{t('legal_privacy_summary_desc')}</p>
+            <ul>
+              {summaryItems.map((label, index) => (
+                <li key={label}>
+                  <span>{index + 1 < 10 ? `0${index + 1}` : index + 1}</span>
+                  <strong>{label}</strong>
+                </li>
+              ))}
+            </ul>
+            <div className="legal-badge">
+              <span>ISO</span>
+              <strong>27001</strong>
+            </div>
+          </aside>
+
+          <div className="legal-article-stack">
           <article className="legal-article">
             <h2>1. Responsable du Traitement</h2>
             <div className="legal-section">
@@ -238,15 +282,13 @@ function PrivacyPolicy() {
                 Nous pouvons modifier cette politique à tout moment. Les modifications importantes 
                 vous seront notifiées par email. Votre utilisation continue implique votre acceptation.
               </p>
-              <p>
-                <strong>Dernière mise à jour:</strong> {new Date().toLocaleDateString('fr-FR')}
-              </p>
             </div>
           </article>
+          </div>
         </div>
       </section>
 
-      <section className="legal-footer-cta">
+      <section className="legal-footer-cta premium">
         <div className="container">
           <h2>Autres Informations Importantes</h2>
           <p>Consultez nos autres documents juridiques</p>

@@ -1,239 +1,341 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import {
+  DocumentTextIcon,
+  LockClosedIcon,
+  ShieldCheckIcon,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+  EnvelopeIcon,
+  BuildingLibraryIcon,
+  SparklesIcon,
+  ArrowUpIcon,
+  ShareIcon,
+  CheckIcon
+} from '@heroicons/react/24/outline';
+import PremiumBadge from '../components/PremiumBadge.jsx';
 import '../styles/legal.css';
 
 function LegalNotice() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [activeSection, setActiveSection] = useState(null);
+  const [copiedId, setCopiedId] = useState(null);
+  const contentRef = useRef(null);
 
+  // Meta tags for SEO
+  useEffect(() => {
+    document.title = 'Mentions Légales - Agri Orbit Analytics';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Mentions légales, propriété intellectuelle et conditions d\'utilisation d\'Agri Orbit Analytics');
+    }
+  }, []);
+
+  // Scroll to top functionality
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 300);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Initial scroll to top
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const localeMap = {
+    fr: 'fr-FR',
+    en: 'en-US'
+  };
+  const dateFormatter = new Intl.DateTimeFormat(localeMap[lang] ?? 'fr-FR', { dateStyle: 'long' });
+  
+  // Copy to clipboard functionality
+  const handleCopySection = (cardId, title) => {
+    const text = `${title} - Agri Orbit Analytics Legal Notice`;
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedId(cardId);
+      setTimeout(() => setCopiedId(null), 2000);
+    });
+  };
+
+  // Share functionality
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Mentions Légales',
+        text: 'Consultez les mentions légales d\'Agri Orbit Analytics',
+        url: window.location.href
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      setCopiedId('url');
+      setTimeout(() => setCopiedId(null), 2000);
+    }
+  };
+
+  // Smooth scroll to section
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+      setActiveSection(sectionId);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const legalCards = [
+    {
+      id: 1,
+      badge: 'IDENTITÉ',
+      title: 'Éditeur du Site',
+      description: 'Agri Orbit Analytics - Informations professionnelles, contact et responsabilité légale de la plateforme.',
+      icon: BuildingLibraryIcon,
+      color: 'blue'
+    },
+    {
+      id: 2,
+      badge: 'RESPONSABILITÉ',
+      title: 'Directeur de Publication',
+      description: 'Responsable officiel de la publication du site et de ses contenus. Réclamations et signalements.',
+      icon: ShieldCheckIcon,
+      color: 'green'
+    },
+    {
+      id: 3,
+      badge: 'HÉBERGEMENT',
+      title: 'Infrastructure',
+      description: 'Hébergement chez Vercel Inc. Serveurs sécurisés conformes aux standards internationaux.',
+      icon: DocumentTextIcon,
+      color: 'blue'
+    },
+    {
+      id: 4,
+      badge: 'PROPRIÉTÉ',
+      title: 'Droits d\'Auteur',
+      description: 'Tous les contenus (textes, images, vidéos, logos) sont protégés et propriété exclusive.',
+      icon: LockClosedIcon,
+      color: 'green'
+    },
+    {
+      id: 5,
+      badge: 'MARQUES',
+      title: 'Marques Déposées',
+      description: 'Agri Orbit et logos associés sont des marques déposées. Utilisation interdite sans autorisation.',
+      icon: SparklesIcon,
+      color: 'blue'
+    },
+    {
+      id: 6,
+      badge: 'LICENCE',
+      title: 'Conditions d\'Utilisation',
+      description: 'Licence limitée et révocable pour l\'accès au site. Respect des conditions obligatoires.',
+      icon: CheckCircleIcon,
+      color: 'green'
+    },
+    {
+      id: 7,
+      badge: 'RESPONSABILITÉ',
+      title: 'Limitation de Responsabilité',
+      description: 'Agri Orbit Analytics ne peut être tenu responsable des dommages indirects ou pertes de données.',
+      icon: ExclamationTriangleIcon,
+      color: 'blue'
+    },
+    {
+      id: 8,
+      badge: 'MODIFICATIONS',
+      title: 'Révision des Mentions',
+      description: 'Nous nous réservons le droit de modifier ces mentions à tout moment sans préavis.',
+      icon: DocumentTextIcon,
+      color: 'green'
+    },
+    {
+      id: 9,
+      badge: 'JURIDIQUE',
+      title: 'Juridiction',
+      description: 'Ces mentions sont régies par la loi française. Tribunaux compétents définis selon le droit.',
+      icon: BuildingLibraryIcon,
+      color: 'blue'
+    },
+    {
+      id: 10,
+      badge: 'CONTACT',
+      title: 'Coordonnées Légales',
+      description: 'Pour toute question légale, contactez-nous directement. Support disponible 24/7.',
+      icon: EnvelopeIcon,
+      color: 'green'
+    }
+  ];
+
+  const metaCards = [
+    {
+      title: t('legal_meta_last_update'),
+      value: dateFormatter.format(new Date())
+    },
+    {
+      title: t('legal_notice_meta_compliance'),
+      value: t('legal_notice_meta_compliance_value')
+    },
+    {
+      title: t('legal_meta_scope'),
+      value: t('legal_notice_meta_scope_value')
+    }
+  ];
+
   return (
-    <div className="legal-page">
-      <section className="legal-hero">
+    <div className="legal-page premium-legal" ref={contentRef}>
+      {/* Table of Contents */}
+      <nav className="legal-toc" aria-label="Table of contents">
         <div className="container">
-          <h1 className="animate-fade-in-down">Mentions Légales</h1>
+          <h2 className="toc-title">Navigation rapide</h2>
+          <div className="toc-grid">
+            {legalCards.slice(0, 5).map((card) => (
+              <button
+                key={`toc-${card.id}`}
+                className={`toc-link ${activeSection === `section-${card.id}` ? 'active' : ''}`}
+                onClick={() => scrollToSection(`section-${card.id}`)}
+                aria-label={`Aller à ${card.title}`}
+              >
+                {card.title}
+              </button>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      <section className="legal-hero premium">
+        <div className="container">
+          <div className="legal-hero-meta animate-fade-in-down">
+            <PremiumBadge />
+            <span className="legal-kicker">{t('legal_notice_kicker')}</span>
+          </div>
+          <h1 className="animate-fade-in-down">{t('legal_notice_title')}</h1>
           <p className="legal-intro animate-fade-in-up">
-            Informations légales et propriété intellectuelle
+            {t('legal_notice_intro')}
           </p>
+          
+          {/* Share Button */}
+          <button 
+            className="share-button animate-fade-in-up"
+            onClick={handleShare}
+            aria-label="Partager cette page"
+            title="Partager les mentions légales"
+          >
+            <ShareIcon className="share-icon" />
+            <span>Partager</span>
+          </button>
+
+          <div className="legal-meta-grid animate-fade-in-up">
+            {metaCards.map(({ title, value }) => (
+              <div 
+                key={title} 
+                className="meta-card"
+                role="status"
+                aria-label={`${title}: ${value}`}
+              >
+                <span className="meta-title">{title}</span>
+                <strong>{value}</strong>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       <section className="legal-content">
         <div className="container">
-          <article className="legal-article">
-            <h2>1. Identité et Responsabilité</h2>
-            <div className="legal-section">
+          <div className="legal-cards-grid">
+            {legalCards.map((card, idx) => {
+              const IconComponent = card.icon;
+              return (
+                <article
+                  key={card.id}
+                  id={`section-${card.id}`}
+                  className={`legal-card legal-card-${card.color}`}
+                  style={{ animationDelay: `${idx * 0.08}s` }}
+                  role="region"
+                  aria-label={card.title}
+                >
+                  <div className="card-badge">{card.badge}</div>
+                  
+                  <div className="card-icon-wrapper">
+                    <IconComponent className="card-icon" aria-hidden="true" />
+                  </div>
+                  
+                  <h2 className="card-title">{card.title}</h2>
+                  <p className="card-description">{card.description}</p>
+                  
+                  {/* Copy to clipboard button */}
+                  <button
+                    className={`copy-button ${copiedId === card.id ? 'copied' : ''}`}
+                    onClick={() => handleCopySection(card.id, card.title)}
+                    aria-label={`Copier ${card.title}`}
+                    title="Copier"
+                  >
+                    {copiedId === card.id ? (
+                      <CheckIcon className="copy-icon" />
+                    ) : (
+                      <DocumentTextIcon className="copy-icon" />
+                    )}
+                  </button>
+                  
+                  <div className="card-hover-effect"></div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="legal-details">
+        <div className="container">
+          <div className="details-grid">
+            <div className="detail-section" id="section-editor">
               <h3>Éditeur du Site</h3>
               <p>
                 <strong>Agri Orbit Analytics</strong><br />
-                Adresse: [À compléter]<br />
-                Email: contact@agri-orbit.com<br />
-                Téléphone: [À compléter]<br />
+                Adresse: Université de Labé, République de Guinée<br />
+                Email: <a href="mailto:contact@agri-orbit.com">contact@agri-orbit.com</a><br />
+                Téléphone: <a href="tel:[À compléter]">[À compléter]</a><br />
                 SIRET: [À compléter]<br />
                 Numéro TVA: [À compléter]
               </p>
             </div>
 
-            <div className="legal-section">
-              <h3>Directeur de la Publication</h3>
+            <div className="detail-section" id="section-ip">
+              <h3>Propriété Intellectuelle</h3>
               <p>
-                Le responsable de la publication est [Nom du Responsable]
+                Tous les contenus présents sur ce site (textes, images, vidéos, logos, graphiques) sont la propriété exclusive d'Agri Orbit Analytics ou de ses partenaires. Toute reproduction sans autorisation préalable est strictement interdite.
               </p>
             </div>
 
-            <div className="legal-section">
+            <div className="detail-section" id="section-hosting">
               <h3>Hébergement</h3>
               <p>
                 Ce site est hébergé chez :<br />
                 <strong>Vercel Inc.</strong><br />
-                Website: https://vercel.com<br />
                 Les données sont stockées sur des serveurs basés aux États-Unis et respectent les standards de sécurité internationaux.
               </p>
             </div>
-          </article>
-
-          <article className="legal-article">
-            <h2>2. Propriété Intellectuelle</h2>
-            <div className="legal-section">
-              <h3>Droits d'Auteur</h3>
-              <p>
-                Tous les contenus présents sur ce site (textes, images, vidéos, logos, graphiques, 
-                etc.) sont la propriété exclusive d'Agri Orbit Analytics ou de ses partenaires. 
-                Toute reproduction, représentation, modification ou adaptation sans autorisation 
-                préalable est strictement interdite.
-              </p>
-            </div>
-
-            <div className="legal-section">
-              <h3>Marques Déposées</h3>
-              <p>
-                "Agri Orbit", le logo Agri Orbit et tous les noms de produits associés sont des 
-                marques déposées d'Agri Orbit Analytics. Toute utilisation non autorisée est interdite.
-              </p>
-            </div>
-
-            <div className="legal-section">
-              <h3>Licence d'Utilisation</h3>
-              <p>
-                L'accès au site vous confère une licence limitée, non exclusive et révocable pour 
-                utiliser le contenu à des fins personnelles et non commerciales.
-              </p>
-            </div>
-          </article>
-
-          <article className="legal-article">
-            <h2>3. Conditions d'Utilisation</h2>
-            <div className="legal-section">
-              <h3>Acceptation des Conditions</h3>
-              <p>
-                L'accès et l'utilisation de ce site impliquent votre acceptation de toutes les 
-                conditions énoncées dans ces mentions légales. Si vous n'acceptez pas ces conditions, 
-                veuillez ne pas utiliser ce site.
-              </p>
-            </div>
-
-            <div className="legal-section">
-              <h3>Restrictions d'Utilisation</h3>
-              <p>
-                Vous vous engagez à ne pas :
-              </p>
-              <ul className="legal-list">
-                <li>Reproduire, modifier ou adapter le contenu sans autorisation</li>
-                <li>Utiliser le site à des fins commerciales ou publicitaires</li>
-                <li>Accéder ou utiliser le site de manière qui pourrait l'endommager ou l'affecter</li>
-                <li>Utiliser des robots, scrapers ou outils de scraping automatisés</li>
-                <li>Transmettre des virus, malwares ou tout code nuisible</li>
-                <li>Violer les droits d'auteur ou les droits de propriété intellectuelle</li>
-              </ul>
-            </div>
-
-            <div className="legal-section">
-              <h3>Comptes Utilisateur</h3>
-              <p>
-                Les utilisateurs sont responsables de la confidentialité de leurs identifiants de 
-                connexion. Agri Orbit ne peut être tenue responsable de l'utilisation non autorisée 
-                de votre compte.
-              </p>
-            </div>
-          </article>
-
-          <article className="legal-article">
-            <h2>4. Contenu Utilisateur</h2>
-            <div className="legal-section">
-              <h3>Responsabilité</h3>
-              <p>
-                Vous êtes seul responsable de tout contenu que vous soumettez, téléchargez ou 
-                publiez sur le site. Agri Orbit ne contrôle pas le contenu utilisateur et ne peut 
-                être tenue responsable de son exactitude ou de sa légalité.
-              </p>
-            </div>
-
-            <div className="legal-section">
-              <h3>Licences de Contenu</h3>
-              <p>
-                En soumettant du contenu sur le site, vous accordez à Agri Orbit une licence mondiale, 
-                non exclusive, perpétuelle et irrévocable pour utiliser, reproduire et distribuer ce contenu.
-              </p>
-            </div>
-          </article>
-
-          <article className="legal-article">
-            <h2>5. Limitation de Responsabilité</h2>
-            <div className="legal-section">
-              <h3>Disclaimer</h3>
-              <p>
-                Le site est fourni "tel quel" sans garantie d'aucune sorte. Agri Orbit rejette toute 
-                responsabilité concernant :
-              </p>
-              <ul className="legal-list">
-                <li>L'exactitude ou la complétude du contenu</li>
-                <li>Les dommages directs ou indirects résultant de l'accès au site</li>
-                <li>Les pertes de profits ou de revenus</li>
-                <li>Les interruptions de service</li>
-                <li>Les erreurs ou omissions du site</li>
-              </ul>
-            </div>
-
-            <div className="legal-section">
-              <h3>Limitation de Dégâts</h3>
-              <p>
-                En aucun cas Agri Orbit ne sera responsable des dommages excédant les frais payés 
-                par l'utilisateur au cours de la dernière année.
-              </p>
-            </div>
-          </article>
-
-          <article className="legal-article">
-            <h2>6. Liens Externes</h2>
-            <div className="legal-section">
-              <p>
-                Ce site peut contenir des liens vers des sites externes. Agri Orbit n'est pas responsable 
-                du contenu, de la précision ou des pratiques de confidentialité de ces sites externes. 
-                Les liens sont fournis à titre informatif uniquement.
-              </p>
-            </div>
-          </article>
-
-          <article className="legal-article">
-            <h2>7. Cookies et Tracking</h2>
-            <div className="legal-section">
-              <p>
-                Ce site utilise des cookies pour améliorer votre expérience utilisateur. Vous pouvez 
-                contrôler l'utilisation des cookies via les paramètres de votre navigateur. Pour plus 
-                d'informations, consultez notre Politique de Confidentialité.
-              </p>
-            </div>
-          </article>
-
-          <article className="legal-article">
-            <h2>8. Modification des Conditions</h2>
-            <div className="legal-section">
-              <p>
-                Agri Orbit se réserve le droit de modifier ces mentions légales à tout moment sans 
-                préavis. Les modifications sont effectives dès leur publication. Votre utilisation continue 
-                du site implique votre acceptation des modifications.
-              </p>
-            </div>
-          </article>
-
-          <article className="legal-article">
-            <h2>9. Loi Applicable et Juridiction</h2>
-            <div className="legal-section">
-              <p>
-                Ces mentions légales sont régies par la loi française. Tout litige découlant de 
-                l'utilisation de ce site sera soumis aux juridictions compétentes de la République 
-                Française.
-              </p>
-            </div>
-          </article>
-
-          <article className="legal-article">
-            <h2>10. Contact</h2>
-            <div className="legal-section">
-              <p>
-                Pour toute question concernant ces mentions légales, veuillez nous contacter à :<br />
-                <strong>Email:</strong> legal@agri-orbit.com<br />
-                <strong>Adresse:</strong> [À compléter]
-              </p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section className="legal-footer-cta">
-        <div className="container">
-          <h2>Besoin d'aide?</h2>
-          <p>Consultez nos autres documents juridiques</p>
-          <div className="cta-links">
-            <a href="/confidentialite" className="button button-secondary">Politique de Confidentialité</a>
-            <a href="/securite" className="button button-secondary">Politique de Sécurité</a>
           </div>
         </div>
       </section>
-    </div>
-  );
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          className="back-to-top animate-fade-in-up"
+          onClick={scrollToTop}
+          aria-label="Revenir au début de la page"
+          title="Retour au top"
+        >
+          <ArrowUpIcon className="arrow-icon" />
+        </button>
+      )}
 }
 
 export default LegalNotice;

@@ -31,6 +31,7 @@ const navLinks = [
   { to: '/analyses', label: 'Analyses', Icon: ChartBarIcon },
   { to: '/solutions', label: 'Solutions', Icon: DocumentTextIcon },
   { to: '/a-propos', label: 'À propos', Icon: InformationCircleIcon },
+  { to: '/ressources', label: 'Ressources', Icon: DocumentTextIcon },
   { to: '/contact', label: 'Contact', Icon: PhoneIcon }
 ];
 
@@ -179,11 +180,12 @@ function Layout({ children }) {
   }, [mobileMenuOpen]); // Changed menuOpen to mobileMenuOpen
 
   const authPaths = ['/connexion', '/inscription', '/mot-de-passe-oublie'];
-  const hideChrome = authPaths.includes(location.pathname) || location.pathname === '/';
+  const onAuthRoute = authPaths.includes(location.pathname);
+  const hideChrome = onAuthRoute || location.pathname === '/';
 
   return (
     <div className="app-shell">
-      {hideChrome && (
+      {hideChrome && !onAuthRoute && (
         <div className="auth-brand-shell">
           <Link to="/plateforme" className="brand auth-brand">
             <div className="brand-info">

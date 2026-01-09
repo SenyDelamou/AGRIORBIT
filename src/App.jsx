@@ -18,6 +18,7 @@ const Settings = lazy(() => import('./pages/Settings.jsx'));
 const LegalNotice = lazy(() => import('./pages/LegalNotice.jsx'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy.jsx'));
 const SecurityPolicy = lazy(() => import('./pages/SecurityPolicy.jsx'));
+const Resources = lazy(() => import('./pages/Resources.jsx'));
 import { ToastProvider } from './context/ToastContext.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import { LanguageProvider } from './context/LanguageContext.jsx';
@@ -87,6 +88,7 @@ function App() {
                 <Route path="/mentions-legales" element={<LegalNotice />} />
                 <Route path="/confidentialite" element={<PrivacyPolicy />} />
                 <Route path="/securite" element={<SecurityPolicy />} />
+                <Route path="/ressources" element={<Resources />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
