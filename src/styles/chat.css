@@ -3,17 +3,18 @@
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
-  z-index: 99999;
+  z-index: 50;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   font-family: var(--font-sans);
+  pointer-events: none;
 }
 
 /* Toggle Button */
 .chat-toggle-btn {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 3.2rem;
+  height: 3.2rem;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--accent-neon-green) 0%, #7FE24F 100%);
   color: var(--bg-deep-space);
@@ -25,8 +26,9 @@
   justify-content: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  z-index: 1002;
+  z-index: 51;
   font-weight: 600;
+  pointer-events: all;
 }
 
 .chat-toggle-btn:hover {
@@ -49,11 +51,11 @@
 /* Chat Window */
 .chat-window {
   position: absolute;
-  bottom: 4.5rem;
+  bottom: 4rem;
   right: 0;
-  width: 380px;
-  height: 550px;
-  max-height: calc(100vh - 120px);
+  width: 360px;
+  height: 480px;
+  max-height: calc(100vh - 150px);
   background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(15, 22, 41, 0.95) 100%);
   backdrop-filter: blur(40px);
   border: 1px solid rgba(79, 172, 254, 0.3);
@@ -70,6 +72,7 @@
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
+  z-index: 51;
 }
 
 .chat-widget.open .chat-window {
