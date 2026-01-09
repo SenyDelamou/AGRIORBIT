@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Hero from '../components/Hero.jsx';
 import PremiumBadge from '../components/PremiumBadge.jsx';
@@ -79,7 +79,7 @@ const mockAnalysisResult = {
     },
     {
       issue: 'Vigueur Hétérogène',
-      solution: 'Apport folaire azoté azote ciblé sur le quart Nord-Est.',
+      solution: 'Apport folaire azoté ciblé sur le quart Nord-Est.',
       impact: 'Uniformise la maturité'
     }
   ]
@@ -91,57 +91,245 @@ function FieldExplorer() {
   const { showToast } = useToast();
   useDocumentTitle(t('title_explorer'));
   useMetaDescription(t('cap_card1_desc'));
-  const [analysisState, setAnalysisState] = useState('idle'); // 'idle', 'scanning', 'results'
-  const [formVisible, setFormVisible] = useState(true);
   const navigate = useNavigate();
+  const chatEndRef = useRef(null);
 
-  const handleLockedAccess = () => {
-    showToast(t('premium_locked_toast'), 'warning');
-    navigate('/parametres');
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!isPremium) {
-      handleLockedAccess();
-      return;
+  // États pour l'IA et les parcelles
+  const [importedParcelles, setImportedParcelles] = useState([]);
+  const [selectedParcelle, setSelectedParcelle] = useState(null);
+  const [chatMessages, setChatMessages] = useState([
+    {
+      id: 1,
+      type: 'bot',
+      text: '🤖 Bonjour! Je suis AgriOrbit IA, votre assistant agronomique. Importez vos parcelles et je peux vous aider avec des analyses et recommandations personnalisées.',
+      timestamp: new Date()
     }
-    setAnalysisState('scanning');
-    setFormVisible(false);
+  ]);
+  const [currentMessage, setCurrentMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
 
-    // Simulate satellite scanning process
-    setTimeout(() => {
-      setAnalysisState('results');
-    }, 4500);
+  // Auto-scroll du chat
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatMessages]);
+
+  // Fonction d'import de parcelles
+  const handleImportParcelles = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const text = event.target?.result;
+        const lines = text.split('\n').filter(line => line.trim());
+        
+        const newParcelles = lines.map((line, idx) => {
+          const [nom, culture, surface, ndvi] = line.split(',').map(s => s.trim());
+          return {
+            id: `P${Date.now()}-${idx}`,
+            nom: nom || `Parcelle ${idx + 1}`,
+            culture: culture || 'Non spécifiée',
+            surface: parseFloat(surface) || 0,
+            ndvi: parseFloat(ndvi) || 0.5,
+            status: 'imported'
+          };
+        });
+
+        setImportedParcelles(prev => [...prev, ...newParcelles]);
+        setShowImportModal(false);
+        
+        addMessage('bot', `✅ ${newParcelles.length} parcelle(s) importée(s) avec succès! Quelle est votre question?`);
+        showToast(`${newParcelles.length} parcelles importées`, 'success');
+      } catch (error) {
+        addMessage('bot', '❌ Erreur lors de l\'import. Vérifiez le format du fichier.');
+        showToast('Erreur lors de l\'import', 'error');
+      }
+    };
+    reader.readAsText(file);
   };
 
-  const resetAnalysis = () => {
-    setAnalysisState('idle');
-    setFormVisible(true);
+  // Fonction pour ajouter les messages
+  const addMessage = (type, text) => {
+    const newMessage = {
+      id: Date.now(),
+      type,
+      text,
+      timestamp: new Date()
+    };
+    setChatMessages(prev => [...prev, newMessage]);
+  };
+
+  // Fonction pour envoyer un message
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!currentMessage.trim() || isLoading) return;
+
+    addMessage('user', currentMessage);
+    setCurrentMessage('');
+    setIsLoading(true);
+
+    // Simuler la réponse de l'IA
+    setTimeout(() => {
+      const responses = [
+        '🌱 Basé sur vos parcelles, je recommande une irrigation dans 3-4 jours.',
+        '📊 Vos cultures montrent un NDVI moyen de 0.76 - très bon état!',
+        '💧 Le stress hydrique est modéré. Pensez à ajuster vos tours d\'eau.',
+        '🧪 Vos analyses de sol montrent un potentiel de rendement de 85 q/ha.',
+        '⚠️ Alerte: Risque de maladie détecté dans la zone Nord. Commencez un traitement préventif.',
+        '📈 Vos données montrent une tendance positive depuis le dernier scan.',
+        '🎯 Je peux vous aider avec les recommandations de fertilisation, irrigation, ou santé des cultures.',
+        '✨ Vos parcelles sont en excellent état de développement!'
+      ];
+      
+      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      addMessage('bot', randomResponse);
+      setIsLoading(false);
+    }, 1500);
   };
 
   return (
     <div className="field-explorer-page">
       <Hero
-        eyebrow="Explorateur de parcelles"
-        title="Importez vos zones, laissez les satellites orchestrer la veille"
-        subtitle="Importez vos coordonnées ou fichiers GeoJSON, planifiez les revisites et laissez nos satellites orchestrer la veille multi-spectrale de vos cultures."
-        ctaLabel={isPremium ? (analysisState === 'results' ? "Nouvelle Analyse" : "Créer une zone") : t('premium_upgrade_cta')}
-        ctaHref={isPremium ? (analysisState === 'results' ? "#" : "#zone-form") : "/parametres"}
-        ctaOnClick={isPremium ? (analysisState === 'results' ? resetAnalysis : undefined) : (e) => { e.preventDefault(); handleLockedAccess(); }}
+        eyebrow="IA Agronomique"
+        title="Assistant IA AgriOrbit"
+        subtitle="Importez vos parcelles et discutez avec notre IA pour des recommandations personnalisées"
+        ctaLabel="Commencer"
+        ctaHref="#ai-section"
         images={explorerImages}
       />
 
-      {!isPremium && (
-        <section className="premium-locked-shell">
-          <div className="surface-card premium-panel">
-            <div className="premium-upsell">
-              <div>
-                <PremiumBadge />
-                <h2>{t('premium_locked_explorer_title')}</h2>
-                <p>{t('premium_locked_explorer_desc')}</p>
+      <section className="section ai-chat-section" id="ai-section">
+        <div className="container">
+          <div className="ai-container glass-panel">
+            {/* Panneau de contrôle des parcelles */}
+            <div className="parcelles-panel">
+              <div className="panel-header">
+                <h2>📊 Vos Parcelles</h2>
+                <button
+                  onClick={() => setShowImportModal(!showImportModal)}
+                  className="import-button"
+                >
+                  📥 Importer Parcelles
+                </button>
               </div>
-              <div className="premium-feature-grid">
+
+              {showImportModal && (
+                <div className="import-modal glass-panel">
+                  <p className="import-help">📋 Format: Nom, Culture, Surface (ha), NDVI</p>
+                  <p className="import-example">Exemple: "Nord-Est, Maïs, 12.5, 0.78"</p>
+                  <label className="file-input-label">
+                    📤 Choisir fichier CSV ou TXT
+                    <input
+                      type="file"
+                      accept=".csv,.txt"
+                      onChange={handleImportParcelles}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                </div>
+              )}
+
+              <div className="parcelles-list">
+                {importedParcelles.length === 0 ? (
+                  <p className="empty-state">Aucune parcelle importée. Commencez par en importer une!</p>
+                ) : (
+                  importedParcelles.map(parcelle => (
+                    <div
+                      key={parcelle.id}
+                      className={`parcelle-item ${selectedParcelle?.id === parcelle.id ? 'active' : ''}`}
+                      onClick={() => setSelectedParcelle(parcelle)}
+                    >
+                      <div className="parcelle-info">
+                        <strong>{parcelle.nom}</strong>
+                        <small>{parcelle.culture} • {parcelle.surface} ha</small>
+                      </div>
+                      <div className="parcelle-ndvi">
+                        NDVI: <span className="ndvi-value">{parcelle.ndvi.toFixed(2)}</span>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* Chat panel */}
+            <div className="chat-panel">
+              <div className="chat-header">
+                <h2>🤖 AgriOrbit IA</h2>
+                <div className="chat-status">
+                  {selectedParcelle ? (
+                    <span className="active-parcelle">🌾 {selectedParcelle.nom}</span>
+                  ) : (
+                    <span className="no-parcelle">Aucune parcelle sélectionnée</span>
+                  )}
+                </div>
+              </div>
+
+              <div className="chat-messages">
+                {chatMessages.map(msg => (
+                  <div
+                    key={msg.id}
+                    className={`chat-message ${msg.type}`}
+                  >
+                    <div className="message-content">
+                      {msg.type === 'bot' && <span className="message-icon">🤖</span>}
+                      {msg.type === 'user' && <span className="message-icon">👤</span>}
+                      <div className="message-text">{msg.text}</div>
+                    </div>
+                    <div className="message-time">
+                      {msg.timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                    </div>
+                  </div>
+                ))}
+                {isLoading && (
+                  <div className="chat-message bot loading">
+                    <div className="message-content">
+                      <span className="message-icon">🤖</span>
+                      <div className="typing-indicator">
+                        <span></span><span></span><span></span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div ref={chatEndRef} />
+              </div>
+
+              <form onSubmit={handleSendMessage} className="chat-input-form">
+                <input
+                  type="text"
+                  value={currentMessage}
+                  onChange={(e) => setCurrentMessage(e.target.value)}
+                  placeholder="Posez une question sur vos parcelles..."
+                  disabled={isLoading || importedParcelles.length === 0}
+                  className="chat-input"
+                />
+                <button
+                  type="submit"
+                  disabled={isLoading || !currentMessage.trim() || importedParcelles.length === 0}
+                  className="send-button"
+                  title="Envoyer"
+                >
+                  📤
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Premium Features Section */}
+      {!isPremium && (
+        <section className="section premium-section">
+          <div className="container">
+            <div className="premium-card glass-panel">
+              <div className="premium-header">
+                <h2>Accédez à toutes les fonctionnalités</h2>
+                <p>Débloquez l’analyse satellite complète, les prédictions IA et les recommandations personnalisées.</p>
+              </div>
+
+              <div className="premium-features">
                 {[t('premium_feature_point_1'), t('premium_feature_point_2'), t('premium_feature_point_3')].map((item) => (
                   <div key={item} className="premium-feature">
                     <div className="premium-feature-indicator">★</div>
@@ -149,8 +337,9 @@ function FieldExplorer() {
                   </div>
                 ))}
               </div>
+
               <div className="premium-actions">
-                <button type="button" className="button" onClick={handleLockedAccess}>
+                <button type="button" className="button" onClick={() => navigate('/premium')}>
                   {t('premium_upgrade_cta')}
                 </button>
                 <p className="premium-note">{t('premium_trial_hint')}</p>
@@ -160,26 +349,27 @@ function FieldExplorer() {
         </section>
       )}
 
-      {isPremium && analysisState === 'idle' && (
+      {/* Zone Form - Premium Only */}
+      {isPremium && (
         <section className="section explorer-intro" id="zone-form">
           <div className="container explorer-intro-card glass-panel">
             <div className="intro-text">
               <h2>Analyse Satellite Instantanée</h2>
-              <p>Entrez les coordonnées de votre champ pour lancer une lecture multi-spectrale profonde par nos constellations partenaires.</p>
+              <p>Entrez les coordonnées de votre champ pour lancer une lecture multi-spectrale profonde.</p>
             </div>
-            <form className="zone-form" aria-label="Lancer l'analyse satellite" onSubmit={handleSubmit}>
+            <form className="zone-form" aria-label="Lancer l'analyse satellite" onSubmit={(e) => e.preventDefault()}>
               <div className="form-group">
                 <label htmlFor="zone-name">Nom de la parcelle</label>
-                <input id="zone-name" name="zone-name" type="text" placeholder="Ex : Zone Nord - Maïs" required />
+                <input id="zone-name" type="text" placeholder="Ex : Zone Nord - Maïs" required />
               </div>
               <div className="form-grid">
                 <div className="form-group">
                   <label htmlFor="lat">Latitude (DD)</label>
-                  <input id="lat" name="lat" type="text" placeholder="14.6937" inputMode="decimal" required />
+                  <input id="lat" type="text" placeholder="14.6937" inputMode="decimal" required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="lng">Longitude (DD)</label>
-                  <input id="lng" name="lng" type="text" placeholder="-17.4441" inputMode="decimal" required />
+                  <input id="lng" type="text" placeholder="-17.4441" inputMode="decimal" required />
                 </div>
               </div>
               <button type="submit" className="button">
@@ -190,7 +380,8 @@ function FieldExplorer() {
         </section>
       )}
 
-      {isPremium && analysisState === 'scanning' && (
+      {/* Scanning Animation (Premium) */}
+      {isPremium && false /* Remplace par ta logique d'état */ && (
         <section className="section explorer-scanning">
           <div className="container scanning-container glass-panel">
             <div className="satellite-animation">
@@ -211,7 +402,8 @@ function FieldExplorer() {
         </section>
       )}
 
-      {isPremium && analysisState === 'results' && (
+      {/* Results Section (Premium) */}
+      {isPremium && false /* Remplace par ta logique */ && (
         <section className="section explorer-results animate-fade-in">
           <div className="container result-dashboard">
             <div className="result-main glass-panel">
@@ -233,7 +425,7 @@ function FieldExplorer() {
                   <span className="score">{mockAnalysisResult.healthScore}%</span>
                 </div>
                 <div className="gauge-bar">
-                  <div className="gauge-fill" style={{ width: `${mockAnalysisResult.healthScore}%`, background: mockAnalysisResult.healthScore < 70 ? 'var(--accent-alert)' : 'var(--accent-satellite-green)' }}></div>
+                  <div className="gauge-fill" style={{ width: `${mockAnalysisResult.healthScore}%` }}></div>
                 </div>
                 <p className="health-status-desc">{mockAnalysisResult.healthStatus}</p>
               </div>
@@ -251,7 +443,7 @@ function FieldExplorer() {
                 ))}
               </div>
 
-              <button onClick={resetAnalysis} className="button secondary reset-btn">
+              <button className="button secondary reset-btn">
                 Nouvelle analyse de parcelle
               </button>
             </div>
@@ -279,6 +471,7 @@ function FieldExplorer() {
         </section>
       )}
 
+      {/* Autres sections */}
       <section className="section explorer-content">
         <div className="container grid explorer-grid">
           <div className="map-preview glass-panel" role="img" aria-label="Représentation satellite d’une parcelle">

@@ -4,6 +4,16 @@ import castro from '../assets/castro.png';
 import '../styles/analytics.css';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { useState, useMemo } from 'react';
+import { generatePDFReport, exportToCSV, sendReportByEmail } from '../services/reportService.js';
+import {
+  NDVITrendChart,
+  RendementByCultureChart,
+  StressDistributionChart,
+  HealthDistributionChart,
+  RendementVsPotentialChart,
+  HealthByParcelleChart,
+  SoilMoistureChart
+} from '../components/DashboardCharts.jsx';
 
 const analyticsModules = [
   {
@@ -159,11 +169,43 @@ const parcellesKPIs = [
     recommandation: 'Suivi régulier'
   }
 ];
+
+// Catégories de KPIs organisées
+const KPI_CATEGORIES = {
+  vegetation: {
+    title: '🌱 Indices de Végétation',
+    icon: '🌿',
+    kpis: ['NDVI', 'EVI', 'Stade']
+  },
+  rendement: {
+    title: '📈 Rendement & Potentiel',
+    icon: '🎯',
+    kpis: ['Rendement', 'Potentiel', 'Tendance']
+  },
+  stress: {
+    title: '💧 Stress Hydrique',
+    icon: '💧',
+    kpis: ['Stress', 'Humidité', 'Température']
+  },
+  nutrition: {
+    title: '🧪 Nutrition du Sol',
+    icon: '⚗️',
+    kpis: ['pH', 'Azote', 'Phosphore', 'Potassium']
+  },
+  sante: {
+    title: '💚 Santé de la Parcelle',
+    icon: '✨',
+    kpis: ['Santé', 'Risque Maladie', 'Dernière Scan']
+  }
+};
+
 function AnalyticsSuite() {
   const { t } = useLanguage();
   const [filterCulture, setFilterCulture] = useState('');
-  const [sortBy, setSortBy] = useState('nom');
+  const [sortBy, setSortBy] = useState('sante');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedParcelles, setSelectedParcelles] = useState(new Set(parcellesKPIs.map(p => p.id)));
+  const [showParcelleSelector, setShowParcelleSelector] = useState(false);
 
   // Calcul des statistiques globales
   const stats = useMemo(() => {
@@ -207,16 +249,90 @@ function AnalyticsSuite() {
           return parseInt(b.sante) - parseInt(a.sante);
         case 'ndvi':
           return b.ndvi - a.ndvi;
+        case 'stress':
+          const stressOrder = { 'Nul': 0, 'Faible': 1, 'Modéré': 2, 'Élevé': 3 };
+          return stressOrder[a.stress] - stressOrder[b.stress];
+        case 'humidite':
+          return a.humidite - b.humidite;
         default:
           return 0;
       }
     });
   }, [filterCulture, searchTerm, sortBy]);
 
+  // Fonctions pour gérer la sélection des parcelles
+  const toggleParcelleSelection = (parcelleId) => {
+    const newSelected = new Set(selectedParcelles);
+    if (newSelected.has(parcelleId)) {
+      newSelected.delete(parcelleId);
+    } else {
+      newSelected.add(parcelleId);
+    }
+    setSelectedParcelles(newSelected);
+  };
+
+  const selectAllParcelles = () => {
+    setSelectedParcelles(new Set(parcellesKPIs.map(p => p.id)));
+  };
+
+  const deselectAllParcelles = () => {
+    setSelectedParcelles(new Set());
+  };
+
+  // Parcelles filtrées ET sélectionnées pour les rapports
+  const parcellesForReport = parcellesFiltered.filter(p => selectedParcelles.has(p.id));
+
+  // Gestion du téléchargement PDF avec sélection
+  const handleDownloadPDF = async () => {
+    if (parcellesForReport.length === 0) {
+      alert('Veuillez sélectionner au moins une parcelle');
+      return;
+    }
+    try {
+      await generatePDFReport(parcellesForReport, stats, 'Rapport_AgriOrbit');
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur lors de la génération du PDF');
+    }
+  };
+
+  // Gestion de l'export CSV avec sélection
+  const handleExportCSV = () => {
+    if (parcellesForReport.length === 0) {
+      alert('Veuillez sélectionner au moins une parcelle');
+      return;
+    }
+    try {
+      exportToCSV(parcellesForReport, 'Rapport_AgriOrbit');
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur lors de l\'export CSV');
+    }
+  };
+
+  // Gestion de l'envoi par email avec sélection
+  const handleSendEmail = async () => {
+    if (parcellesForReport.length === 0) {
+      alert('Veuillez sélectionner au moins une parcelle');
+      return;
+    }
+    const email = prompt('Entrez votre adresse email:');
+    if (!email) return;
+
+    try {
+      await sendReportByEmail(email, parcellesForReport, stats);
+      alert('Rapport envoyé avec succès!');
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur lors de l\'envoi du rapport');
+    }
+  };
+
   return (
     <div className="analytics-page">
       <Hero
         eyebrow={t('analytics_hero_eyebrow')}
+
         title={t('analytics_hero_title')}
         subtitle={t('analytics_hero_subtitle')}
         ctaLabel={t('hero_cta')}
@@ -274,6 +390,26 @@ function AnalyticsSuite() {
             <h2>Dashboard agronomique en temps réel</h2>
             <p>Suivi complet de toutes vos parcelles avec indicateurs de performance, alertes et recommandations.</p>
           </header>
+
+          {/* KPIs Détaillés par Catégorie */}
+          <div className="kpi-categories-grid">
+            {Object.entries(KPI_CATEGORIES).map(([key, category]) => (
+              <div key={key} className="kpi-category-card glass-panel">
+                <div className="category-header">
+                  <span className="category-icon">{category.icon}</span>
+                  <h3 className="category-title">{category.title}</h3>
+                </div>
+                <div className="category-kpis">
+                  {category.kpis.map((kpi, idx) => (
+                    <div key={idx} className="kpi-item">
+                      <span className="kpi-label">{kpi}</span>
+                      <span className="kpi-indicator">→</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
 
           {/* Statistiques Globales */}
           <div className="dashboard-stats-grid">
@@ -374,9 +510,11 @@ function AnalyticsSuite() {
                 className="filter-select"
               >
                 <option value="nom">Nom (A-Z)</option>
-                <option value="rendement">Rendement (↓)</option>
-                <option value="sante">Santé (↓)</option>
-                <option value="ndvi">NDVI (↓)</option>
+                <option value="sante">💚 Santé (↓)</option>
+                <option value="rendement">📈 Rendement (↓)</option>
+                <option value="ndvi">🌱 NDVI (↓)</option>
+                <option value="stress">💧 Stress (↑)</option>
+                <option value="humidite">💧 Humidité (↑)</option>
               </select>
             </div>
 
@@ -384,6 +522,111 @@ function AnalyticsSuite() {
               Affichage: <strong>{parcellesFiltered.length}</strong> / {stats.totalParcelles} parcelles
             </div>
           </div>
+
+          {/* Sélection des parcelles pour les rapports */}
+          <div className="parcelle-selection-section glass-panel">
+            <div className="selection-header">
+              <h3>Sélectionner les parcelles pour le rapport</h3>
+              <div className="selection-actions">
+                <button 
+                  onClick={selectAllParcelles}
+                  className="selection-button select-all"
+                  title="Sélectionner toutes les parcelles"
+                >
+                  ✓ Toutes
+                </button>
+                <button 
+                  onClick={deselectAllParcelles}
+                  className="selection-button deselect-all"
+                  title="Désélectionner toutes les parcelles"
+                >
+                  ✗ Aucune
+                </button>
+                <span className="selection-count">
+                  {selectedParcelles.size} / {parcellesFiltered.length} sélectionnées
+                </span>
+              </div>
+            </div>
+
+            <div className="parcelles-checkboxes">
+              {parcellesFiltered.map((parcelle) => (
+                <label key={parcelle.id} className="parcelle-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={selectedParcelles.has(parcelle.id)}
+                    onChange={() => toggleParcelleSelection(parcelle.id)}
+                  />
+                  <span className="checkbox-label">
+                    <strong>{parcelle.id}</strong> - {parcelle.nom} ({parcelle.culture})
+                  </span>
+                  <span className={`status-badge sante-${parseInt(parcelle.sante) >= 90 ? 'excellent' : 'good'}`}>
+                    {parcelle.sante}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Boutons d'action pour rapports */}
+          <div className="report-actions glass-panel">
+            <button 
+              onClick={handleDownloadPDF}
+              className="action-button primary"
+              title="Générer et télécharger un rapport PDF"
+            >
+              📄 Télécharger PDF
+            </button>
+            <button 
+              onClick={handleExportCSV}
+              className="action-button secondary"
+              title="Exporter les données en CSV"
+            >
+              📊 Exporter CSV
+            </button>
+            <button 
+              onClick={handleSendEmail}
+              className="action-button tertiary"
+              title="Envoyer le rapport par email"
+            >
+              📧 Envoyer par Email
+            </button>
+          </div>
+
+          {/* Section des graphiques PowerBI */}
+          <div className="powerbi-section">
+            <h2 className="section-title">📊 Visualisations Interactives</h2>
+            
+            <div className="charts-grid-2">
+              <div className="chart-card glass-panel">
+                <NDVITrendChart parcelles={parcellesFiltered} />
+              </div>
+              <div className="chart-card glass-panel">
+                <RendementVsPotentialChart parcelles={parcellesFiltered} />
+              </div>
+            </div>
+
+            <div className="charts-grid-3">
+              <div className="chart-card glass-panel">
+                <StressDistributionChart stats={stats} />
+              </div>
+              <div className="chart-card glass-panel">
+                <HealthDistributionChart parcelles={parcellesFiltered} />
+              </div>
+              <div className="chart-card glass-panel">
+                <RendementByCultureChart parcelles={parcellesFiltered} />
+              </div>
+            </div>
+
+            <div className="charts-grid-2">
+              <div className="chart-card glass-panel">
+                <HealthByParcelleChart parcelles={parcellesFiltered} />
+              </div>
+              <div className="chart-card glass-panel">
+                <SoilMoistureChart parcelles={parcellesFiltered} />
+              </div>
+            </div>
+          </div>
+
           <div className="parcelles-table-wrapper glass-panel">
             <table className="parcelles-table">
               <thead>
