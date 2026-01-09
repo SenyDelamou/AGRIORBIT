@@ -186,9 +186,6 @@ function Layout({ children }) {
       {hideChrome && (
         <div className="auth-brand-shell">
           <Link to="/plateforme" className="brand auth-brand">
-            <div className="brand-logo-wrapper">
-              <img src={logo} alt="Agri Orbit" className="brand-logo" />
-            </div>
             <div className="brand-info">
               <span className="brand-name">Agri Orbit</span>
               <span className="brand-subtitle">{t('brand_subtitle')}</span>
@@ -214,11 +211,7 @@ function Layout({ children }) {
             {/* Zone 2: Navigation (Center) */}
             <nav className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}> {/* Changed menuOpen to mobileMenuOpen */}
               <div className="mobile-menu-header">
-                <Link to="/plateforme" className="brand" onClick={() => setMobileMenuOpen(false)}> {/* Changed setMenuOpen to setMobileMenuOpen */}
-                  <div className="brand-logo-wrapper">
-                    <img src={logo} alt="Agri Orbit" className="brand-logo" />
-                  </div>
-                </Link>
+                <h3 style={{ margin: 0, color: 'var(--text-primary)' }}>Menu</h3>
                 <button
                   type="button"
                   className="menu-close"
@@ -355,9 +348,9 @@ function Layout({ children }) {
           <div className="container footer-meta">
             <span>© {new Date().getFullYear()} Agri Orbit Analytics. {t('footer_rights')}</span>
             <div className="footer-meta-links">
-              <Link to="#">{t('footer_legal')}</Link>
-              <Link to="#">{t('footer_privacy')}</Link>
-              <Link to="#">{t('footer_security')}</Link>
+              <Link to="/mentions-legales">{t('footer_legal')}</Link>
+              <Link to="/confidentialite">{t('footer_privacy')}</Link>
+              <Link to="/securite">{t('footer_security')}</Link>
             </div>
           </div>
         </footer>

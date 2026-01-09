@@ -37,9 +37,84 @@ function About() {
         title={t('about_mission_title')}
         subtitle={t('about_mission_subtitle')}
         ctaLabel={t('hero_cta')}
-        ctaHref="#valeurs"
+        ctaHref="#presentation"
         images={aboutImages}
       />
+
+      {/* Présentation Section */}
+      <section className="section about-presentation" id="presentation">
+        <div className="container">
+          <div className="presentation-card glass-panel">
+            <div className="presentation-header">
+              <span className="tag animate-fade-in-down">À propos de nous</span>
+              <h2 className="animate-fade-in-up">Agri Orbit: L'intelligence artificielle au service de l'agriculture</h2>
+            </div>
+            <div className="presentation-content">
+              <p className="lead">
+                Agri Orbit Analytics est une plateforme technologique innovante qui combine l'intelligence 
+                artificielle, l'imagerie satellite et l'expertise agronomique pour transformer l'agriculture 
+                moderne. Nous mettons la technologie au service des agriculteurs pour optimiser leurs rendements, 
+                réduire leurs coûts et cultiver de manière durable.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Histoire Section */}
+      <section className="section about-histoire">
+        <div className="container">
+          <div className="histoire-card glass-panel">
+            <div className="histoire-header">
+              <span className="tag">Notre parcours</span>
+              <h2>Une histoire d'innovation et de passion</h2>
+            </div>
+            <div className="timeline-container">
+              <div className="timeline-item">
+                <div className="timeline-marker"></div>
+                <div className="timeline-content">
+                  <h3>2020 - La Vision</h3>
+                  <p>
+                    Agri Orbit naît d'un constat: l'agriculture africaine et méditerranéenne manque d'outils 
+                    technologiques accessibles pour optimiser les cultures. Notre équipe de fondateurs, 
+                    composée d'agronomes et d'ingénieurs IA, décide de créer une solution.
+                  </p>
+                </div>
+              </div>
+              <div className="timeline-item">
+                <div className="timeline-marker"></div>
+                <div className="timeline-content">
+                  <h3>2021 - Le Lancement</h3>
+                  <p>
+                    Premiers tests en Tunisie et au Maroc sur les cultures de blé, d'olive et de datte. 
+                    Les résultats dépassent nos attentes: +15% de rendement en moyenne, -20% de coûts d'intrants.
+                  </p>
+                </div>
+              </div>
+              <div className="timeline-item">
+                <div className="timeline-marker"></div>
+                <div className="timeline-content">
+                  <h3>2023 - L'Expansion</h3>
+                  <p>
+                    Expansion à 18 pays, partenariats avec l'ESA et des agences spatiales. 
+                    120 000 hectares sous suivi intelligent. Reconnaissance internationale.
+                  </p>
+                </div>
+              </div>
+              <div className="timeline-item">
+                <div className="timeline-marker"></div>
+                <div className="timeline-content">
+                  <h3>Aujourd'hui - L'Avenir</h3>
+                  <p>
+                    Agri Orbit continue d'innover en intégrant la blockchain pour la traçabilité, 
+                    les drones pour les observations micro-locales, et des modèles IA prédictifs toujours plus précis.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="section about-hero">
         <div className="container about-hero-card glass-panel">
@@ -55,6 +130,45 @@ function About() {
             <div className="stat-card">
               <strong>24 h</strong>
               <span>{t('about_stat_time')}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission Section */}
+      <section className="section about-mission-vision">
+        <div className="container">
+          <div className="mission-vision-grid">
+            <div className="mv-card glass-panel">
+              <div className="mv-icon mission-icon">🎯</div>
+              <h3>Notre Mission</h3>
+              <p>
+                Révolutionner l'agriculture en mettant à disposition des agriculteurs des outils intelligents, 
+                accessibles et fiables pour:
+              </p>
+              <ul className="mv-list">
+                <li>Maximiser les rendements avec précision</li>
+                <li>Réduire les coûts d'exploitation</li>
+                <li>Cultiver de manière durable</li>
+                <li>S'adapter aux changements climatiques</li>
+                <li>Améliorer la traçabilité des produits</li>
+              </ul>
+            </div>
+
+            <div className="mv-card glass-panel">
+              <div className="mv-icon vision-icon">🌱</div>
+              <h3>Notre Vision</h3>
+              <p>
+                Un monde où chaque agriculteur, peu importe sa localisation ou la taille de son exploitation, 
+                a accès à des technologies de pointe pour cultiver intelligent.
+              </p>
+              <ul className="mv-list">
+                <li>Agriculture inclusive et équitable</li>
+                <li>Technologie accessible à tous</li>
+                <li>Durabilité environnementale</li>
+                <li>Prosperité économique durable</li>
+                <li>Communauté agricole connectée</li>
+              </ul>
             </div>
           </div>
         </div>

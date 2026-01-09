@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+﻿import { createContext, useContext, useState, useEffect } from 'react';
 
 const LanguageContext = createContext();
 
@@ -178,6 +178,7 @@ const translations = {
         premium_feature_point_2: 'Alertes météo et maladies anticipées',
         premium_feature_point_3: 'Exports automatiques et partage sécurisé',
         premium_trial_hint: 'Essayez la simulation Premium pour démontrer la valeur aux décideurs.',
+        premium_locked_toast: 'Cette fonctionnalité nécessite le plan Premium.',
 
         // About & Analytics keys
         about_mission_eyebrow: 'Notre mission',
@@ -389,6 +390,7 @@ const translations = {
         premium_feature_point_2: 'Early weather & disease alerts',
         premium_feature_point_3: 'Automated exports and secure sharing',
         premium_trial_hint: 'Try the Premium simulation to showcase value to stakeholders.',
+        premium_locked_toast: 'This feature requires the Premium plan.',
 
         // About & Analytics keys
         about_mission_eyebrow: 'Our Mission',

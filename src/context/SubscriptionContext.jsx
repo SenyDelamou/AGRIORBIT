@@ -10,6 +10,9 @@ const defaultPlan = {
 const SubscriptionContext = createContext(null);
 
 const readStoredPlan = () => {
+  if (typeof window === 'undefined' || typeof window.localStorage === 'undefined') {
+    return defaultPlan;
+  }
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultPlan;
@@ -26,6 +29,9 @@ const readStoredPlan = () => {
 };
 
 const persistPlan = (plan) => {
+  if (typeof window === 'undefined' || typeof window.localStorage === 'undefined') {
+    return;
+  }
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(plan));
   } catch (error) {

@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Hero from '../components/Hero.jsx';
+import PremiumBadge from '../components/PremiumBadge.jsx';
 import { explorerImages } from '../data/heroImages.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { useSubscription } from '../context/SubscriptionContext.jsx';
+import { useToast } from '../context/ToastContext.jsx';
 import { useDocumentTitle, useMetaDescription } from '../hooks/useWebLogic.js';
 import '../styles/fieldExplorer.css';
 
@@ -84,13 +87,25 @@ const mockAnalysisResult = {
 
 function FieldExplorer() {
   const { t } = useLanguage();
+  const { isPremium } = useSubscription();
+  const { showToast } = useToast();
   useDocumentTitle(t('title_explorer'));
   useMetaDescription(t('cap_card1_desc'));
   const [analysisState, setAnalysisState] = useState('idle'); // 'idle', 'scanning', 'results'
   const [formVisible, setFormVisible] = useState(true);
+  const navigate = useNavigate();
+
+  const handleLockedAccess = () => {
+    showToast(t('premium_locked_toast'), 'warning');
+    navigate('/parametres');
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!isPremium) {
+      handleLockedAccess();
+      return;
+    }
     setAnalysisState('scanning');
     setFormVisible(false);
 
@@ -111,13 +126,41 @@ function FieldExplorer() {
         eyebrow="Explorateur de parcelles"
         title="Importez vos zones, laissez les satellites orchestrer la veille"
         subtitle="Importez vos coordonnées ou fichiers GeoJSON, planifiez les revisites et laissez nos satellites orchestrer la veille multi-spectrale de vos cultures."
-        ctaLabel={analysisState === 'results' ? "Nouvelle Analyse" : "Créer une zone"}
-        ctaHref={analysisState === 'results' ? "#" : "#zone-form"}
-        ctaOnClick={analysisState === 'results' ? resetAnalysis : undefined}
+        ctaLabel={isPremium ? (analysisState === 'results' ? "Nouvelle Analyse" : "Créer une zone") : t('premium_upgrade_cta')}
+        ctaHref={isPremium ? (analysisState === 'results' ? "#" : "#zone-form") : "/parametres"}
+        ctaOnClick={isPremium ? (analysisState === 'results' ? resetAnalysis : undefined) : (e) => { e.preventDefault(); handleLockedAccess(); }}
         images={explorerImages}
       />
 
-      {analysisState === 'idle' && (
+      {!isPremium && (
+        <section className="premium-locked-shell">
+          <div className="surface-card premium-panel">
+            <div className="premium-upsell">
+              <div>
+                <PremiumBadge />
+                <h2>{t('premium_locked_explorer_title')}</h2>
+                <p>{t('premium_locked_explorer_desc')}</p>
+              </div>
+              <div className="premium-feature-grid">
+                {[t('premium_feature_point_1'), t('premium_feature_point_2'), t('premium_feature_point_3')].map((item) => (
+                  <div key={item} className="premium-feature">
+                    <div className="premium-feature-indicator">★</div>
+                    <p>{item}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="premium-actions">
+                <button type="button" className="button" onClick={handleLockedAccess}>
+                  {t('premium_upgrade_cta')}
+                </button>
+                <p className="premium-note">{t('premium_trial_hint')}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {isPremium && analysisState === 'idle' && (
         <section className="section explorer-intro" id="zone-form">
           <div className="container explorer-intro-card glass-panel">
             <div className="intro-text">
@@ -147,7 +190,7 @@ function FieldExplorer() {
         </section>
       )}
 
-      {analysisState === 'scanning' && (
+      {isPremium && analysisState === 'scanning' && (
         <section className="section explorer-scanning">
           <div className="container scanning-container glass-panel">
             <div className="satellite-animation">
@@ -168,7 +211,7 @@ function FieldExplorer() {
         </section>
       )}
 
-      {analysisState === 'results' && (
+      {isPremium && analysisState === 'results' && (
         <section className="section explorer-results animate-fade-in">
           <div className="container result-dashboard">
             <div className="result-main glass-panel">

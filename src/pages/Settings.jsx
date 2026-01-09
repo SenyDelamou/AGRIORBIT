@@ -1,9 +1,69 @@
 import { useLanguage } from '../context/LanguageContext';
+import { useSubscription } from '../context/SubscriptionContext.jsx';
+import { useToast } from '../context/ToastContext.jsx';
+import PremiumBadge from '../components/PremiumBadge.jsx';
 import '../styles/profile.css';
+import '../styles/premium.css';
 import { BellIcon, GlobeAltIcon, ShieldCheckIcon, CreditCardIcon } from '@heroicons/react/24/outline';
 
 function Settings() {
   const { lang, setLang, t } = useLanguage();
+  const { plan, isPremium, upgradeToPremium, downgradeToStandard } = useSubscription();
+  const { showToast } = useToast();
+
+  const localeMap = {
+    fr: 'fr-FR',
+    en: 'en-US'
+  };
+  const dateFormatter = new Intl.DateTimeFormat(localeMap[lang] ?? 'fr-FR', { dateStyle: 'long' });
+
+  const formatDate = (iso) => {
+    if (!iso) {
+      return t('premium_not_applicable');
+    }
+    try {
+      return dateFormatter.format(new Date(iso));
+    } catch (error) {
+      console.warn('Impossible de formater la date de renouvellement simulée.', error);
+      return t('premium_not_applicable');
+    }
+  };
+
+  const subscriptionDesc = isPremium ? t('subscription_desc_premium') : t('subscription_desc_standard');
+  const currentPlanLabel = isPremium ? t('premium_premium') : t('premium_standard');
+  const renewalLabel = formatDate(plan?.renewalDate);
+  const featurePoints = [
+    t('premium_feature_point_1'),
+    t('premium_feature_point_2'),
+    t('premium_feature_point_3')
+  ];
+
+  const scrollToPremium = () => {
+    const section = document.getElementById('premium-simulation');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const handleUpgrade = () => {
+    upgradeToPremium();
+    showToast(t('premium_upgrade_toast'), 'success');
+  };
+
+  const handleDowngrade = () => {
+    downgradeToStandard();
+    showToast(t('premium_downgrade_toast'), 'info');
+  };
+
+  const handlePrimaryAction = () => {
+    if (isPremium) {
+      showToast(t('premium_simulation_hint'), 'info');
+      return;
+    }
+    handleUpgrade();
+  };
+
+  const primaryActionLabel = isPremium ? t('premium_manage_cta') : t('premium_upgrade_cta');
 
   const settings = [
     {
@@ -30,9 +90,11 @@ function Settings() {
     {
       id: 'subscription',
       title: t('subscription'),
-      desc: t('subscription_desc'),
+      desc: subscriptionDesc,
       icon: CreditCardIcon,
-      type: 'link'
+      type: 'premium',
+      buttonLabel: primaryActionLabel,
+      onClick: scrollToPremium
     }
   ];
 
@@ -70,13 +132,72 @@ function Settings() {
                   </select>
                 </div>
               ) : (
-                <button className="button-clean-primary" style={{ padding: '8px 16px', fontSize: '0.8rem' }}>
-                  {t('change')}
+                <button
+                  className={`button-clean-primary ${item.type === 'premium' ? 'premium-entry-button' : ''}`.trim()}
+                  style={{ padding: '8px 16px', fontSize: '0.8rem' }}
+                  type="button"
+                  onClick={() => {
+                    if (item.onClick) {
+                      item.onClick();
+                    }
+                    if (item.type === 'premium') {
+                      handlePrimaryAction();
+                    }
+                  }}
+                >
+                  {item.buttonLabel ?? t('change')}
                 </button>
               )}
             </div>
           ))}
         </div>
+
+        <section id="premium-simulation" className="premium-locked-shell">
+          <div className="surface-card premium-panel">
+            <div className="premium-upsell">
+              <div>
+                <PremiumBadge labelKey={isPremium ? 'premium_badge' : 'premium_standard'} />
+                <h2>{t('premium_feature_list_title')}</h2>
+                <p>{subscriptionDesc}</p>
+              </div>
+
+              <div className="premium-plan-grid">
+                <div className="premium-mini-card">
+                  <span>{t('premium_current_plan')}</span>
+                  <strong>{currentPlanLabel}</strong>
+                </div>
+                <div className="premium-mini-card">
+                  <span>{t('premium_next_renewal')}</span>
+                  <strong>{renewalLabel}</strong>
+                </div>
+              </div>
+
+              <div className="premium-feature-grid">
+                {featurePoints.map((item) => (
+                  <div key={item} className="premium-feature">
+                    <div className="premium-feature-indicator">★</div>
+                    <p>{item}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="premium-divider" />
+
+              <div className="premium-actions">
+                <button type="button" className="button" onClick={handlePrimaryAction}>
+                  {primaryActionLabel}
+                </button>
+                {isPremium && (
+                  <button type="button" className="button secondary" onClick={handleDowngrade}>
+                    {t('premium_downgrade_cta')}
+                  </button>
+                )}
+              </div>
+
+              <p className="premium-note">{t('premium_simulation_hint')}</p>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
