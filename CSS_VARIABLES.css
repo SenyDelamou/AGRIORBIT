@@ -1,0 +1,233 @@
+/* 
+ * AgriOrbit - CSS Variables Reference
+ * Utilisez ce fichier comme guide pour personnaliser les couleurs et styles
+ */
+
+:root {
+  /* ============================================
+     COULEURS - PALETTE DARK MODE (Défaut)
+     ============================================ */
+  
+  /* Backgrounds */
+  --bg-deep-space: #0A0E27;        /* Fond principal très sombre */
+  --bg-panel: #0F1629;             /* Fond panels/cartes */
+  --bg-overlay: rgba(10, 14, 39, 0.8);
+
+  /* Accents Primaires */
+  --accent-neon-green: #A8FF4F;    /* Vert neon lumineux - PRINCIPAL */
+  --accent-data-blue: #4FAFFE;     /* Bleu données - SECONDAIRE */
+  --accent-purple: #A78BFA;        /* Purple accent */
+  --accent-satellite-green: #48D597; /* Vert succès */
+  --accent-alert: #FF6B6B;         /* Rouge alerte */
+  --accent-gold: #FFD700;          /* Or premium */
+
+  /* Texte */
+  --text-primary: #FAFBFC;         /* Texte principal blanc */
+  --text-secondary: rgba(250, 251, 252, 0.92); /* Texte secondaire */
+  --text-muted: rgba(250, 251, 252, 0.7);     /* Texte désactivé */
+  --text-accent: #A8FF4F;          /* Texte d'accent */
+
+  /* ============================================
+     ANIMATIONS & TRANSITIONS
+     ============================================ */
+
+  /* Easing Functions */
+  --ease-fluid: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Durées */
+  --duration-fast: 0.15s;
+  --duration-normal: 0.35s;
+  --duration-slow: 0.6s;
+  --duration-cinematic: 1s;
+
+  /* ============================================
+     GLASSMORPHISM & EFFETS
+     ============================================ */
+
+  /* Glass Surfaces */
+  --glass-surface: rgba(15, 22, 41, 0.5);
+  --glass-surface-deep: rgba(10, 14, 39, 0.7);
+  --glass-surface-glow: rgba(168, 255, 79, 0.04);
+
+  /* Glass Borders */
+  --glass-border: rgba(79, 172, 254, 0.25);
+  --glass-border-bright: rgba(168, 255, 79, 0.35);
+  --glass-glow-shadow: 0 0 40px rgba(168, 255, 79, 0.15);
+
+  /* ============================================
+     TYPOGRAPHIE
+     ============================================ */
+
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+
+  /* ============================================
+     ESPACEMENTS & DIMENSIONS
+     ============================================ */
+
+  /* Radius */
+  --radius-xl: 40px;
+  --radius-lg: 28px;
+  --radius-md: 16px;
+  --radius-sm: 8px;
+
+  /* Section Gap */
+  --section-gap: clamp(4rem, 12vw, 8rem);
+
+  /* ============================================
+     BLUR EFFECTS
+     ============================================ */
+
+  --blur-weak: 8px;
+  --blur-medium: 16px;
+  --blur-strong: 24px;
+
+  /* ============================================
+     BADGES & CHIPS SPÉCIFIQUES
+     ============================================ */
+
+  --badge-bg: rgba(79, 172, 254, 0.12);
+  --badge-border: rgba(79, 172, 254, 0.3);
+  --chip-bg: rgba(168, 255, 79, 0.1);
+  --chip-border: rgba(168, 255, 79, 0.2);
+
+  /* ============================================
+     BOUTONS
+     ============================================ */
+
+  --button-shadow: rgba(168, 255, 79, 0.25);
+  --button-hover-shadow: rgba(168, 255, 79, 0.5);
+  --button-glow: 0 0 25px rgba(79, 172, 254, 0.3);
+
+  /* ============================================
+     GRADIENTS
+     ============================================ */
+
+  --bg-gradient-main: radial-gradient(circle at 50% 0%, rgba(79, 172, 254, 0.2), transparent 60%),
+    radial-gradient(circle at 85% 30%, rgba(168, 255, 79, 0.12), transparent 50%),
+    linear-gradient(180deg, #0A0E27 0%, #050810 100%);
+
+  --heading-gradient: linear-gradient(135deg, #FAFBFC 0%, #A8FF4F 50%, #4FAFFE 100%);
+
+  --secondary-button-border: rgba(255, 255, 255, 0.15);
+  --secondary-button-hover-bg: rgba(168, 255, 79, 0.08);
+}
+
+/* ============================================
+   THEME CLAIR - LIGHT MODE
+   ============================================ */
+
+[data-theme='light'] {
+  /* Backgrounds */
+  --bg-deep-space: #F8FAFC;
+  --bg-panel: #FFFFFF;
+  --bg-overlay: rgba(255, 255, 255, 0.97);
+
+  /* Accents */
+  --accent-neon-green: #16A34A;
+  --accent-data-blue: #0369A1;
+  --accent-purple: #7C3AED;
+  --accent-gold: #D97706;
+  --accent-satellite-green: #16A34A;
+  --accent-alert: #EF4444;
+
+  /* Texte */
+  --text-primary: #0F1629;
+  --text-secondary: #1E293B;
+  --text-muted: #475569;
+  --text-accent: #16A34A;
+
+  /* Glassmorphism */
+  --glass-surface: rgba(255, 255, 255, 0.8);
+  --glass-surface-deep: rgba(248, 250, 252, 0.6);
+  --glass-surface-glow: rgba(72, 213, 151, 0.06);
+  --glass-border: rgba(15, 22, 41, 0.12);
+  --glass-border-bright: rgba(72, 213, 151, 0.25);
+  --glass-glow-shadow: 0 0 40px rgba(3, 105, 161, 0.15);
+
+  /* Badges */
+  --badge-bg: rgba(3, 105, 161, 0.1);
+  --badge-border: rgba(3, 105, 161, 0.2);
+  --chip-bg: rgba(22, 163, 74, 0.1);
+  --chip-border: rgba(22, 163, 74, 0.2);
+
+  /* Boutons */
+  --button-shadow: rgba(22, 163, 74, 0.2);
+  --button-hover-shadow: rgba(22, 163, 74, 0.3);
+  --button-glow: 0 0 25px rgba(3, 105, 161, 0.2);
+
+  /* Gradients */
+  --bg-gradient-main: radial-gradient(circle at 50% 0%, rgba(79, 172, 254, 0.08), transparent 60%),
+    radial-gradient(circle at 85% 30%, rgba(72, 213, 151, 0.05), transparent 50%),
+    linear-gradient(180deg, #F8FAFC 0%, #E8F0F8 100%);
+
+  --heading-gradient: linear-gradient(135deg, #0F1629 0%, #16A34A 50%, #0369A1 100%);
+
+  --secondary-button-border: rgba(2, 6, 23, 0.15);
+  --secondary-button-hover-bg: rgba(72, 213, 151, 0.08);
+}
+
+/* ============================================
+   GUIDE D'UTILISATION
+   ============================================ */
+
+/*
+ * COULEURS:
+ * --accent-neon-green   → Buttons, primary accents
+ * --accent-data-blue    → Secondary accents, badges
+ * --text-primary        → Heading text
+ * --text-secondary      → Body text
+ * --text-muted          → Disabled text
+ * --bg-deep-space       → Page background
+ * --bg-panel            → Card/panel background
+ *
+ * ANIMATIONS:
+ * --ease-smooth         → Transitions générales
+ * --ease-out-expo       → Entrées/sorties dramatiques
+ * --duration-normal     → Duration standard (350ms)
+ * --duration-slow       → Duration lente (600ms)
+ *
+ * GLASSMORPHISM:
+ * --glass-surface       → Background pour glass panels
+ * --glass-border        → Border color
+ * --blur-strong         → Forte blur (24px)
+ *
+ * ESPACEMENTS:
+ * --radius-lg           → Border radius panneaux (28px)
+ * --radius-md           → Border radius boutons (16px)
+ * --section-gap         → Gap entre sections
+ *
+ * EXEMPLE D'UTILISATION:
+ * 
+ * .mon-element {
+ *   background: var(--glass-surface);
+ *   border: 1px solid var(--glass-border);
+ *   border-radius: var(--radius-lg);
+ *   transition: all var(--duration-normal) var(--ease-smooth);
+ *   box-shadow: 0 0 20px var(--button-shadow);
+ * }
+ * 
+ * .mon-element:hover {
+ *   border-color: var(--accent-neon-green);
+ *   box-shadow: 0 0 40px var(--button-hover-shadow);
+ * }
+ */
+
+/* ============================================
+   VARIABLES PERSONNALISÉES (À ADAPTER)
+   ============================================ */
+
+/*
+ * Pour créer vos propres thèmes, créez une classe CSS:
+ * 
+ * [data-theme='custom'] {
+ *   --bg-deep-space: #000000;
+ *   --accent-neon-green: #00FF00;
+ *   ... etc
+ * }
+ * 
+ * Puis appliquez-le:
+ * document.documentElement.setAttribute('data-theme', 'custom');
+ */

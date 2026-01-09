@@ -18,6 +18,7 @@ const Settings = lazy(() => import('./pages/Settings.jsx'));
 import { ToastProvider } from './context/ToastContext.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import { LanguageProvider } from './context/LanguageContext.jsx';
+import { SubscriptionProvider } from './context/SubscriptionContext.jsx';
 import ToastContainer from './components/ToastContainer.jsx';
 import NotificationSimulator from './components/NotificationSimulator.jsx';
 import ChatWidget from './components/ChatWidget.jsx';
@@ -35,7 +36,8 @@ function App() {
   return (
     <AuthProvider>
       <LanguageProvider>
-        <ToastProvider>
+        <SubscriptionProvider>
+          <ToastProvider>
           <ScrollToTop />
           <Layout>
             <Suspense fallback={<div className="page-loader" aria-busy="true" aria-live="polite">Chargement…</div>}>
@@ -87,6 +89,7 @@ function App() {
           <NotificationSimulator />
           {!hideChat && <ChatWidget />}
         </ToastProvider>
+        </SubscriptionProvider>
       </LanguageProvider>
     </AuthProvider>
   );

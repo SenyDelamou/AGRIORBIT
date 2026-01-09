@@ -1,0 +1,259 @@
+/* Premium Animation Library for AgriOrbit */
+
+/* Smooth Page Transitions */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pageExit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* Glow & Pulse Effects */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(168, 255, 79, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(168, 255, 79, 0.6);
+  }
+}
+
+@keyframes glowBluePulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(79, 172, 254, 0.6);
+  }
+}
+
+/* Float Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Slide In Animations */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Shimmer Effect for Loading */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Gradient Animation */
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Rotate Animation */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Scale Animation */
+@keyframes scaleUp {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Utility Classes */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+.animate-glow-blue {
+  animation: glowBluePulse 2s ease-in-out infinite;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s var(--ease-out-expo);
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s var(--ease-out-expo);
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.6s var(--ease-out-expo);
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.6s var(--ease-out-expo);
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-in;
+}
+
+/* Staggered Animation for Lists */
+@for $i from 1 through 10 {
+  .animate-item-#{$i} {
+    animation: slideInUp 0.6s var(--ease-out-expo) #{$i * 0.1}s both;
+  }
+}
+
+/* Premium Hover Effects */
+.hover-lift {
+  transition: all var(--duration-normal) var(--ease-smooth);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+.hover-lift-heavy {
+  transition: all var(--duration-normal) var(--ease-smooth);
+}
+
+.hover-lift-heavy:hover {
+  transform: translateY(-8px);
+}
+
+.hover-glow {
+  transition: all var(--duration-normal) ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(79, 172, 254, 0.4);
+}
+
+/* Smooth Scrollbar Animation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Loading Skeleton Animation */
+.skeleton-loading {
+  background: linear-gradient(
+    90deg,
+    var(--glass-surface) 0%,
+    rgba(168, 255, 79, 0.05) 50%,
+    var(--glass-surface) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Text Gradient Animation */
+.text-gradient-animated {
+  background: linear-gradient(
+    90deg,
+    #A8FF4F 0%,
+    #4FAFFE 50%,
+    #A8FF4F 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 3s linear infinite;
+}
+
+/* Transition Smooth All */
+.transition-smooth {
+  transition: all var(--duration-normal) var(--ease-smooth);
+}
+
+.transition-fast {
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.transition-slow {
+  transition: all var(--duration-slow) var(--ease-smooth);
+}

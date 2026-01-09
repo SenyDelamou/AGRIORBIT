@@ -4,6 +4,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import App from './App.jsx';
 import './styles/global.css';
+import './styles/animations.css';
+import './styles/components.css';
+import './styles/utilities.css';
+import './styles/effects.css';
 
 // Enregistrement du service worker pour PWA/offline
 if ('serviceWorker' in navigator) {
