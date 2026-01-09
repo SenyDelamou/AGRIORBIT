@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import PremiumBadge from '../components/PremiumBadge.jsx';
 import '../styles/legal.css';
 
 function PrivacyPolicy() {

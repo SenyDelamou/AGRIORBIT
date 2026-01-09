@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche Technique - Agri Orbit Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 60px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 3px solid #A8FF4F;
+            padding-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #A8FF4F;
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            font-size: 36px;
+            color: #0A0E27;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .date {
+            font-size: 12px;
+            color: #999;
+            margin-top: 15px;
+        }
+        
+        section {
+            margin-bottom: 40px;
+        }
+        
+        h2 {
+            font-size: 24px;
+            color: #0A0E27;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-left: 4px solid #A8FF4F;
+            padding-left: 15px;
+        }
+        
+        h3 {
+            font-size: 18px;
+            color: #4FAFFE;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: #555;
+            text-align: justify;
+        }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .spec-box {
+            background: #f9f9f9;
+            padding: 20px;
+            border-left: 4px solid #4FAFFE;
+            border-radius: 4px;
+        }
+        
+        .spec-label {
+            font-weight: 700;
+            color: #0A0E27;
+            margin-bottom: 5px;
+        }
+        
+        .spec-value {
+            color: #A8FF4F;
+            font-size: 16px;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        th {
+            background: #0A0E27;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 700;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .highlight {
+            background: #A8FF4F20;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #A8FF4F;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .feature-icon {
+            color: #A8FF4F;
+            font-weight: 700;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .contact-box {
+            background: #0A0E27;
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .contact-box h3 {
+            color: #A8FF4F;
+        }
+        
+        .contact-box p {
+            color: #ddd;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                max-width: 100%;
+                padding: 40px;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌍 AGRI ORBIT ANALYTICS</div>
+            <h1>Fiche Technique</h1>
+            <p class="subtitle">Plateforme d'Intelligence Artificielle pour l'Agriculture de Précision</p>
+            <p class="date">Version 1.0 • Janvier 2026</p>
+        </div>
+
+        <section>
+            <h2>1. Présentation Générale</h2>
+            <p>
+                <strong>Agri Orbit Analytics</strong> est une plateforme technologique innovante qui combine l'intelligence 
+                artificielle, l'imagerie satellite et l'expertise agronomique pour révolutionner la gestion des cultures. 
+                Notre solution permet aux agriculteurs d'optimiser leurs rendements, de réduire les coûts d'exploitation 
+                et de cultiver de manière durable en utilisant des données fiables et exploitables.
+            </p>
+            
+            <div class="specs-grid">
+                <div class="spec-box">
+                    <div class="spec-label">Couverture Géographique</div>
+                    <div class="spec-value">18 pays</div>
+                </div>
+                <div class="spec-box">
+                    <div class="spec-label">Superficie Surveillée</div>
+                    <div class="spec-value">120 000 ha</div>
+                </div>
+                <div class="spec-box">
+                    <div class="spec-label">Temps de Traitement</div>
+                    <div class="spec-value">24 heures</div>
+                </div>
+                <div class="spec-box">
+                    <div class="spec-label">Langues Supportées</div>
+                    <div class="spec-value">8 langues</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Architecture Technique</h2>
+            
+            <h3>Infrastructure Générale</h3>
+            <ul>
+                <li><strong>Hosting:</strong> Vercel avec infrastructure mondialement distribuée</li>
+                <li><strong>Frontend:</strong> React 18.3.1 avec Vite</li>
+                <li><strong>Backend:</strong> Node.js / Express (ou équivalent)</li>
+                <li><strong>Base de Données:</strong> PostgreSQL avec réplication multi-zones</li>
+                <li><strong>Cache:</strong> Redis pour optimisation performances</li>
+                <li><strong>CDN:</strong> Edge distribution globale</li>
+            </ul>
+
+            <h3>Technologies Frontend</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Technologie</th>
+                        <th>Version</th>
+                        <th>Utilisation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>React</td>
+                        <td>18.3.1</td>
+                        <td>Framework UI</td>
+                    </tr>
+                    <tr>
+                        <td>React Router</td>
+                        <td>6.28.0</td>
+                        <td>Routage</td>
+                    </tr>
+                    <tr>
+                        <td>Vite</td>
+                        <td>Latest</td>
+                        <td>Build tool</td>
+                    </tr>
+                    <tr>
+                        <td>Heroicons</td>
+                        <td>2.x</td>
+                        <td>Icônes SVG</td>
+                    </tr>
+                    <tr>
+                        <td>CSS3</td>
+                        <td>Latest</td>
+                        <td>Styles & Animations</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Sécurité & Performance</h3>
+            <ul>
+                <li><strong>SSL/TLS:</strong> Certificats EV avec encryption AES-256</li>
+                <li><strong>Authentification:</strong> OAuth 2.0 + 2FA disponible</li>
+                <li><strong>Protection:</strong> WAF (Web Application Firewall)</li>
+                <li><strong>DDoS:</strong> Protection intégrée Vercel</li>
+                <li><strong>Performance:</strong> Core Web Vitals optimisés (LCP < 2.5s)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Fonctionnalités Principales</h2>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div>Cartographie satellite temps réel</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div>Modélisation de rendement (IA)</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div>Surveillance sanitaire des cultures</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div>Alertes météorologiques intégrées</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div>Analyse spectrale multi-bande</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div>Export données et rapports</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div>Intégration API (FMS/ERP)</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">✓</div>
+                    <div>Support multi-langues</div>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h3 style="margin-top: 0;">Indices Agricoles Calculés</h3>
+                <ul>
+                    <li><strong>NDVI:</strong> Indice de végétation par différence normalisée</li>
+                    <li><strong>NDWI:</strong> Indice d'humidité du feuillage</li>
+                    <li><strong>EVI:</strong> Indice de végétation amélioré</li>
+                    <li><strong>NDRE:</strong> Indice de bord rouge normalisé</li>
+                    <li><strong>LAI:</strong> Indice de surface foliaire</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Sources de Données</h2>
+            <ul>
+                <li><strong>ESA Copernicus:</strong> Satellites Sentinel-1/2</li>
+                <li><strong>Planet Labs:</strong> Imagerie PlanetScope (3m de résolution)</li>
+                <li><strong>USGS Landsat:</strong> Données d'archive long terme</li>
+                <li><strong>CNES Theia:</strong> Analyses atmosphériques</li>
+                <li><strong>Météo-France:</strong> Données météorologiques</li>
+                <li><strong>Capteurs IoT:</strong> Stations météo locales</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>5. Conformité & Certifications</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Norme/Certification</th>
+                        <th>Statut</th>
+                        <th>Domaine</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>RGPD</td>
+                        <td>✓ Conforme</td>
+                        <td>Protection données</td>
+                    </tr>
+                    <tr>
+                        <td>ISO 27001</td>
+                        <td>✓ Certifiée</td>
+                        <td>Sécurité information</td>
+                    </tr>
+                    <tr>
+                        <td>SOC 2 Type II</td>
+                        <td>✓ Auditée</td>
+                        <td>Fiabilité systèmes</td>
+                    </tr>
+                    <tr>
+                        <td>CCPA</td>
+                        <td>✓ Conforme</td>
+                        <td>Confidentialité (USA)</td>
+                    </tr>
+                    <tr>
+                        <td>OWASP Top 10</td>
+                        <td>✓ Sécurisée</td>
+                        <td>Sécurité web</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>6. Performance & Scalabilité</h2>
+            
+            <h3>Métriques de Performance</h3>
+            <div class="specs-grid">
+                <div class="spec-box">
+                    <div class="spec-label">Disponibilité</div>
+                    <div class="spec-value">99.95% SLA</div>
+                </div>
+                <div class="spec-box">
+                    <div class="spec-label">Temps de Réponse API</div>
+                    <div class="spec-value">&lt; 200ms</div>
+                </div>
+                <div class="spec-box">
+                    <div class="spec-label">Capacité d'Utilisateurs</div>
+                    <div class="spec-value">10 000+</div>
+                </div>
+                <div class="spec-box">
+                    <div class="spec-label">Traitement Parallèle</div>
+                    <div class="spec-value">100+ parcelles</div>
+                </div>
+            </div>
+
+            <h3>Scalabilité</h3>
+            <ul>
+                <li>Infrastructure cloud elastic (auto-scaling)</li>
+                <li>Microservices architecture</li>
+                <li>Load balancing distribué</li>
+                <li>Database sharding pour gros volumes</li>
+                <li>Cache distribué (Redis cluster)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>7. Intégrations Disponibles</h2>
+            <ul>
+                <li><strong>APIs Ouvertes:</strong> REST et GraphQL</li>
+                <li><strong>Formats Supportés:</strong> GeoJSON, KML, SHP, GeoTIFF</li>
+                <li><strong>Webhooks:</strong> Pour alertes en temps réel</li>
+                <li><strong>ERP Integration:</strong> Compatibilité SAP, Oracle NetSuite</li>
+                <li><strong>FMS Integration:</strong> Compatible MYJOHN DEERE API</li>
+                <li><strong>OAuth 2.0:</strong> Intégration Google/Microsoft</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>8. Support & Maintenance</h2>
+            <ul>
+                <li><strong>Support Client:</strong> 24/7 via email et chat</li>
+                <li><strong>Hotline Technique:</strong> +221 33 000 00 00</li>
+                <li><strong>SLA de Réponse:</strong> &lt; 4h pour critiques</li>
+                <li><strong>Maintenance:</strong> Fenêtres planifiées le dimanche 2h-4h UTC</li>
+                <li><strong>Documentation:</strong> Wiki technique en ligne 24/7</li>
+                <li><strong>Formation:</strong> Webinaires mensuels gratuits</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>9. Tarification & Plans</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plan</th>
+                        <th>Superficie</th>
+                        <th>Fonctionnalités</th>
+                        <th>Support</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Startup</strong></td>
+                        <td>Jusqu'à 500 ha</td>
+                        <td>Cartographie + Alertes</td>
+                        <td>Email</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Professional</strong></td>
+                        <td>Jusqu'à 5000 ha</td>
+                        <td>Tous les outils</td>
+                        <td>Prioritaire</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Enterprise</strong></td>
+                        <td>Illimitée</td>
+                        <td>Tous + Custom</td>
+                        <td>Dédié 24/7</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>10. Roadmap 2026</h2>
+            <ul>
+                <li>Q1: Intégration drone pour observations micro-locales</li>
+                <li>Q2: Blockchain pour traçabilité produits</li>
+                <li>Q3: Modèles IA pour prédictions 6 mois</li>
+                <li>Q4: Application mobile native iOS/Android</li>
+            </ul>
+        </section>
+
+        <div class="contact-box">
+            <h3>Contactez Notre Équipe Technique</h3>
+            <p><strong>Email Support:</strong> support@agri-orbit.com</p>
+            <p><strong>Email Technique:</strong> tech@agri-orbit.com</p>
+            <p><strong>Téléphone:</strong> +221 33 000 00 00</p>
+            <p><strong>Documentation:</strong> https://docs.agri-orbit.com</p>
+            <p><strong>Status Page:</strong> https://status.agri-orbit.com</p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 Agri Orbit Analytics. Tous droits réservés.</p>
+            <p>Document confidentiel - À usage interne et partenaires autorisés</p>
+            <p>Version 1.0 • Mise à jour: Janvier 2026</p>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour télécharger en PDF
+        function downloadPDF() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
