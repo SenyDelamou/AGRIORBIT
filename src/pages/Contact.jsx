@@ -3,9 +3,11 @@ import TechDownload from '../components/TechDownload.jsx';
 import { aboutImages } from '../data/heroImages.js';
 import { EnvelopeIcon, PhoneIcon, MapPinIcon } from '@heroicons/react/24/outline';
 import castro from '../assets/castro.png';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 import '../styles/contact.css';
 
 function Contact() {
+    useScrollReveal();
     const contactInfo = [
         {
             icon: <EnvelopeIcon className="icon" />,
@@ -42,10 +44,10 @@ function Contact() {
                 images={aboutImages}
             />
 
-            <section className="section contact-content">
+            <section className="section contact-content reveal-on-scroll">
                 <div className="container contact-grid">
                     {/* Contact Details */}
-                    <div className="contact-details">
+                    <div className="contact-details reveal-on-scroll">
                         <header className="section-header">
                             <span className="tag">Coordonnées</span>
                             <h2>Informations Professionnelles</h2>
@@ -54,7 +56,7 @@ function Contact() {
 
                         <div className="info-cards">
                             {contactInfo.map((info, idx) => (
-                                <div key={idx} className="info-card glass-panel">
+                                <div key={idx} className={`info-card glass-panel hover-lift reveal-on-scroll`} style={{ animationDelay: `${idx * 0.1}s` }}>
                                     <div className="info-icon">{info.icon}</div>
                                     <div className="info-text">
                                         <span className="info-label">{info.label}</span>
@@ -83,7 +85,7 @@ function Contact() {
                     </div>
 
                     {/* Contact Form */}
-                    <div className="contact-form-wrapper glass-panel">
+                    <div className="contact-form-wrapper glass-panel hover-lift reveal-on-scroll">
                         <h3>Envoyez-nous un message</h3>
                         <form onSubmit={handleSubmit} className="contact-form">
                             <div className="form-group">

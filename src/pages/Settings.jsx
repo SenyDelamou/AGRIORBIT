@@ -2,6 +2,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useSubscription } from '../context/SubscriptionContext.jsx';
 import { useToast } from '../context/ToastContext.jsx';
 import PremiumBadge from '../components/PremiumBadge.jsx';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 import '../styles/profile.css';
 import '../styles/premium.css';
 import { BellIcon, GlobeAltIcon, ShieldCheckIcon, CreditCardIcon } from '@heroicons/react/24/outline';
@@ -10,6 +11,7 @@ function Settings() {
   const { lang, setLang, t } = useLanguage();
   const { plan, isPremium, upgradeToPremium, downgradeToStandard } = useSubscription();
   const { showToast } = useToast();
+  useScrollReveal();
 
   const localeMap = {
     fr: 'fr-FR',
@@ -107,8 +109,8 @@ function Settings() {
         </header>
 
         <div className="settings-list">
-          {settings.map((item) => (
-            <div key={item.id} className="setting-item">
+          {settings.map((item, idx) => (
+            <div key={item.id} className={`setting-item hover-lift reveal-on-scroll`} style={{ animationDelay: `${idx * 0.1}s` }}>
               <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flex: 1 }}>
                 <div style={{ background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '12px' }}>
                   <item.icon style={{ width: '24px', color: 'var(--accent-neon-green)' }} />
@@ -152,8 +154,8 @@ function Settings() {
           ))}
         </div>
 
-        <section id="premium-simulation" className="premium-locked-shell">
-          <div className="surface-card premium-panel">
+        <section id="premium-simulation" className="premium-locked-shell reveal-on-scroll">
+          <div className="surface-card premium-panel hover-lift">
             <div className="premium-upsell">
               <div>
                 <PremiumBadge labelKey={isPremium ? 'premium_badge' : 'premium_standard'} />

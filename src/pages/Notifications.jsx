@@ -1,4 +1,5 @@
 import '../styles/profile.css';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 import { BellIcon, ExclamationTriangleIcon, CheckCircleIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 
 const notifications = [
@@ -32,6 +33,7 @@ const notifications = [
 ];
 
 function Notifications() {
+    useScrollReveal();
     return (
         <div className="notifications-page">
             <div className="user-container">
@@ -41,8 +43,8 @@ function Notifications() {
                 </header>
 
                 <div className="settings-list">
-                    {notifications.map((notif) => (
-                        <div key={notif.id} className="setting-item">
+                    {notifications.map((notif, idx) => (
+                        <div key={notif.id} className={`setting-item hover-lift reveal-on-scroll`} style={{ animationDelay: `${idx * 0.1}s` }}>
                             <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
                                 <div style={{
                                     background: `${notif.color}20`,

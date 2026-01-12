@@ -297,7 +297,14 @@ function Layout({ children }) {
         </header>
       )}
 
-      <main className={hideChrome ? 'auth-main' : undefined}>{children}</main>
+      <main>
+        <div
+          key={location.pathname}
+          className={hideChrome ? 'page-shell auth-main' : 'page-shell'}
+        >
+          {children}
+        </div>
+      </main>
 
       {!hideChrome && (
         <footer className="footer-shell">

@@ -5,6 +5,7 @@ import '../styles/analytics.css';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { useState, useMemo } from 'react';
 import { generatePDFReport, exportToCSV, sendReportByEmail } from '../services/reportService.js';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 import {
   NDVITrendChart,
   RendementByCultureChart,
@@ -201,6 +202,7 @@ const KPI_CATEGORIES = {
 
 function AnalyticsSuite() {
   const { t } = useLanguage();
+  useScrollReveal();
   const [filterCulture, setFilterCulture] = useState('');
   const [sortBy, setSortBy] = useState('sante');
   const [searchTerm, setSearchTerm] = useState('');
@@ -340,8 +342,8 @@ function AnalyticsSuite() {
         images={analyticsImages}
       />
 
-      <section className="section analytics-overview">
-        <div className="container analytics-hero-card glass-panel">
+      <section className="section analytics-overview reveal-on-scroll">
+        <div className="container analytics-hero-card glass-panel hover-lift">
           <div className="hero-chart" role="img" aria-label="Visualisation de l’évolution NDVI">
             <div className="chart-header">
               <span>NDVI vs NDWI</span>
@@ -364,7 +366,7 @@ function AnalyticsSuite() {
         </div>
       </section>
 
-      <section className="section analytics-modules" id="modules">
+      <section className="section analytics-modules reveal-on-scroll" id="modules">
         <div className="container">
           <header className="section-header">
             <span className="tag">Modules clés</span>
@@ -372,8 +374,8 @@ function AnalyticsSuite() {
             <p>Combinez indices végétatifs, anomalies et projections pour bâtir une stratégie culturalisée par micro-zone.</p>
           </header>
           <div className="grid module-grid">
-            {analyticsModules.map((module) => (
-              <article key={module.title} className="module-card glass-panel">
+            {analyticsModules.map((module, idx) => (
+              <article key={module.title} className={`module-card glass-panel hover-lift reveal-on-scroll`} style={{ animationDelay: `${idx * 0.1}s` }}>
                 <h3>{module.title}</h3>
                 <p>{module.description}</p>
               </article>
@@ -382,7 +384,7 @@ function AnalyticsSuite() {
         </div>
       </section>
 
-      <section className="section parcelles-kpis" id="dashboard">
+      <section className="section parcelles-kpis reveal-on-scroll" id="dashboard">
         <div className="container">
           {/* Dashboard Header avec Statistiques Globales */}
           <header className="section-header">
@@ -393,8 +395,8 @@ function AnalyticsSuite() {
 
           {/* KPIs Détaillés par Catégorie */}
           <div className="kpi-categories-grid">
-            {Object.entries(KPI_CATEGORIES).map(([key, category]) => (
-              <div key={key} className="kpi-category-card glass-panel">
+            {Object.entries(KPI_CATEGORIES).map(([key, category], idx) => (
+              <div key={key} className={`kpi-category-card glass-panel hover-lift reveal-on-scroll`} style={{ animationDelay: `${idx * 0.1}s` }}>
                 <div className="category-header">
                   <span className="category-icon">{category.icon}</span>
                   <h3 className="category-title">{category.title}</h3>
@@ -413,7 +415,7 @@ function AnalyticsSuite() {
 
           {/* Statistiques Globales */}
           <div className="dashboard-stats-grid">
-            <div className="stat-card glass-panel">
+            <div className="stat-card glass-panel hover-lift reveal-on-scroll">
               <div className="stat-header">
                 <span className="stat-icon">📊</span>
                 <span className="stat-label">Parcelles actives</span>

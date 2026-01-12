@@ -4,10 +4,12 @@ import { ArrowLeftIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import '../styles/auth.css';
 import { useToast } from '../context/ToastContext.jsx';
 import { request } from '../api/client.js';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 const RESEND_COOLDOWN = 45; // seconds
 
 function VerifyEmail() {
+  useScrollReveal();
   const navigate = useNavigate();
   const location = useLocation();
   const { addToast } = useToast();
@@ -157,8 +159,8 @@ function VerifyEmail() {
 
   return (
     <div className="auth-page-clean auth-centered-wrapper">
-      <div className="auth-centered-container">
-        <div className="auth-card-clean">
+      <div className="auth-centered-container reveal-on-scroll">
+        <div className="auth-card-clean hover-lift">
           <button type="button" onClick={() => navigate(-1)} className="back-link-clean btn-reset">
             <ArrowLeftIcon />
             <span>Étape précédente</span>

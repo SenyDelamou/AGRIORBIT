@@ -14,10 +14,12 @@ import '../styles/auth.css';
 import { useLanguage } from '../context/LanguageContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { request, setStoredTokens } from '../api/client.js';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 function Register() {
   const { t, setLang, lang } = useLanguage();
   const { login } = useAuth();
+  useScrollReveal();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -99,8 +101,8 @@ function Register() {
         </div>
 
         {/* Right Side: Clean Form */}
-        <div className="auth-form-clean-container">
-          <div className="auth-form-wrapper registration-wrapper">
+        <div className="auth-form-clean-container reveal-on-scroll">
+          <div className="auth-form-wrapper registration-wrapper hover-lift">
             <div className="auth-header-clean">
               <h1>{t('register_title')}</h1>
               <p>{t('register_subtitle')}</p>

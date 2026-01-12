@@ -2,9 +2,11 @@ import Hero from '../components/Hero.jsx';
 import TechDownload from '../components/TechDownload.jsx';
 import { aboutImages } from '../data/heroImages.js';
 import { DocumentTextIcon, CommandLineIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 import '../styles/resources.css';
 
 function Resources() {
+  useScrollReveal();
   const resourceCards = [
     {
       icon: <DocumentTextIcon className="resource-icon" />,
@@ -35,11 +37,11 @@ function Resources() {
         images={aboutImages}
       />
 
-      <section className="section resources-overview">
+      <section className="section resources-overview reveal-on-scroll">
         <div className="container">
           <div className="resources-grid">
             {resourceCards.map((resource, idx) => (
-              <div key={idx} className="resource-card glass-panel">
+              <div key={idx} className={`resource-card glass-panel hover-lift reveal-on-scroll`} style={{ animationDelay: `${idx * 0.15}s` }}>
                 <div className="resource-icon-wrapper">
                   {resource.icon}
                 </div>
@@ -54,7 +56,7 @@ function Resources() {
 
       <TechDownload />
 
-      <section className="section resources-additional">
+      <section className="section resources-additional reveal-on-scroll">
         <div className="container">
           <div className="resources-header">
             <span className="tag">Support</span>
@@ -63,17 +65,17 @@ function Resources() {
           </div>
 
           <div className="support-grid">
-            <div className="support-card glass-panel">
+            <div className="support-card glass-panel hover-lift reveal-on-scroll">
               <div className="support-number">01</div>
               <h3>Documentation Complète</h3>
               <p>Consultez notre base de connaissances exhaustive avec tutoriels, FAQ et bonnes pratiques.</p>
             </div>
-            <div className="support-card glass-panel">
+            <div className="support-card glass-panel hover-lift reveal-on-scroll" style={{ animationDelay: '0.1s' }}>
               <div className="support-number">02</div>
               <h3>Support Technique 24/7</h3>
               <p>Contactez notre équipe d'experts pour une assistance technique immédiate et personnalisée.</p>
             </div>
-            <div className="support-card glass-panel">
+            <div className="support-card glass-panel hover-lift reveal-on-scroll" style={{ animationDelay: '0.2s' }}>
               <div className="support-number">03</div>
               <h3>Communauté Active</h3>
               <p>Rejoignez notre communauté de développeurs pour partager des expériences et des solutions.</p>

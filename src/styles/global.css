@@ -205,11 +205,6 @@ button {
   cursor: pointer;
 }
 
-main {
-  min-height: calc(100vh - 100px);
-  padding-bottom: var(--section-gap);
-}
-
 .container {
   width: min(1200px, 100% - 2.5rem);
   margin: 0 auto;
@@ -550,4 +545,15 @@ textarea::placeholder {
   50% {
     box-shadow: 0 0 40px rgba(185, 255, 102, 0.3);
   }
+}
+
+/* Page transition shell for route changes */
+.page-shell {
+  min-height: calc(100vh - 100px);
+  padding-bottom: var(--section-gap);
+  animation: pageEnter 0.5s var(--ease-out-expo);
+}
+
+.page-shell.auth-main {
+  padding-bottom: 0;
 }

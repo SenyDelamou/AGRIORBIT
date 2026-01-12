@@ -5,9 +5,11 @@ import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon, ArrowRightIcon } f
 import loginSatellite from '../assets/login_satellite.png';
 import '../styles/auth.css';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 function Login() {
   const { t } = useLanguage();
+  useScrollReveal();
   const googleButtonRef = useRef(null);
   const [googleReady, setGoogleReady] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -89,8 +91,8 @@ function Login() {
         </div>
 
         {/* Right Side: Clean Form */}
-        <div className="auth-form-clean-container">
-          <div className="auth-form-wrapper">
+        <div className="auth-form-clean-container reveal-on-scroll">
+          <div className="auth-form-wrapper hover-lift">
             <div className="auth-header-clean">
               <h1>{t('login_title')}</h1>
               <p>{t('login_subtitle')}</p>

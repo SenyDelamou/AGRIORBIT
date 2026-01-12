@@ -4,8 +4,10 @@ import { EnvelopeIcon, ArrowLeftIcon, ShieldCheckIcon, LockClosedIcon, CheckCirc
 import '../styles/auth.css';
 import { request } from '../api/client.js';
 import { useToast } from '../context/ToastContext.jsx';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 function ForgotPassword() {
+  useScrollReveal();
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
@@ -194,8 +196,8 @@ function ForgotPassword() {
 
   return (
     <div className="auth-page-clean auth-centered-wrapper">
-      <div className="auth-centered-container">
-        <div className="auth-card-clean">
+      <div className="auth-centered-container reveal-on-scroll">
+        <div className="auth-card-clean hover-lift">
           {step < 4 && (
             <>
               {step === 1 ? (

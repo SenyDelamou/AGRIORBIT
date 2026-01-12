@@ -3,6 +3,7 @@ import { aboutImages } from '../data/heroImages.js';
 import castro from '../assets/castro.png';
 import '../styles/about.css';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 const values = [
   {
@@ -29,6 +30,7 @@ const partners = [
 
 function About() {
   const { t } = useLanguage();
+  useScrollReveal();
 
   return (
     <div className="about-page">
@@ -42,9 +44,9 @@ function About() {
       />
 
       {/* Présentation Section */}
-      <section className="section about-presentation" id="presentation">
+      <section className="section about-presentation reveal-on-scroll" id="presentation">
         <div className="container">
-          <div className="presentation-card glass-panel">
+          <div className="presentation-card glass-panel hover-lift">
             <div className="presentation-header">
               <span className="tag animate-fade-in-down">À propos de nous</span>
               <h2 className="animate-fade-in-up">Agri Orbit: L'intelligence artificielle au service de l'agriculture</h2>
@@ -138,8 +140,8 @@ function About() {
       {/* Mission Section */}
       <section className="section about-mission-vision">
         <div className="container">
-          <div className="mission-vision-grid">
-            <div className="mv-card glass-panel">
+            <div className="mission-vision-grid">
+            <div className="mv-card glass-panel hover-lift reveal-on-scroll">
               <div className="mv-icon mission-icon">🎯</div>
               <h3>Notre Mission</h3>
               <p>
@@ -155,7 +157,7 @@ function About() {
               </ul>
             </div>
 
-            <div className="mv-card glass-panel">
+            <div className="mv-card glass-panel hover-lift reveal-on-scroll">
               <div className="mv-icon vision-icon">🌱</div>
               <h3>Notre Vision</h3>
               <p>
@@ -200,8 +202,8 @@ function About() {
             <p>Des choix produits orientés vers la sobriété des intrants, la résilience face aux stress climatiques et la performance économique durable.</p>
           </header>
           <div className="values-grid">
-            {values.map((value) => (
-              <article key={value.title} className="value-card">
+            {values.map((value, idx) => (
+              <article key={value.title} className={`value-card hover-lift reveal-on-scroll`} style={{ animationDelay: `${idx * 0.15}s` }}>
                 <h3>{value.title}</h3>
                 <p>{value.description}</p>
               </article>

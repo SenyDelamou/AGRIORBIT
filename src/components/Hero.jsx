@@ -93,7 +93,7 @@ function Hero({
       {/* Content */}
       <div className="container hero-inner">
         {eyebrow && <span className="hero-eyebrow">{eyebrow}</span>}
-        <h1>{title}</h1>
+        <h1 className="text-gradient-animated">{title}</h1>
         {subtitle && <p>{subtitle}</p>}
         {(ctaLabel || secondaryLabel) && (
           <div className="hero-actions">

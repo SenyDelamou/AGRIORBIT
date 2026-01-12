@@ -4,6 +4,7 @@ import { solutionsImages } from '../data/heroImages.js';
 import castro from '../assets/castro.png';
 import AnimatedCounter from '../components/AnimatedCounter.jsx';
 import TechDownload from '../components/TechDownload.jsx';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 import '../styles/solutions.css';
 
 const solutionPillars = [
@@ -162,6 +163,7 @@ const configuratorObjectives = [
 ];
 
 function SolutionsHub() {
+  useScrollReveal();
   const [expandedFaq, setExpandedFaq] = useState(null);
   const [selectedProgramFilter, setSelectedProgramFilter] = useState('all');
   const [expandedProgram, setExpandedProgram] = useState(null);

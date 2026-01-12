@@ -217,13 +217,13 @@ function Home() {
       />
 
       <section className="section hero-followup">
-        <div className="container hero-followup-grid">
-          <div className="hero-chips surface-card">
+        <div className="container hero-followup-grid reveal-on-scroll">
+          <div className="hero-chips surface-card hover-lift">
             <span className="chip">{t('hero_chip_esa')}</span>
             <span className="chip">{t('hero_chip_iso')}</span>
             <span className="chip">{t('hero_chip_eu')}</span>
           </div>
-          <div className="hero-snapshot surface-card">
+          <div className="hero-snapshot surface-card hover-lift">
             <strong>NDVI 0.78</strong>
             <p>{t('hero_ndvi_status')}</p>
           </div>
@@ -239,7 +239,7 @@ function Home() {
           </header>
           <div className="grid capability-grid">
             {capabilityCards.map((card) => (
-              <GlowCard key={card.title} className="capability-card surface-card">
+              <GlowCard key={card.title} className="capability-card surface-card hover-lift">
                 <div className="card-meta">
                   <span className="chip">
                     <AnimatedCounter value={card.kpi} />
@@ -262,7 +262,7 @@ function Home() {
           </div>
           <div className="workflow-steps">
             {workflowSteps.map((item) => (
-              <div key={item.step} className="workflow-step surface-card">
+              <div key={item.step} className="workflow-step surface-card hover-lift">
                 <span className="step-index">{item.step}</span>
                 <div>
                   <h3>{item.title}</h3>
@@ -301,7 +301,7 @@ function Home() {
           </div>
           <div className="insight-metrics">
             {insightHighlights.map((highlight) => (
-              <div key={highlight.metric} className="metric-card surface-card">
+              <div key={highlight.metric} className="metric-card surface-card hover-lift">
                 <strong>
                   <AnimatedCounter value={highlight.metric} />
                 </strong>
@@ -329,7 +329,7 @@ function Home() {
           </div>
           <div className="testimonial-metrics">
             {testimonial.metrics.map((item) => (
-              <div key={item.label} className="surface-card metric-tile">
+              <div key={item.label} className="surface-card metric-tile hover-lift">
                 <strong>
                   <AnimatedCounter value={item.value} />
                 </strong>
@@ -351,7 +351,7 @@ function Home() {
           </header>
           <div className="grid why-grid">
             {whyChoose.map((reason) => (
-              <article key={reason.title} className="why-card surface-card">
+              <article key={reason.title} className="why-card surface-card hover-lift">
                 <div className="why-icon">{reason.icon}</div>
                 <h3>{reason.title}</h3>
                 <p>{reason.description}</p>

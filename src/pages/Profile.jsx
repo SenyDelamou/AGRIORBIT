@@ -1,225 +1,559 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useToast } from '../context/ToastContext';
 import { useDocumentTitle } from '../hooks/useWebLogic';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 import '../styles/profile.css';
-import { ChartBarIcon, MapIcon, BeakerIcon, UserCircleIcon, LockClosedIcon, PencilSquareIcon, CheckIcon, XMarkIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+import {
+  ChartBarIcon, MapIcon, BeakerIcon, UserCircleIcon, LockClosedIcon,
+  PencilSquareIcon, CheckIcon, XMarkIcon, GlobeAltIcon, BellIcon,
+  Cog6ToothIcon, DocumentArrowDownIcon, TrashIcon, ArrowRightOnRectangleIcon,
+  SparklesIcon, CalendarIcon, EnvelopeIcon, PhoneIcon, MapPinIcon,
+  ClipboardDocumentIcon, ShieldCheckIcon, GlobeAltIcon as GlobeIcon
+} from '@heroicons/react/24/outline';
+import { LockClosedIcon as LockClosedSolid } from '@heroicons/react/24/solid';
 
-const LOCAL_LANGUAGES = [
-    'Pulaar', 'Sérère', 'Diola', 'Mandingue', 'Soninké',
-    'Soussou', 'Malinké', 'Guerzé', 'Tome', 'Kissi'
+const TABS = ['Profil', 'Abonnement', 'Statistiques', 'Activité', 'Intégrations', 'Préférences', 'Sécurité', 'Données'];
+
+const RECENT_ACTIVITIES = [
+  { type: 'analysis', title: 'Analyse de parcelle complétée', time: 'Il y a 2 heures', icon: '' },
+  { type: 'alert', title: 'Alerte d\'irrigation créée', time: 'Il y a 5 heures', icon: '' },
+  { type: 'login', title: 'Connexion via Google', time: 'Il y a 1 jour', icon: '' },
+  { type: 'upgrade', title: 'Passage au plan Premium', time: 'Il y a 7 jours', icon: '' },
+  { type: 'export', title: 'Rapport exporté (PDF)', time: 'Il y a 2 semaines', icon: '' }
+];
+
+const INTEGRATIONS = [
+  { name: 'Sentinel Hub', status: 'Actif', type: 'Satellite', users: '2,450' },
+  { name: 'Capteurs IoT', status: 'Actif', type: 'Hardware', users: '1,200' },
+  { name: 'Google Weather API', status: 'Actif', type: 'Météo', users: '3,100' },
+  { name: 'Export Shapefile', status: 'Inactif', type: 'Export', users: '450' }
 ];
 
 function Profile() {
-    const { user, updateUser } = useAuth();
-    const { lang, setLang, t } = useLanguage();
-    useDocumentTitle(t('profile'));
-    const { showToast } = useToast();
+  const { user, updateUser } = useAuth();
+  const { lang, setLang, t } = useLanguage();
+  useDocumentTitle(t('profile'));
+  useScrollReveal();
+  const { showToast } = useToast();
 
-    const [editingName, setEditingName] = useState(false);
-    const [newName, setNewName] = useState(user?.name || '');
+  const [activeTab, setActiveTab] = useState('Profil');
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({
+    name: user?.name || '',
+    email: user?.email || '',
+    phone: user?.phone || '',
+    location: user?.location || '',
+    company: user?.company || '',
+    bio: user?.bio || ''
+  });
 
-    const [editingPassword, setEditingPassword] = useState(false);
-    const [passwords, setPasswords] = useState({ current: '', new: '', confirm: '' });
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [passwords, setPasswords] = useState({ current: '', new: '', confirm: '' });
+  const [show2FA, setShow2FA] = useState(false);
 
-    if (!user) return null;
+  if (!user) return null;
 
-    const handleUpdateName = (e) => {
-        e.preventDefault();
-        if (newName.trim()) {
-            updateUser({ name: newName });
-            setEditingName(false);
-            showToast('Nom mis à jour avec succès', 'success');
-        }
-    };
+  const handleSaveProfile = () => {
+    updateUser(formData);
+    setEditMode(false);
+    showToast('Profil mis à jour avec succès', 'success');
+  };
 
-    const handleUpdatePassword = (e) => {
-        e.preventDefault();
-        if (passwords.new !== passwords.confirm) {
-            showToast('Les mots de passe ne correspondent pas', 'error');
-            return;
-        }
-        // Simulation de changement de mot de passe
-        showToast('Mot de passe mis à jour avec succès', 'success');
-        setEditingPassword(false);
-        setPasswords({ current: '', new: '', confirm: '' });
-    };
+  const handlePasswordChange = (e) => {
+    e.preventDefault();
+    if (passwords.new !== passwords.confirm) {
+      showToast('Les mots de passe ne correspondent pas', 'error');
+      return;
+    }
+    showToast('Mot de passe mis à jour avec succès', 'success');
+    setShowPasswordForm(false);
+    setPasswords({ current: '', new: '', confirm: '' });
+  };
 
-    const handleToggleLanguage = (langName) => {
-        const langCode = langName.toLowerCase();
-        const currentLangs = user.localLanguages || [];
-        const updatedLangs = currentLangs.includes(langName)
-            ? currentLangs.filter(l => l !== langName)
-            : [...currentLangs, langName];
-
-        updateUser({ localLanguages: updatedLangs });
-
-        // Switch the UI language if it's one of the supported ones
-        if (['fr', 'en', 'pulaar', 'sérère'].includes(langCode)) {
-            setLang(langCode);
-        }
-
-        showToast(t('settings_updated'), 'success');
-    };
-
-    const stats = [
-        { label: t('Parcelles suivies'), value: '12', icon: MapIcon },
-        { label: t('Analyses effectuées'), value: '48', icon: ChartBarIcon },
-        { label: t('Santé moyenne'), value: '94%', icon: BeakerIcon }
-    ];
-
-    return (
-        <div className="profile-page">
-            <div className="user-container">
-                <header className="page-header">
-                    <h1>{t('profile')}</h1>
-                    <p>{t('profile_desc')}</p>
-                </header>
-
-                <div className="profile-main-grid">
-                    {/* Carte Profil Principale */}
-                    <div className="profile-card-large surface-card">
-                        <div className="profile-header-ui">
-                            <div className="avatar-wrapper-large">
-                                <img src={user.picture} alt={user.name} />
-                                <button className="edit-avatar-btn">
-                                    <PencilSquareIcon style={{ width: '16px' }} />
-                                </button>
-                            </div>
-                            <div className="user-info-ui">
-                                {editingName ? (
-                                    <form onSubmit={handleUpdateName} className="inline-edit-form">
-                                        <input
-                                            type="text"
-                                            value={newName}
-                                            onChange={(e) => setNewName(e.target.value)}
-                                            autoFocus
-                                            className="edit-input"
-                                        />
-                                        <div className="edit-actions">
-                                            <button type="submit" className="action-btn success"><CheckIcon style={{ width: '20px' }} /></button>
-                                            <button type="button" onClick={() => setEditingName(false)} className="action-btn cancel"><XMarkIcon style={{ width: '20px' }} /></button>
-                                        </div>
-                                    </form>
-                                ) : (
-                                    <h2 className="user-name-display">
-                                        {user.name}
-                                        <button onClick={() => setEditingName(true)} className="small-edit-btn">
-                                            <PencilSquareIcon style={{ width: '20px' }} />
-                                        </button>
-                                    </h2>
-                                )}
-                                <p className="user-email-display">{user.email}</p>
-                                <span className="badge-expert">Membre Expert</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Section Sécurité */}
-                    <div className="security-section surface-card">
-                        <div className="section-header-row">
-                            <h3><LockClosedIcon className="icon-sm" style={{ width: '20px' }} /> Sécurité du compte</h3>
-                        </div>
-
-                        {user.provider === 'google' ? (
-                            <div className="security-summary">
-                                <p>Votre compte est sécurisé via <strong>Google</strong>.</p>
-                                <p className="small-info" style={{ opacity: 0.6, fontSize: '0.85rem', marginBottom: '1.5rem' }}>
-                                    Pour modifier votre mot de passe ou vos paramètres de sécurité, rendez-vous sur votre compte Google.
-                                </p>
-                                <a
-                                    href="https://myaccount.google.com/security"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="button-outline"
-                                    style={{ display: 'inline-block', textDecoration: 'none', textAlign: 'center' }}
-                                >
-                                    Gérer mon compte Google
-                                </a>
-                            </div>
-                        ) : !editingPassword ? (
-                            <div className="security-summary">
-                                <p>Modifier votre mot de passe pour sécuriser votre accès.</p>
-                                <button onClick={() => setEditingPassword(true)} className="button-outline">
-                                    Changer le mot de passe
-                                </button>
-                            </div>
-                        ) : (
-                            <form onSubmit={handleUpdatePassword} className="password-form-ui">
-                                <div className="form-group">
-                                    <label>Mot de passe actuel</label>
-                                    <input
-                                        type="password"
-                                        required
-                                        value={passwords.current}
-                                        onChange={(e) => setPasswords({ ...passwords, current: e.target.value })}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Nouveau mot de passe</label>
-                                    <input
-                                        type="password"
-                                        required
-                                        value={passwords.new}
-                                        onChange={(e) => setPasswords({ ...passwords, new: e.target.value })}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Confirmer le nouveau mot de passe</label>
-                                    <input
-                                        type="password"
-                                        required
-                                        value={passwords.confirm}
-                                        onChange={(e) => setPasswords({ ...passwords, confirm: e.target.value })}
-                                    />
-                                </div>
-                                <div className="form-footer">
-                                    <button type="button" onClick={() => setEditingPassword(false)} className="btn-cancel">Annuler</button>
-                                    <button type="submit" className="btn-save">Enregistrer</button>
-                                </div>
-                            </form>
-                        )}
-                    </div>
-
-                    {/* Section Langues Locales */}
-                    <div className="languages-section surface-card">
-                        <div className="section-header-row">
-                            <h3><GlobeAltIcon className="icon-sm" style={{ width: '20px' }} /> {t('local_languages')}</h3>
-                        </div>
-                        <p className="small-info" style={{ opacity: 0.7, fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-                            {t('local_languages_desc')}
-                        </p>
-
-                        <div className="languages-selection-grid">
-                            {LOCAL_LANGUAGES.map(langName => (
-                                <button
-                                    key={langName}
-                                    className={`lang-chip ${user.localLanguages?.includes(langName) ? 'active' : ''}`}
-                                    onClick={() => handleToggleLanguage(langName)}
-                                >
-                                    {langName}
-                                    {user.localLanguages?.includes(langName) && <CheckIcon style={{ width: '14px', marginLeft: '6px' }} />}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="stats-grid">
-                    {stats.map((stat, idx) => (
-                        <div key={idx} className="stat-card reveal-item">
-                            <stat.icon className="stat-icon-ui" style={{ width: '24px' }} />
-                            <div className="stat-content">
-                                <span className="stat-value">{stat.value}</span>
-                                <span className="stat-label">{stat.label}</span>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
+  // Profil Section
+  const renderProfileTab = () => (
+    <div className="tab-content">
+      <div className="section-card">
+        <div className="section-header">
+          <h2>Informations personnelles</h2>
+          {!editMode && (
+            <button className="btn-edit" onClick={() => setEditMode(true)}>
+              <PencilSquareIcon /> Modifier
+            </button>
+          )}
         </div>
-    );
+
+        {editMode ? (
+          <form className="profile-form">
+            <div className="form-row">
+              <div className="form-group">
+                <label>Nom complet</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="Votre nom"
+                />
+              </div>
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="votre@email.com"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Téléphone</label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  placeholder="+221 XX XXX XXXX"
+                />
+              </div>
+              <div className="form-group">
+                <label>Localisation</label>
+                <input
+                  type="text"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  placeholder="Ville, Pays"
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Entreprise</label>
+                <input
+                  type="text"
+                  value={formData.company}
+                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  placeholder="Nom de votre entreprise"
+                />
+              </div>
+              <div className="form-group">
+                <label>Biographie</label>
+                <textarea
+                  value={formData.bio}
+                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                  placeholder="Parlez-nous de vous..."
+                  rows="3"
+                />
+              </div>
+            </div>
+
+            <div className="form-actions">
+              <button type="button" className="btn-cancel" onClick={() => setEditMode(false)}>
+                Annuler
+              </button>
+              <button type="button" className="btn-save" onClick={handleSaveProfile}>
+                Enregistrer les modifications
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className="profile-display">
+            <div className="info-item">
+              <span className="label">Nom</span>
+              <span className="value">{formData.name}</span>
+            </div>
+            <div className="info-item">
+              <span className="label">Email</span>
+              <span className="value">{formData.email}</span>
+            </div>
+            <div className="info-item">
+              <span className="label">Téléphone</span>
+              <span className="value">{formData.phone || 'Non fourni'}</span>
+            </div>
+            <div className="info-item">
+              <span className="label">Localisation</span>
+              <span className="value">{formData.location || 'Non fourni'}</span>
+            </div>
+            <div className="info-item">
+              <span className="label">Entreprise</span>
+              <span className="value">{formData.company || 'Non fourni'}</span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  // Subscription Section
+  const renderSubscriptionTab = () => (
+    <div className="tab-content">
+      <div className="section-card">
+        <h2>Votre abonnement</h2>
+        
+        <div className="subscription-display">
+          <div className="plan-badge premium">Premium</div>
+          <p>Plan Professionnel pour les exploitations de moyenne taille</p>
+          
+          <div className="subscription-info">
+            <div className="info-item">
+              <span className="label">Prix mensuel</span>
+              <span className="value">59€</span>
+            </div>
+            <div className="info-item">
+              <span className="label">Prochain renouvellement</span>
+              <span className="value">15 février 2026</span>
+            </div>
+            <div className="info-item">
+              <span className="label">Statut</span>
+              <span className="value status-active"> Actif</span>
+            </div>
+          </div>
+
+          <div className="plan-features">
+            <h3>Inclus dans votre plan</h3>
+            <ul>
+              <li> 50 parcelles illimitées</li>
+              <li> Analyses quotidiennes</li>
+              <li> Alertes automatisées</li>
+              <li> Export PDF/Shapefile</li>
+              <li> Support prioritaire</li>
+            </ul>
+          </div>
+
+          <div className="subscription-actions">
+            <button className="btn-outline">Upgrade vers Enterprise</button>
+            <button className="btn-danger">Résilier l'abonnement</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Statistics Section
+  const renderStatisticsTab = () => (
+    <div className="tab-content">
+      <div className="stats-grid">
+        <div className="stat-card">
+          <div className="stat-header">
+            <MapIcon />
+            <span>Parcelles</span>
+          </div>
+          <div className="stat-value">24</div>
+          <div className="stat-change">+3 ce mois</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-header">
+            <ChartBarIcon />
+            <span>Analyses</span>
+          </div>
+          <div className="stat-value">156</div>
+          <div className="stat-change">+48 ce mois</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-header">
+            <BellIcon />
+            <span>Alertes</span>
+          </div>
+          <div className="stat-value">12</div>
+          <div className="stat-change">3 en attente</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-header">
+            <SparklesIcon />
+            <span>Jours Actifs</span>
+          </div>
+          <div className="stat-value">89</div>
+          <div className="stat-change">Depuis l'inscription</div>
+        </div>
+      </div>
+
+      <div className="section-card" style={{ marginTop: '2rem' }}>
+        <h3>Utilisation API</h3>
+        <div className="usage-stats">
+          <div className="usage-item">
+            <span>Requêtes ce mois</span>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: '65%' }}></div>
+            </div>
+            <span className="usage-text">6,500 / 10,000</span>
+          </div>
+          <div className="usage-item">
+            <span>Stockage</span>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: '42%' }}></div>
+            </div>
+            <span className="usage-text">42 GB / 100 GB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Activity Section
+  const renderActivityTab = () => (
+    <div className="tab-content">
+      <div className="section-card">
+        <h2>Activité récente</h2>
+        <div className="activity-list">
+          {RECENT_ACTIVITIES.map((activity, idx) => (
+            <div key={idx} className="activity-item">
+              <div className="activity-icon">{activity.icon}</div>
+              <div className="activity-content">
+                <p className="activity-title">{activity.title}</p>
+                <p className="activity-time">{activity.time}</p>
+              </div>
+              <ArrowRightOnRectangleIcon />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  // Integrations Section
+  const renderIntegrationsTab = () => (
+    <div className="tab-content">
+      <div className="section-card">
+        <h2>Intégrations actives</h2>
+        <div className="integrations-grid">
+          {INTEGRATIONS.map((integration, idx) => (
+            <div key={idx} className="integration-card">
+              <div className="integration-header">
+                <h3>{integration.name}</h3>
+                <span className={status ${integration.status.toLowerCase()}}>
+                  {integration.status}
+                </span>
+              </div>
+              <p className="integration-type">{integration.type}</p>
+              <p className="integration-users">{integration.users} utilisateurs</p>
+              <button className="btn-small">Gérer</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  // Preferences Section
+  const renderPreferencesTab = () => (
+    <div className="tab-content">
+      <div className="section-card">
+        <h2>Préférences</h2>
+        
+        <div className="preference-item">
+          <div>
+            <h3>Notifications par email</h3>
+            <p>Recevez des alertes importantes</p>
+          </div>
+          <label className="toggle">
+            <input type="checkbox" defaultChecked />
+            <span className="slider"></span>
+          </label>
+        </div>
+
+        <div className="preference-item">
+          <div>
+            <h3>Rapports hebdomadaires</h3>
+            <p>Résumé de vos parcelles chaque lundi</p>
+          </div>
+          <label className="toggle">
+            <input type="checkbox" defaultChecked />
+            <span className="slider"></span>
+          </label>
+        </div>
+
+        <div className="preference-item">
+          <div>
+            <h3>Mode sombre</h3>
+            <p>Réduire la fatigue oculaire</p>
+          </div>
+          <label className="toggle">
+            <input type="checkbox" defaultChecked />
+            <span className="slider"></span>
+          </label>
+        </div>
+
+        <div className="preference-item">
+          <div>
+            <h3>Langue</h3>
+            <p>Sélectionnez votre langue préférée</p>
+          </div>
+          <select>
+            <option>Français</option>
+            <option>English</option>
+            <option>Pulaar</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Security Section
+  const renderSecurityTab = () => (
+    <div className="tab-content">
+      <div className="section-card">
+        <h2>Sécurité du compte</h2>
+
+        <div className="security-item">
+          <div className="security-header">
+            <LockClosedIcon />
+            <div>
+              <h3>Mot de passe</h3>
+              <p>Dernière modification il y a 6 mois</p>
+            </div>
+          </div>
+          {!showPasswordForm ? (
+            <button className="btn-small" onClick={() => setShowPasswordForm(true)}>
+              Modifier
+            </button>
+          ) : (
+            <form onSubmit={handlePasswordChange} className="security-form">
+              <input
+                type="password"
+                placeholder="Mot de passe actuel"
+                value={passwords.current}
+                onChange={(e) => setPasswords({ ...passwords, current: e.target.value })}
+                required
+              />
+              <input
+                type="password"
+                placeholder="Nouveau mot de passe"
+                value={passwords.new}
+                onChange={(e) => setPasswords({ ...passwords, new: e.target.value })}
+                required
+              />
+              <input
+                type="password"
+                placeholder="Confirmer le mot de passe"
+                value={passwords.confirm}
+                onChange={(e) => setPasswords({ ...passwords, confirm: e.target.value })}
+                required
+              />
+              <div className="form-actions">
+                <button type="button" className="btn-cancel" onClick={() => setShowPasswordForm(false)}>
+                  Annuler
+                </button>
+                <button type="submit" className="btn-save">
+                  Enregistrer
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+
+        <div className="security-item">
+          <div className="security-header">
+            <ShieldCheckIcon />
+            <div>
+              <h3>Authentification à deux facteurs</h3>
+              <p>Sécurité supplémentaire pour votre compte</p>
+            </div>
+          </div>
+          <label className="toggle">
+            <input type="checkbox" onChange={() => setShow2FA(!show2FA)} />
+            <span className="slider"></span>
+          </label>
+        </div>
+
+        <div className="security-item">
+          <div className="security-header">
+            <MapIcon />
+            <div>
+              <h3>Sessions actives</h3>
+              <p>Appareils connectés à votre compte</p>
+            </div>
+          </div>
+          <button className="btn-small">Voir les sessions</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Data Section
+  const renderDataTab = () => (
+    <div className="tab-content">
+      <div className="section-card">
+        <h2>Gestion des données</h2>
+
+        <div className="data-action">
+          <DocumentArrowDownIcon />
+          <div>
+            <h3>Télécharger mes données</h3>
+            <p>Obtenez une copie de toutes vos données personnelles au format JSON</p>
+          </div>
+          <button className="btn-primary">Télécharger</button>
+        </div>
+
+        <div className="data-action">
+          <ClipboardDocumentIcon />
+          <div>
+            <h3>Exporter les rapports</h3>
+            <p>Téléchargez tous vos rapports d'analyse en PDF</p>
+          </div>
+          <button className="btn-primary">Exporter</button>
+        </div>
+
+        <div className="data-action delete">
+          <TrashIcon />
+          <div>
+            <h3>Supprimer mon compte</h3>
+            <p>Cette action est irréversible. Toutes les données seront supprimées.</p>
+          </div>
+          <button className="btn-danger">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="profile-page">
+      <div className="user-container">
+        {/* Header */}
+        <div className="profile-header">
+          <div className="profile-header-content">
+            <img src={user.picture} alt={user.name} className="profile-avatar-large" />
+            <div className="profile-header-info">
+              <h1>{user.name}</h1>
+              <p className="profile-email">{user.email}</p>
+              <div className="profile-badges">
+                <span className="badge premium">Premium</span>
+                <span className="badge verified"> Vérifié</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tabs Navigation */}
+        <div className="tabs-navigation">
+          {TABS.map(tab => (
+            <button
+              key={tab}
+              className={	ab-btn ${activeTab === tab ? 'active' : ''}}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        <div className="tab-panel">
+          {activeTab === 'Profil' && renderProfileTab()}
+          {activeTab === 'Abonnement' && renderSubscriptionTab()}
+          {activeTab === 'Statistiques' && renderStatisticsTab()}
+          {activeTab === 'Activité' && renderActivityTab()}
+          {activeTab === 'Intégrations' && renderIntegrationsTab()}
+          {activeTab === 'Préférences' && renderPreferencesTab()}
+          {activeTab === 'Sécurité' && renderSecurityTab()}
+          {activeTab === 'Données' && renderDataTab()}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Profile;

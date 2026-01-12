@@ -7,6 +7,7 @@ import { useLanguage } from '../context/LanguageContext.jsx';
 import { useSubscription } from '../context/SubscriptionContext.jsx';
 import { useToast } from '../context/ToastContext.jsx';
 import { useDocumentTitle, useMetaDescription } from '../hooks/useWebLogic.js';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 import '../styles/fieldExplorer.css';
 
 const sampleZones = [
@@ -184,6 +185,7 @@ function FieldExplorer() {
   const { showToast } = useToast();
   useDocumentTitle(t('title_explorer'));
   useMetaDescription(t('cap_card1_desc'));
+  useScrollReveal();
   const navigate = useNavigate();
   const chatEndRef = useRef(null);
 
@@ -293,9 +295,9 @@ function FieldExplorer() {
         images={explorerImages}
       />
 
-      <section className="section ai-chat-section" id="ai-section">
+      <section className="section ai-chat-section reveal-on-scroll" id="ai-section">
         <div className="container">
-          <div className="ai-container glass-panel">
+          <div className="ai-container glass-panel hover-lift">
             {/* Panneau de contrôle des parcelles */}
             <div className="parcelles-panel">
               <div className="panel-header">
@@ -631,8 +633,8 @@ function FieldExplorer() {
             <p>Découvrez les modules d’analyse avancée actuellement en phase de test et de validation agronomique.</p>
           </header>
           <div className="grid simulation-grid">
-            {futureInsights.map((insight) => (
-              <div key={insight.title} className="simulation-card glass-panel">
+            {futureInsights.map((insight, idx) => (
+              <div key={insight.title} className={`simulation-card glass-panel hover-lift reveal-on-scroll`} style={{ animationDelay: `${idx * 0.1}s` }}>
                 <div className="card-header">
                   <span className="insight-icon">{insight.icon}</span>
                   <span className="chip">{insight.status}</span>
