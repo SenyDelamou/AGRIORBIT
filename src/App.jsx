@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import Layout from './components/Layout.jsx';
 const Home = lazy(() => import('./pages/Home.jsx'));
 const FieldExplorer = lazy(() => import('./pages/FieldExplorer.jsx'));
@@ -36,6 +36,21 @@ function App() {
   const location = useLocation();
   const authPaths = ['/connexion', '/inscription', '/mot-de-passe-oublie', '/verification-email'];
   const hideChat = authPaths.includes(location.pathname) || location.pathname === '/' || location.pathname === '/loading';
+
+  // Charger le script Google OAuth
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.async = true;
+    script.defer = true;
+    script.src = 'https://accounts.google.com/gsi/client';
+    document.head.appendChild(script);
+
+    return () => {
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+  }, []);
 
   return (
     <AuthProvider>
@@ -83,7 +98,7 @@ function App() {
           </Layout>
           <ToastContainer />
           <NotificationSimulator />
-          {!hideChat && <ChatWidget />}
+          {!hideChat && <ChatWidget currentPath={location.pathname} />}
         </ToastProvider>
         </SubscriptionProvider>
       </LanguageProvider>

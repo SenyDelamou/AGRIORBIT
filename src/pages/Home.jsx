@@ -8,6 +8,7 @@ import GlowCard from '../components/GlowCard.jsx';
 import MagneticButton from '../components/MagneticButton.jsx';
 import { useScrollReveal } from '../hooks/useScrollReveal.js';
 import { useLanguage } from '../context/LanguageContext.jsx';
+import { useSubscription } from '../context/SubscriptionContext.jsx';
 import { useDocumentTitle, useMetaDescription } from '../hooks/useWebLogic.js';
 
 function TestimonialForm() {
@@ -117,6 +118,7 @@ function TestimonialForm() {
 function Home() {
   useScrollReveal();
   const { t } = useLanguage();
+  const { isPremium, plan } = useSubscription();
   useDocumentTitle(t('nav_home'));
   useMetaDescription(t('hero_subtitle'));
 
@@ -202,6 +204,24 @@ function Home() {
       { label: t('testi_metric3'), value: '120 exploitants' }
     ]
   };
+
+  const miniDashboard = [
+    { label: 'Parcelles actives', value: '48', suffix: '' },
+    { label: 'Alertes ouvertes', value: '12', suffix: '' },
+    { label: 'Campagnes analysées', value: '36', suffix: '' },
+    { label: 'Taux de satisfaction', value: '4.8', suffix: '/5' }
+  ];
+
+  const persona = isPremium ? 'premium' : 'standard';
+  const recommendedFlows = persona === 'premium'
+    ? [
+        { route: '/analyses', title: 'Approfondir vos dashboards', desc: 'Activez les rapports exportables et la sélection avancée de parcelles.' },
+        { route: '/solutions', title: 'Aligner vos campagnes', desc: 'Utilisez nos programmes experts pour piloter vos intrants.' }
+      ]
+    : [
+        { route: '/explorateur', title: 'Commencer par vos parcelles', desc: 'Importez vos champs et testez l’analyse IA sur un périmètre pilote.' },
+        { route: '/solutions', title: 'Découvrir les cas d’usage', desc: 'Identifiez le programme adapté avant de passer en premium.' }
+      ];
 
   return (
     <div className="home-page">
@@ -306,6 +326,26 @@ function Home() {
                   <AnimatedCounter value={highlight.metric} />
                 </strong>
                 <span>{highlight.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Mini-dashboard global */}
+      <section className="section home-mini-dashboard reveal-on-scroll">
+        <div className="container glass-panel">
+          <header className="section-header">
+            <span className="tag">Vue globale</span>
+            <h2>Un aperçu immédiat de votre impact</h2>
+          </header>
+          <div className="insight-metrics">
+            {miniDashboard.map((item) => (
+              <div key={item.label} className="metric-card surface-card hover-lift">
+                <strong>
+                  <AnimatedCounter value={item.value} suffix={item.suffix} />
+                </strong>
+                <span>{item.label}</span>
               </div>
             ))}
           </div>

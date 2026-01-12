@@ -1,25 +1,57 @@
 import { useState, useEffect, useRef } from 'react';
 import '../styles/chat.css';
 
-const INITIAL_MESSAGES = [
-  {
+const makeInitialMessage = (currentPath) => {
+  if (currentPath === '/explorateur') {
+    return "Bonjour ! Je peux vous aider à importer vos parcelles et à lancer des analyses satellite.";
+  }
+  if (currentPath === '/analyses') {
+    return "Bonjour ! Besoin d’aide pour lire vos indicateurs ou générer un rapport ?";
+  }
+  if (currentPath === '/solutions') {
+    return "Bonjour ! Je peux vous guider vers le bon programme (Irrigation, Santé ou Rendement+).";
+  }
+  return "Bonjour ! Je suis l'assistant AgriOrbit. Comment puis-je vous aider aujourd'hui ?";
+};
+
+const getSuggestions = (currentPath) => {
+  if (currentPath === '/explorateur') {
+    return [
+      "Comment importer une parcelle ?",
+      "Lancer une analyse satellite",
+      "Comprendre les indices NDVI"
+    ];
+  }
+  if (currentPath === '/analyses') {
+    return [
+      "Lire le tableau de bord",
+      "Exporter un rapport PDF",
+      "Comparer deux parcelles"
+    ];
+  }
+  if (currentPath === '/solutions') {
+    return [
+      "Quel programme choisir ?",
+      "Tarification des programmes",
+      "Parler à un conseiller"
+    ];
+  }
+  return [
+    "Comment importer une parcelle ?",
+    "Tarification",
+    "Parler à un conseiller",
+    "Fonctionnalités"
+  ];
+};
+
+function ChatWidget({ currentPath = '/' }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([{
     id: 1,
-    text: "Bonjour ! Je suis l'assistant AgriOrbit. Comment puis-je vous aider aujourd'hui ?",
+    text: makeInitialMessage(currentPath),
     sender: 'bot',
     timestamp: new Date()
-  }
-];
-
-const SUGGESTIONS = [
-  "Comment importer une parcelle ?",
-  "Tarification",
-  "Parler à un conseiller",
-  "Fonctionnalités"
-];
-
-function ChatWidget() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState(INITIAL_MESSAGES);
+  }]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -95,6 +127,15 @@ function ChatWidget() {
         botResponseText = "AgriOrbit propose la cartographie temps réel, la modélisation de rendement et la surveillance sanitaire.";
       }
 
+      // Contexte selon la page
+      if (!lowerText.includes('parcelle') && currentPath === '/explorateur') {
+        botResponseText += "\n\n💡 Astuce Explorateur : commencez par importer une parcelle puis lancez une analyse IA pour obtenir des recommandations d’irrigation.";
+      } else if (currentPath === '/analyses') {
+        botResponseText += "\n\n💡 Astuce Analyses : utilisez les filtres en haut du tableau de bord pour isoler une culture ou une zone.";
+      } else if (currentPath === '/solutions') {
+        botResponseText += "\n\n💡 Astuce Solutions : ouvrez le configurateur pour estimer votre ROI en fonction de vos hectares.";
+      }
+
       const botResponse = {
         id: Date.now() + 1,
         text: botResponseText,
@@ -168,7 +209,7 @@ function ChatWidget() {
         {/* Suggestions */}
         {messages.length < 3 && (
           <div className="chat-suggestions">
-            {SUGGESTIONS.map((suggestion, idx) => (
+            {getSuggestions(currentPath).map((suggestion, idx) => (
               <button
                 key={idx}
                 className="suggestion-chip"

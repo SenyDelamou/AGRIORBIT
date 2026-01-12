@@ -207,7 +207,14 @@ function AnalyticsSuite() {
   const [sortBy, setSortBy] = useState('sante');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedParcelles, setSelectedParcelles] = useState(new Set(parcellesKPIs.map(p => p.id)));
-  const [showParcelleSelector, setShowParcelleSelector] = useState(false);
+  const [savedViews, setSavedViews] = useState(() => {
+    try {
+      const raw = localStorage.getItem('agri_orbit_views');
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
 
   // Calcul des statistiques globales
   const stats = useMemo(() => {
@@ -283,6 +290,51 @@ function AnalyticsSuite() {
 
   // Parcelles filtrées ET sélectionnées pour les rapports
   const parcellesForReport = parcellesFiltered.filter(p => selectedParcelles.has(p.id));
+
+  const [notesByParcelle, setNotesByParcelle] = useState(() => {
+    try {
+      const raw = localStorage.getItem('agri_orbit_notes');
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  const persistViews = (views) => {
+    setSavedViews(views);
+    try {
+      localStorage.setItem('agri_orbit_views', JSON.stringify(views));
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleSaveView = () => {
+    const newView = {
+      id: Date.now(),
+      name: `Vue ${savedViews.length + 1}`,
+      filterCulture,
+      sortBy,
+      searchTerm
+    };
+    persistViews([...savedViews.slice(-4), newView]);
+  };
+
+  const applyView = (view) => {
+    setFilterCulture(view.filterCulture);
+    setSortBy(view.sortBy);
+    setSearchTerm(view.searchTerm);
+  };
+
+  const updateNote = (parcelleId, note) => {
+    const next = { ...notesByParcelle, [parcelleId]: note };
+    setNotesByParcelle(next);
+    try {
+      localStorage.setItem('agri_orbit_notes', JSON.stringify(next));
+    } catch {
+      // ignore
+    }
+  };
 
   // Gestion du téléchargement PDF avec sélection
   const handleDownloadPDF = async () => {
@@ -523,6 +575,30 @@ function AnalyticsSuite() {
             <div className="control-results">
               Affichage: <strong>{parcellesFiltered.length}</strong> / {stats.totalParcelles} parcelles
             </div>
+
+            <div className="control-group saved-views">
+              <button
+                type="button"
+                className="button secondary"
+                onClick={handleSaveView}
+              >
+                💾 Sauvegarder cette vue
+              </button>
+              {savedViews.length > 0 && (
+                <div className="saved-views-list">
+                  {savedViews.map((view) => (
+                    <button
+                      key={view.id}
+                      type="button"
+                      className="saved-view-pill"
+                      onClick={() => applyView(view)}
+                    >
+                      {view.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Sélection des parcelles pour les rapports */}
@@ -653,6 +729,7 @@ function AnalyticsSuite() {
                   <th>Tendance</th>
                   <th>Risque maladie</th>
                   <th>Recommandation</th>
+                  <th>Notes collaboratives</th>
                 </tr>
               </thead>
               <tbody>
@@ -719,6 +796,14 @@ function AnalyticsSuite() {
                       <span className="recommandation-text" title={parcelle.recommandation}>
                         {parcelle.recommandation}
                       </span>
+                    </td>
+                    <td className="notes-cell">
+                      <textarea
+                        className="note-input"
+                        placeholder="Ajouter une note pour l'équipe..."
+                        value={notesByParcelle[parcelle.id] || ''}
+                        onChange={(e) => updateNote(parcelle.id, e.target.value)}
+                      />
                     </td>
                   </tr>
                 ))}
