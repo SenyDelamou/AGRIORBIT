@@ -32,7 +32,7 @@ const INTEGRATIONS = [
 ];
 
 function Profile() {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, loading } = useAuth();
   const { lang, setLang, t } = useLanguage();
   useDocumentTitle(t('profile'));
   useScrollReveal();
@@ -52,8 +52,45 @@ function Profile() {
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [passwords, setPasswords] = useState({ current: '', new: '', confirm: '' });
   const [show2FA, setShow2FA] = useState(false);
+  const [bannerImage, setBannerImage] = useState(user?.bannerImage || 'https://images.unsplash.com/photo-1500595046891-cb5ece8f4b63?w=1200&h=300&fit=crop');
+  const [isEditingBanner, setIsEditingBanner] = useState(false);
 
-  if (!user) return null;
+  if (loading) {
+    return <div className="profile-page"><div className="page-loader" aria-busy="true">Chargement du profil...</div></div>;
+  }
+
+  if (!user) {
+    return (
+      <div className="profile-page">
+        <div className="user-container">
+          <div style={{ textAlign: 'center', padding: '4rem 2rem', color: 'rgba(255,255,255,0.7)' }}>
+            <h2>Vous devez être connecté</h2>
+            <p>Veuillez vous connecter pour accéder à votre profil.</p>
+            <a href="/connexion" style={{ color: '#4fac00', textDecoration: 'none', fontWeight: 'bold' }}>
+              Aller à la connexion →
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const handleBannerUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const result = event.target?.result;
+        if (typeof result === 'string') {
+          setBannerImage(result);
+          updateUser({ ...formData, bannerImage: result });
+          showToast('Bannière mise à jour avec succès', 'success');
+          setIsEditingBanner(false);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSaveProfile = () => {
     updateUser(formData);
@@ -324,7 +361,7 @@ function Profile() {
             <div key={idx} className="integration-card">
               <div className="integration-header">
                 <h3>{integration.name}</h3>
-                <span className={status ${integration.status.toLowerCase()}}>
+                <span className={`status ${integration.status.toLowerCase()}`}>
                   {integration.status}
                 </span>
               </div>
@@ -512,6 +549,46 @@ function Profile() {
   return (
     <div className="profile-page">
       <div className="user-container">
+        {/* Banner Section */}
+        <div className="profile-banner-container">
+          <div 
+            className="profile-banner" 
+            style={{ backgroundImage: `url(${bannerImage})` }}
+          >
+            <div className="banner-overlay"></div>
+            {isEditingBanner ? (
+              <div className="banner-upload-zone">
+                <label className="banner-upload-label">
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={handleBannerUpload}
+                    className="banner-input"
+                  />
+                  <div className="upload-content">
+                    <span className="upload-icon">📸</span>
+                    <p>Cliquez pour télécharger une image</p>
+                    <span className="upload-hint">JPG, PNG, WebP (max 5MB)</span>
+                  </div>
+                </label>
+                <button 
+                  className="btn-cancel"
+                  onClick={() => setIsEditingBanner(false)}
+                >
+                  Annuler
+                </button>
+              </div>
+            ) : (
+              <button 
+                className="btn-edit-banner"
+                onClick={() => setIsEditingBanner(true)}
+              >
+                ✏️ Modifier la bannière
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* Header */}
         <div className="profile-header">
           <div className="profile-header-content">
@@ -532,7 +609,7 @@ function Profile() {
           {TABS.map(tab => (
             <button
               key={tab}
-              className={	ab-btn ${activeTab === tab ? 'active' : ''}}
+              className={`tab-btn ${activeTab === tab ? 'active' : ''}`}
               onClick={() => setActiveTab(tab)}
             >
               {tab}

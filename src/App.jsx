@@ -1,12 +1,15 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import Layout from './components/Layout.jsx';
-const Home = lazy(() => import('./pages/Home.jsx'));
+import Home from './pages/Home.jsx';
 const FieldExplorer = lazy(() => import('./pages/FieldExplorer.jsx'));
 const AnalyticsSuite = lazy(() => import('./pages/AnalyticsSuite.jsx'));
 const SolutionsHub = lazy(() => import('./pages/SolutionsHub.jsx'));
 const About = lazy(() => import('./pages/About.jsx'));
 const Login = lazy(() => import('./pages/Login.jsx'));
+const TestLogin = lazy(() => import('./pages/TestLogin.jsx'));
+const ClearCache = lazy(() => import('./pages/ClearCache.jsx'));
+const Debug = lazy(() => import('./pages/Debug.jsx'));
 const Register = lazy(() => import('./pages/Register.jsx'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword.jsx'));
 const VerifyEmail = lazy(() => import('./pages/VerifyEmail.jsx'));
@@ -57,6 +60,9 @@ function App() {
                 <Route path="/profil" element={<Profile />} />
                 <Route path="/notifications" element={<Notifications />} />
                 <Route path="/parametres" element={<Settings />} />
+                <Route path="/test-connexion" element={<TestLogin />} />
+                <Route path="/nettoyer-cache" element={<ClearCache />} />
+                <Route path="/debug" element={<Debug />} />
                 <Route
                   path="/connexion"
                   element={<GuestRoute><Login /></GuestRoute>}

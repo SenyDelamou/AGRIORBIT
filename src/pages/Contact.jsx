@@ -269,6 +269,75 @@ function Contact() {
         </div>
       </section>
 
+      {/* Location Section - Google Maps */}
+      <section className="section location-section">
+        <div className="container">
+          <div className="section-header-center">
+            <span className="badge">Localisation</span>
+            <h2>Visite notre bureau</h2>
+            <p>Situé au cœur de Labé, Guinée - Centre de recherche et d'innovation agricole</p>
+          </div>
+
+          <div className="location-content">
+            <div className="maps-container glass-panel reveal-on-scroll">
+              <iframe
+                className="google-maps-iframe"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.3850652969557!2d-11.314485!3d10.929670000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xf5ffc4d7d1d1d1d1%3A0xd1d1d1d1d1d1d1d1!2sUniversit%C3%A9%20de%20Lab%C3%A9!5e0!3m2!1sfr!2sgn!4v1234567890"
+                width="100%"
+                height="400"
+                style={{ border: 0, borderRadius: '15px' }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Agri Orbit - Localisation Labé Guinée"
+              />
+            </div>
+
+            <div className="location-details glass-panel reveal-on-scroll">
+              <h3>Informations de Localisation</h3>
+              <div className="location-info">
+                <div className="info-item">
+                  <MapPinIcon className="location-icon" />
+                  <div>
+                    <p className="info-label">Adresse</p>
+                    <p className="info-text">Université de Labé, Labé, Guinée</p>
+                  </div>
+                </div>
+
+                <div className="info-item">
+                  <PhoneIcon className="location-icon" />
+                  <div>
+                    <p className="info-label">Téléphone</p>
+                    <a href="tel:+22995306612" className="info-link">+229 95 30 66 12</a>
+                  </div>
+                </div>
+
+                <div className="info-item">
+                  <EnvelopeIcon className="location-icon" />
+                  <div>
+                    <p className="info-label">Email</p>
+                    <a href="mailto:samakedelamou858@gmail.com" className="info-link">samakedelamou858@gmail.com</a>
+                  </div>
+                </div>
+
+                <div className="info-item">
+                  <ClockIcon className="location-icon" />
+                  <div>
+                    <p className="info-label">Horaires d'ouverture</p>
+                    <p className="info-text">Lun-Ven: 08:00 - 18:00 (GMT)</p>
+                    <p className="info-text">Sam: 09:00 - 13:00</p>
+                  </div>
+                </div>
+              </div>
+
+              <a href="https://maps.google.com/?q=Université+de+Labé+Guinée" target="_blank" rel="noopener noreferrer" className="button-primary">
+                Ouvrir dans Google Maps
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Team Section */}
       <section className="section team-section">
         <div className="container">
