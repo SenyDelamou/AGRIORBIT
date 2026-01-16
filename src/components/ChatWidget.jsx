@@ -176,14 +176,27 @@ function ChatWidget({ currentPath = '/' }) {
       {/* Chat Window */}
       <div className="chat-window glass-panel">
         <div className="chat-header">
-          <div className="chat-avatar">
-            <div className="avatar-dot"></div>
-            AO
+          <div className="chat-header-main">
+            <div className="chat-avatar">
+              <div className="avatar-dot"></div>
+              AO
+            </div>
+            <div className="chat-header-info">
+              <h4>Support AgriOrbit</h4>
+              <span>En ligne</span>
+            </div>
           </div>
-          <div className="chat-header-info">
-            <h4>Support AgriOrbit</h4>
-            <span>En ligne</span>
-          </div>
+          <button
+            type="button"
+            className="chat-close-btn"
+            onClick={() => setIsOpen(false)}
+            aria-label="Fermer le chat"
+            title="Fermer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
 
         <div className="chat-messages">

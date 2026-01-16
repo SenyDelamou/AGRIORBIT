@@ -7,36 +7,53 @@
   /* ============================================
      COULEURS - PALETTE DARK MODE (Défaut)
      ============================================ */
-  
+
   /* Backgrounds */
-  --bg-deep-space: #0A0E27;        /* Fond principal très sombre */
-  --bg-panel: #0F1629;             /* Fond panels/cartes */
-  --bg-overlay: rgba(10, 14, 39, 0.8);
+  --bg-deep-space: #04111f;                /* Fond principal très sombre */
+  --bg-panel: #0c1b2d;                     /* Fond panels/cartes */
+  --bg-overlay: rgba(4, 17, 31, 0.85);
 
   /* Accents Primaires */
-  --accent-neon-green: #A8FF4F;    /* Vert neon lumineux - PRINCIPAL */
-  --accent-data-blue: #4FAFFE;     /* Bleu données - SECONDAIRE */
-  --accent-purple: #A78BFA;        /* Purple accent */
-  --accent-satellite-green: #48D597; /* Vert succès */
-  --accent-alert: #FF6B6B;         /* Rouge alerte */
-  --accent-gold: #FFD700;          /* Or premium */
+  --accent-neon-green: #7fd87e;            /* Vert principal harmonisé */
+  --accent-satellite-green: #4cbd89;       /* Vert succès / validation */
+  --accent-data-blue: #59a6ff;             /* Bleu données */
+  --accent-purple: #b79dff;                /* Accent tertiaire */
+  --accent-alert: #f16a7c;                 /* Alerte */
+  --accent-gold: #f6c96f;                  /* Or premium */
+
+  /* Variations d'accents */
+  --accent-neon-green-strong: #56bc63;
+  --accent-neon-green-soft: rgba(127, 216, 126, 0.18);
+  --accent-neon-green-glow: rgba(127, 216, 126, 0.35);
+  --accent-data-blue-strong: #2e8deb;
+  --accent-data-blue-soft: rgba(89, 166, 255, 0.18);
+  --accent-data-blue-glow: rgba(89, 166, 255, 0.35);
+  --accent-satellite-soft: rgba(76, 189, 137, 0.18);
+  --accent-satellite-strong: #3aa873;
+  --accent-purple-soft: rgba(183, 157, 255, 0.2);
+  --accent-purple-strong: #9a7cfa;
+  --accent-alert-strong: #d6526c;
+  --accent-alert-soft: rgba(241, 106, 124, 0.22);
+  --accent-gold-soft: rgba(246, 201, 111, 0.25);
+  --accent-gold-strong: #dba44a;
 
   /* Texte */
-  --text-primary: #FAFBFC;         /* Texte principal blanc */
-  --text-secondary: rgba(250, 251, 252, 0.92); /* Texte secondaire */
-  --text-muted: rgba(250, 251, 252, 0.7);     /* Texte désactivé */
-  --text-accent: #A8FF4F;          /* Texte d'accent */
+  --text-primary: #f4f7fb;                 /* Texte principal */
+  --text-secondary: rgba(244, 247, 251, 0.88); /* Texte secondaire */
+  --text-muted: rgba(207, 218, 235, 0.7);      /* Texte désactivé */
+  --text-subtle: #90a4c0;                  /* Texte descriptif */
+  --text-accent: #7fd87e;                  /* Texte d'accent */
+  --text-on-accent: #04131e;               /* Texte sur surfaces accentuées */
+  --text-on-bright: #1b2735;               /* Texte sur gradients clairs */
 
   /* ============================================
      ANIMATIONS & TRANSITIONS
      ============================================ */
 
-  /* Easing Functions */
   --ease-fluid: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Durées */
   --duration-fast: 0.15s;
   --duration-normal: 0.35s;
   --duration-slow: 0.6s;
@@ -46,15 +63,24 @@
      GLASSMORPHISM & EFFETS
      ============================================ */
 
-  /* Glass Surfaces */
-  --glass-surface: rgba(15, 22, 41, 0.5);
-  --glass-surface-deep: rgba(10, 14, 39, 0.7);
-  --glass-surface-glow: rgba(168, 255, 79, 0.04);
+  --glass-surface: rgba(12, 27, 45, 0.6);
+  --glass-surface-deep: rgba(4, 17, 31, 0.72);
+  --glass-surface-glow: rgba(127, 216, 126, 0.06);
+  --glass-surface-light: rgba(12, 27, 45, 0.45);
 
-  /* Glass Borders */
-  --glass-border: rgba(79, 172, 254, 0.25);
-  --glass-border-bright: rgba(168, 255, 79, 0.35);
-  --glass-glow-shadow: 0 0 40px rgba(168, 255, 79, 0.15);
+  --glass-border: rgba(89, 166, 255, 0.28);
+  --glass-border-bright: rgba(127, 216, 126, 0.34);
+  --glass-glow-shadow: 0 0 40px rgba(89, 166, 255, 0.18);
+  --glass-shadow: 0 18px 45px rgba(4, 17, 31, 0.55);
+
+  /* ============================================
+     NEUTRES & BORDURES
+     ============================================ */
+
+  --border-soft: rgba(72, 99, 133, 0.4);
+  --border-strong: rgba(127, 147, 180, 0.45);
+  --neutral-100: rgba(255, 255, 255, 0.04);
+  --neutral-200: rgba(207, 218, 235, 0.1);
 
   /* ============================================
      TYPOGRAPHIE
@@ -67,13 +93,11 @@
      ESPACEMENTS & DIMENSIONS
      ============================================ */
 
-  /* Radius */
   --radius-xl: 40px;
   --radius-lg: 28px;
   --radius-md: 16px;
   --radius-sm: 8px;
 
-  /* Section Gap */
   --section-gap: clamp(4rem, 12vw, 8rem);
 
   /* ============================================
@@ -88,31 +112,31 @@
      BADGES & CHIPS SPÉCIFIQUES
      ============================================ */
 
-  --badge-bg: rgba(79, 172, 254, 0.12);
-  --badge-border: rgba(79, 172, 254, 0.3);
-  --chip-bg: rgba(168, 255, 79, 0.1);
-  --chip-border: rgba(168, 255, 79, 0.2);
+  --badge-bg: rgba(89, 166, 255, 0.15);
+  --badge-border: rgba(89, 166, 255, 0.35);
+  --chip-bg: rgba(127, 216, 126, 0.14);
+  --chip-border: rgba(127, 216, 126, 0.32);
 
   /* ============================================
      BOUTONS
      ============================================ */
 
-  --button-shadow: rgba(168, 255, 79, 0.25);
-  --button-hover-shadow: rgba(168, 255, 79, 0.5);
-  --button-glow: 0 0 25px rgba(79, 172, 254, 0.3);
+  --button-shadow: rgba(127, 216, 126, 0.32);
+  --button-hover-shadow: rgba(89, 166, 255, 0.35);
+  --button-glow: 0 0 25px rgba(89, 166, 255, 0.28);
 
   /* ============================================
      GRADIENTS
      ============================================ */
 
-  --bg-gradient-main: radial-gradient(circle at 50% 0%, rgba(79, 172, 254, 0.2), transparent 60%),
-    radial-gradient(circle at 85% 30%, rgba(168, 255, 79, 0.12), transparent 50%),
-    linear-gradient(180deg, #0A0E27 0%, #050810 100%);
+  --bg-gradient-main: radial-gradient(circle at 18% 10%, rgba(89, 166, 255, 0.22), transparent 60%),
+    radial-gradient(circle at 82% 32%, rgba(127, 216, 126, 0.14), transparent 52%),
+    linear-gradient(180deg, #051322 0%, #030b15 100%);
 
-  --heading-gradient: linear-gradient(135deg, #FAFBFC 0%, #A8FF4F 50%, #4FAFFE 100%);
+  --heading-gradient: linear-gradient(135deg, #f4f7fb 0%, #7fd87e 52%, #59a6ff 100%);
 
-  --secondary-button-border: rgba(255, 255, 255, 0.15);
-  --secondary-button-hover-bg: rgba(168, 255, 79, 0.08);
+  --secondary-button-border: rgba(244, 247, 251, 0.18);
+  --secondary-button-hover-bg: rgba(127, 216, 126, 0.12);
 }
 
 /* ============================================
@@ -121,52 +145,79 @@
 
 [data-theme='light'] {
   /* Backgrounds */
-  --bg-deep-space: #F8FAFC;
-  --bg-panel: #FFFFFF;
-  --bg-overlay: rgba(255, 255, 255, 0.97);
+  --bg-deep-space: #f4f7fb;
+  --bg-panel: #ffffff;
+  --bg-overlay: rgba(255, 255, 255, 0.95);
 
   /* Accents */
-  --accent-neon-green: #16A34A;
-  --accent-data-blue: #0369A1;
-  --accent-purple: #7C3AED;
-  --accent-gold: #D97706;
-  --accent-satellite-green: #16A34A;
-  --accent-alert: #EF4444;
+  --accent-neon-green: #2e9b66;
+  --accent-satellite-green: #35b487;
+  --accent-data-blue: #1f6fdb;
+  --accent-purple: #6c4dff;
+  --accent-alert: #d94a64;
+  --accent-gold: #d69a2d;
+
+  /* Variations d'accents */
+  --accent-neon-green-strong: #267c52;
+  --accent-neon-green-soft: rgba(46, 155, 102, 0.14);
+  --accent-neon-green-glow: rgba(46, 155, 102, 0.25);
+  --accent-data-blue-strong: #1552b0;
+  --accent-data-blue-soft: rgba(31, 111, 219, 0.15);
+  --accent-data-blue-glow: rgba(31, 111, 219, 0.26);
+  --accent-satellite-soft: rgba(53, 180, 135, 0.14);
+  --accent-satellite-strong: #2f8f6b;
+  --accent-purple-soft: rgba(108, 77, 255, 0.16);
+  --accent-purple-strong: #5840de;
+  --accent-alert-strong: #b6354d;
+  --accent-alert-soft: rgba(217, 74, 100, 0.16);
+  --accent-gold-soft: rgba(214, 154, 45, 0.2);
+  --accent-gold-strong: #b37a1d;
 
   /* Texte */
-  --text-primary: #0F1629;
-  --text-secondary: #1E293B;
-  --text-muted: #475569;
-  --text-accent: #16A34A;
+  --text-primary: #112030;
+  --text-secondary: #233448;
+  --text-muted: #5c6d86;
+  --text-subtle: #7b8ba4;
+  --text-accent: #2e9b66;
+  --text-on-accent: #ffffff;
+  --text-on-bright: #1b2735;
 
   /* Glassmorphism */
-  --glass-surface: rgba(255, 255, 255, 0.8);
-  --glass-surface-deep: rgba(248, 250, 252, 0.6);
-  --glass-surface-glow: rgba(72, 213, 151, 0.06);
-  --glass-border: rgba(15, 22, 41, 0.12);
-  --glass-border-bright: rgba(72, 213, 151, 0.25);
-  --glass-glow-shadow: 0 0 40px rgba(3, 105, 161, 0.15);
+  --glass-surface: rgba(255, 255, 255, 0.82);
+  --glass-surface-deep: rgba(244, 247, 251, 0.74);
+  --glass-surface-glow: rgba(46, 155, 102, 0.08);
+  --glass-surface-light: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(17, 32, 48, 0.12);
+  --glass-border-bright: rgba(31, 111, 219, 0.25);
+  --glass-glow-shadow: 0 10px 35px rgba(17, 32, 48, 0.12);
+  --glass-shadow: 0 12px 35px rgba(17, 32, 48, 0.12);
+
+  /* Neutres & Bordures */
+  --border-soft: rgba(17, 32, 48, 0.12);
+  --border-strong: rgba(35, 52, 72, 0.22);
+  --neutral-100: #f8fbff;
+  --neutral-200: #e7edf6;
 
   /* Badges */
-  --badge-bg: rgba(3, 105, 161, 0.1);
-  --badge-border: rgba(3, 105, 161, 0.2);
-  --chip-bg: rgba(22, 163, 74, 0.1);
-  --chip-border: rgba(22, 163, 74, 0.2);
+  --badge-bg: rgba(31, 111, 219, 0.12);
+  --badge-border: rgba(31, 111, 219, 0.28);
+  --chip-bg: rgba(46, 155, 102, 0.12);
+  --chip-border: rgba(46, 155, 102, 0.26);
 
   /* Boutons */
-  --button-shadow: rgba(22, 163, 74, 0.2);
-  --button-hover-shadow: rgba(22, 163, 74, 0.3);
-  --button-glow: 0 0 25px rgba(3, 105, 161, 0.2);
+  --button-shadow: rgba(46, 155, 102, 0.22);
+  --button-hover-shadow: rgba(31, 111, 219, 0.24);
+  --button-glow: 0 0 25px rgba(31, 111, 219, 0.22);
 
   /* Gradients */
-  --bg-gradient-main: radial-gradient(circle at 50% 0%, rgba(79, 172, 254, 0.08), transparent 60%),
-    radial-gradient(circle at 85% 30%, rgba(72, 213, 151, 0.05), transparent 50%),
-    linear-gradient(180deg, #F8FAFC 0%, #E8F0F8 100%);
+  --bg-gradient-main: radial-gradient(circle at 18% 0%, rgba(31, 111, 219, 0.12), transparent 65%),
+    radial-gradient(circle at 86% 28%, rgba(46, 155, 102, 0.08), transparent 52%),
+    linear-gradient(180deg, #f4f7fb 0%, #e9f0f9 100%);
 
-  --heading-gradient: linear-gradient(135deg, #0F1629 0%, #16A34A 50%, #0369A1 100%);
+  --heading-gradient: linear-gradient(135deg, #112030 0%, #2e9b66 52%, #1f6fdb 100%);
 
-  --secondary-button-border: rgba(2, 6, 23, 0.15);
-  --secondary-button-hover-bg: rgba(72, 213, 151, 0.08);
+  --secondary-button-border: rgba(17, 32, 48, 0.14);
+  --secondary-button-hover-bg: rgba(46, 155, 102, 0.1);
 }
 
 /* ============================================

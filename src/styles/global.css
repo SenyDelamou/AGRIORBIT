@@ -5,31 +5,47 @@
   --font-heading: 'Space Grotesk', sans-serif;
   --font-body: 'Source Sans 3', sans-serif;
 
-  /* Premium Dark Palette - Deep & Luxurious */
-  --bg-deep-space: #0A0E27;
-  --bg-panel: #0F1629;
-  --bg-overlay: rgba(10, 14, 39, 0.8);
+  /* Harmonized Dark Palette */
+  --bg-deep-space: #04111f;
+  --bg-panel: #0c1b2d;
+  --bg-overlay: rgba(4, 17, 31, 0.85);
 
-  /* Premium Gradients with Depth */
-  --bg-gradient-main: radial-gradient(circle at 50% 0%, rgba(79, 172, 254, 0.2), transparent 60%),
-    radial-gradient(circle at 85% 30%, rgba(168, 255, 79, 0.12), transparent 50%),
-    linear-gradient(180deg, #0A0E27 0%, #050810 100%);
+  /* Gradients */
+  --bg-gradient-main: radial-gradient(circle at 18% 10%, rgba(89, 166, 255, 0.22), transparent 60%),
+    radial-gradient(circle at 82% 32%, rgba(127, 216, 126, 0.14), transparent 52%),
+    linear-gradient(180deg, #051322 0%, #030b15 100%);
 
-  /* Premium Neon Accents */
-  --accent-neon-green: #A8FF4F;
-  --accent-satellite-green: #48D597;
-  --accent-data-blue: #4FAFFE;
-  --accent-purple: #A78BFA;
-  --accent-alert: #FF6B6B;
-  --accent-gold: #FFD700;
+  /* Accents */
+  --accent-neon-green: #7fd87e;
+  --accent-satellite-green: #4cbd89;
+  --accent-data-blue: #59a6ff;
+  --accent-purple: #b79dff;
+  --accent-alert: #f16a7c;
+  --accent-gold: #f6c96f;
 
-  /* Text Colors - Premium & Elegant */
-  --text-primary: #FAFBFC;
-  --text-secondary: rgba(250, 251, 252, 0.92);
-  --text-muted: rgba(250, 251, 252, 0.7);
-  --text-accent: #A8FF4F;
+  /* Accent Variants */
+  --accent-neon-green-strong: #56bc63;
+  --accent-neon-green-soft: rgba(127, 216, 126, 0.18);
+  --accent-neon-green-glow: rgba(127, 216, 126, 0.35);
+  --accent-data-blue-strong: #2e8deb;
+  --accent-data-blue-soft: rgba(89, 166, 255, 0.18);
+  --accent-data-blue-glow: rgba(89, 166, 255, 0.35);
+  --accent-satellite-soft: rgba(76, 189, 137, 0.18);
+  --accent-purple-soft: rgba(183, 157, 255, 0.2);
+  --accent-alert-strong: #d6526c;
+  --accent-alert-soft: rgba(241, 106, 124, 0.22);
+  --accent-gold-soft: rgba(246, 201, 111, 0.25);
 
-  /* Premium Animation Tokens */
+  /* Text */
+  --text-primary: #f4f7fb;
+  --text-secondary: rgba(244, 247, 251, 0.88);
+  --text-muted: rgba(207, 218, 235, 0.7);
+  --text-subtle: #90a4c0;
+  --text-accent: #7fd87e;
+  --text-on-accent: #04131e;
+  --text-on-bright: #1b2735;
+
+  /* Animation Tokens */
   --ease-fluid: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
@@ -38,13 +54,20 @@
   --duration-slow: 0.6s;
   --duration-cinematic: 1s;
 
-  /* Premium Glassmorphism */
-  --glass-surface: rgba(15, 22, 41, 0.5);
-  --glass-surface-deep: rgba(10, 14, 39, 0.7);
-  --glass-surface-glow: rgba(168, 255, 79, 0.04);
-  --glass-border: rgba(79, 172, 254, 0.25);
-  --glass-border-bright: rgba(168, 255, 79, 0.35);
-  --glass-glow-shadow: 0 0 40px rgba(168, 255, 79, 0.15);
+  /* Glassmorphism */
+  --glass-surface: rgba(12, 27, 45, 0.6);
+  --glass-surface-deep: rgba(4, 17, 31, 0.72);
+  --glass-surface-glow: rgba(127, 216, 126, 0.06);
+  --glass-border: rgba(89, 166, 255, 0.28);
+  --glass-border-bright: rgba(127, 216, 126, 0.34);
+  --glass-glow-shadow: 0 0 40px rgba(89, 166, 255, 0.18);
+  --glass-shadow: 0 18px 45px rgba(4, 17, 31, 0.55);
+
+  /* Neutrals */
+  --border-soft: rgba(72, 99, 133, 0.4);
+  --border-strong: rgba(127, 147, 180, 0.45);
+  --neutral-100: rgba(255, 255, 255, 0.04);
+  --neutral-200: rgba(207, 218, 235, 0.1);
 
   /* Shared Values */
   --section-gap: clamp(4rem, 12vw, 8rem);
@@ -53,18 +76,17 @@
   --radius-md: 16px;
   --radius-sm: 8px;
 
-  /* Theme-specific shadows and overlays - Premium */
-  --badge-bg: rgba(79, 172, 254, 0.12);
-  --badge-border: rgba(79, 172, 254, 0.3);
-  --chip-bg: rgba(168, 255, 79, 0.1);
-  --chip-border: rgba(168, 255, 79, 0.2);
-  --button-shadow: rgba(168, 255, 79, 0.25);
-  --button-hover-shadow: rgba(168, 255, 79, 0.5);
-  --button-glow: 0 0 25px rgba(79, 172, 254, 0.3);
-  --heading-gradient: linear-gradient(135deg, #FAFBFC 0%, #A8FF4F 50%, #4FAFFE 100%);
-  --secondary-button-border: rgba(255, 255, 255, 0.15);
-  --secondary-button-hover-bg: rgba(168, 255, 79, 0.08);
-  
+  --badge-bg: rgba(89, 166, 255, 0.15);
+  --badge-border: rgba(89, 166, 255, 0.35);
+  --chip-bg: rgba(127, 216, 126, 0.14);
+  --chip-border: rgba(127, 216, 126, 0.32);
+  --button-shadow: rgba(127, 216, 126, 0.32);
+  --button-hover-shadow: rgba(89, 166, 255, 0.35);
+  --button-glow: 0 0 25px rgba(89, 166, 255, 0.28);
+  --heading-gradient: linear-gradient(135deg, #f4f7fb 0%, #7fd87e 52%, #59a6ff 100%);
+  --secondary-button-border: rgba(244, 247, 251, 0.18);
+  --secondary-button-hover-bg: rgba(127, 216, 126, 0.12);
+
   /* Blur effects */
   --blur-weak: 8px;
   --blur-medium: 16px;
@@ -74,47 +96,63 @@
 [data-theme='light'] {
   color-scheme: light;
 
-  /* Light Palette - Premium & Sophisticated */
-  --bg-deep-space: #F8FAFC;
-  --bg-panel: #FFFFFF;
-  --bg-overlay: rgba(255, 255, 255, 0.97);
+  --bg-deep-space: #f4f7fb;
+  --bg-panel: #ffffff;
+  --bg-overlay: rgba(255, 255, 255, 0.95);
 
-  /* Gradients - Subtle but Premium */
-  --bg-gradient-main: radial-gradient(circle at 50% 0%, rgba(79, 172, 254, 0.08), transparent 60%),
-    radial-gradient(circle at 85% 30%, rgba(72, 213, 151, 0.05), transparent 50%),
-    linear-gradient(180deg, #F8FAFC 0%, #E8F0F8 100%);
+  --bg-gradient-main: radial-gradient(circle at 18% 0%, rgba(31, 111, 219, 0.12), transparent 65%),
+    radial-gradient(circle at 86% 28%, rgba(46, 155, 102, 0.08), transparent 52%),
+    linear-gradient(180deg, #f4f7fb 0%, #e9f0f9 100%);
 
-  /* Premium Typography */
-  --text-primary: #0F1629;
-  --text-secondary: #1E293B;
-  --text-muted: #475569;
-  --text-accent: #48D597;
+  --text-primary: #112030;
+  --text-secondary: #233448;
+  --text-muted: #5c6d86;
+  --text-subtle: #7b8ba4;
+  --text-accent: #2e9b66;
+  --text-on-accent: #ffffff;
+  --text-on-bright: #1b2735;
 
-  /* Adjusted Accents for Professional Look */
-  --accent-neon-green: #16A34A;
-  --accent-data-blue: #0369A1;
-  --accent-purple: #7C3AED;
-  --accent-gold: #D97706;
+  --accent-neon-green: #2e9b66;
+  --accent-satellite-green: #35b487;
+  --accent-data-blue: #1f6fdb;
+  --accent-purple: #6c4dff;
+  --accent-alert: #d94a64;
+  --accent-gold: #d69a2d;
 
-  /* Glassmorphism for Light Mode */
-  --glass-surface: rgba(255, 255, 255, 0.8);
-  --glass-surface-deep: rgba(248, 250, 252, 0.6);
-  --glass-surface-glow: rgba(72, 213, 151, 0.06);
-  --glass-border: rgba(15, 22, 41, 0.12);
-  --glass-border-bright: rgba(72, 213, 151, 0.25);
-  --glass-shadow: 0 10px 35px rgba(15, 22, 41, 0.1);
+  --accent-neon-green-strong: #267c52;
+  --accent-neon-green-soft: rgba(46, 155, 102, 0.14);
+  --accent-neon-green-glow: rgba(46, 155, 102, 0.25);
+  --accent-data-blue-strong: #1552b0;
+  --accent-data-blue-soft: rgba(31, 111, 219, 0.15);
+  --accent-data-blue-glow: rgba(31, 111, 219, 0.26);
+  --accent-satellite-soft: rgba(53, 180, 135, 0.14);
+  --accent-purple-soft: rgba(108, 77, 255, 0.16);
+  --accent-alert-strong: #b6354d;
+  --accent-alert-soft: rgba(217, 74, 100, 0.16);
+  --accent-gold-soft: rgba(214, 154, 45, 0.2);
 
-  /* Theme-specific shadows and overlays */
-  --badge-bg: rgba(3, 105, 161, 0.1);
-  --badge-border: rgba(3, 105, 161, 0.2);
-  --chip-bg: rgba(22, 163, 74, 0.1);
-  --chip-border: rgba(22, 163, 74, 0.2);
-  --button-shadow: rgba(22, 163, 74, 0.2);
-  --button-hover-shadow: rgba(22, 163, 74, 0.3);
-  --button-glow: 0 0 25px rgba(3, 105, 161, 0.2);
-  --heading-gradient: linear-gradient(135deg, #0F1629 0%, #16A34A 50%, #0369A1 100%);
-  --secondary-button-border: rgba(2, 6, 23, 0.15);
-  --secondary-button-hover-bg: rgba(72, 213, 151, 0.08);
+  --glass-surface: rgba(255, 255, 255, 0.82);
+  --glass-surface-deep: rgba(244, 247, 251, 0.74);
+  --glass-surface-glow: rgba(46, 155, 102, 0.08);
+  --glass-border: rgba(17, 32, 48, 0.12);
+  --glass-border-bright: rgba(31, 111, 219, 0.25);
+  --glass-shadow: 0 12px 35px rgba(17, 32, 48, 0.12);
+
+  --border-soft: rgba(17, 32, 48, 0.12);
+  --border-strong: rgba(35, 52, 72, 0.22);
+  --neutral-100: #f8fbff;
+  --neutral-200: #e7edf6;
+
+  --badge-bg: rgba(31, 111, 219, 0.12);
+  --badge-border: rgba(31, 111, 219, 0.28);
+  --chip-bg: rgba(46, 155, 102, 0.12);
+  --chip-border: rgba(46, 155, 102, 0.26);
+  --button-shadow: rgba(46, 155, 102, 0.22);
+  --button-hover-shadow: rgba(31, 111, 219, 0.24);
+  --button-glow: 0 0 25px rgba(31, 111, 219, 0.22);
+  --heading-gradient: linear-gradient(135deg, #112030 0%, #2e9b66 52%, #1f6fdb 100%);
+  --secondary-button-border: rgba(17, 32, 48, 0.14);
+  --secondary-button-hover-bg: rgba(46, 155, 102, 0.1);
 }
 
 *,
@@ -148,8 +186,8 @@ body::before {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(79, 172, 254, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79, 172, 254, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(89, 166, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(89, 166, 255, 0.02) 1px, transparent 1px);
   background-size: 50px 50px;
   mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 80%);
   pointer-events: none;
@@ -192,7 +230,7 @@ a {
 
 a:hover {
   color: var(--accent-neon-green);
-  text-shadow: 0 0 15px rgba(168, 255, 79, 0.5);
+  text-shadow: 0 0 15px var(--accent-data-blue-glow);
 }
 
 img {
